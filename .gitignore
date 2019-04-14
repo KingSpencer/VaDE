@@ -1,3 +1,5 @@
+.ipynb_checkpoints
+*.ipynb
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
