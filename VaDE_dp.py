@@ -1,14 +1,19 @@
+#%%
 import numpy as np
 from keras.callbacks import Callback
 from keras.optimizers import Adam
 from keras.layers import Input, Dense, Lambda
 from keras.models import Model
 from keras import backend as K
+
 from keras import objectives
 import scipy.io as scio
 import gzip
 from six.moves import cPickle
+import os
 import sys
+import argparse
+
 
 #import theano.tensor as T
 import math
@@ -17,15 +22,37 @@ from sklearn.cluster import KMeans
 from keras.models import model_from_json
 import tensorflow as tf
 
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
+
+argv = sys.argv[1:]
+parser = argparse.ArgumentParser()
+parser.add_argument('-bnpyPath', action='store', type = str, dest='bnpyPath', default='/Users/crystal/Documents/bnpy/', \
+                    help='path to bnpy code repo')
+parser.add_argument('-outputPath', action='store', type = str, dest='outputPath', default='/Users/crystal/Documents/VaDE_results', \
+                    help='path to output')
+parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', default='/Users/crystal/Documents/VaDE', \
+                    help='root path to VaDE')
+
+results = parser.parse_args()
+bnpyPath = results.bnpyPath
+sys.path.append(bnpyPath)
+outputPath = results.outputPath
+root_path = results.rootPath
+sys.path.append(root_path)
+
+import DP as DP
+
+
 def sampling(args):
     z_mean, z_log_var = args
     epsilon = K.random_normal(shape=(batch_size, latent_dim), mean=0.)
     return z_mean + K.exp(z_log_var / 2) * epsilon
 
-def load_data(dataset):
-    path = 'dataset/'+dataset+'/'
+def load_data(dataset, root_path):
+    path = os.path.join(os.path.join(root_path, 'dataset'), dataset)
+    # path = 'dataset/'+dataset+'/'
     if dataset == 'mnist':
-        path = path + 'mnist.pkl.gz'
+        path = os.path.join(path, 'mnist.pkl.gz')
         if path.endswith(".gz"):
             f = gzip.open(path, 'rb')
         else:
@@ -72,9 +99,18 @@ def penalized_loss(noise):
         return K.mean(K.square(y_pred - y_true) - K.square(y_true - noise), axis=-1)
     return loss
 
-def load_pretrain_weights(vade):
-    ae = model_from_json(open('pretrain_weights/ae_'+dataset+'.json').read())
-    ae.load_weights('pretrain_weights/ae_'+dataset+'_weights.h5')
+def load_pretrain_weights(vade, root_path):
+    
+    path = os.path.join(root_path, 'pretrain_weights')
+    filename = 'ae_' + dataset + '.json'
+    fullFileName = os.path.join(path, filename)
+    ae = model_from_json(open(fullFileName).read())
+    # ae = model_from_json(open('pretrain_weights/ae_'+dataset+'.json').read())
+    weightFileName = 'ae_' + dataset + '_weights.h5'
+    weightFullFileName = os.path.join(path, weightFileName)
+    ae.load_weights(weightFullFileName)
+    
+    #ae.load_weights('pretrain_weights/ae_'+dataset+'_weights.h5')
     vade.layers[1].set_weights(ae.layers[0].get_weights())
     vade.layers[2].set_weights(ae.layers[1].get_weights())
     vade.layers[3].set_weights(ae.layers[2].get_weights())
@@ -109,12 +145,12 @@ dataset = 'mnist'
 #    dataset = db
 print ('training on: ' + dataset)
 ispretrain = True
-batch_size = 50
+batch_size = 5000
 latent_dim = 10
 intermediate_dim = [500,500,2000]
 #theano.config.floatX='float32'
 accuracy=[]
-X, Y = load_data(dataset)
+X, Y = load_data(dataset, root_path)
 original_dim,epoch,n_centroid,lr_nn,lr_gmm,decay_n,decay_nn,decay_gmm,alpha,datatype = config_init(dataset)
 global DPParam
 
@@ -178,13 +214,17 @@ sample_output = Model(x, z_mean)
 
 vade = Model(x, x_decoded_mean)
 if ispretrain == True:
-    vade = load_pretrain_weights(vade)
+    vade = load_pretrain_weights(vade, root_path)
 
 num_of_exp = X.shape[0]
-num_of_epoch = 1
+num_of_epoch = 10
 num_of_iteration = int(num_of_exp / batch_size)
 adam_nn= Adam(lr=lr_nn,epsilon=1e-4)
-for epoch in range(num_of_epoch):
+
+
+#%%
+DPObj = DP.DP()
+for epoch in range(num_of_epoch):    
     id_list = np.arange(num_of_exp)
     np.random.shuffle(id_list)
     #print(id_list)
@@ -205,20 +245,35 @@ for epoch in range(num_of_epoch):
         # m : 'm' (# of cluster, latent_dim)
         # W : 'B' (# of cluster, latent_dim, latent_dim)
         # v: 'nu' (# of cluster) 
-        k = 5
-        DPParam = \
-        {
-            'LPMtx': np.ones((batch_size, k)),
-            'Nvec' : np.ones(k),
-            'm'    : np.ones((k, latent_dim)),
-            'B'    : np.ones((k, latent_dim, latent_dim)),
-            'nu'   : np.ones(k)
-        }
+        
+        DPParam = DPObj.fit(z_batch)
+        
+        ## mute warm start
+        #if DPObj.initname is 'randexamples':
+        #    DPParam, newinitname = DPObj.fit(z_batch)
+        #    DPObj.initname = newinitname
+        #else:
+        #    DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, DPObj.initname)
+        #    DPObj.initname = newinitname
+        
+        #k = 5
+        #DPParam = \
+        #{
+        #    'LPMtx': np.ones((batch_size, k)),
+        #    'Nvec' : np.ones(k),
+        #    'm'    : np.ones((k, latent_dim)),
+        #    'B'    : np.ones((k, latent_dim, latent_dim)),
+        #    'nu'   : np.ones(k)
+        #}
+        
         vade.compile(optimizer=adam_nn, loss=loss)
-        neg_elbo = vade.train_on_batch(x_batch, x_batch)
-        print("Iteration: {}, ELBO: {}".format(iteration, -neg_elbo))
-        if iteration == 5:
-            exit(0)
+        for j in range(10):
+            neg_elbo = vade.train_on_batch(x_batch, x_batch)
+            print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
+        #if iteration == 5:
+        #    exit(0)
+        
+vade.save(os.path.join(outputPath, "vade_DP.hdf5"))
 
 
 
