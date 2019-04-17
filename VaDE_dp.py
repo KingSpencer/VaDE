@@ -223,7 +223,8 @@ adam_nn= Adam(lr=lr_nn,epsilon=1e-4)
 
 
 #%%
-DPObj = DP.DP()
+global newinitname 
+
 for epoch in range(num_of_epoch):    
     id_list = np.arange(num_of_exp)
     np.random.shuffle(id_list)
@@ -246,15 +247,16 @@ for epoch in range(num_of_epoch):
         # W : 'B' (# of cluster, latent_dim, latent_dim)
         # v: 'nu' (# of cluster) 
         
-        DPParam = DPObj.fit(z_batch)
+        # DPParam = DPObj.fit(z_batch)
         
-        ## mute warm start
-        #if DPObj.initname is 'randexamples':
-        #    DPParam, newinitname = DPObj.fit(z_batch)
-        #    DPObj.initname = newinitname
-        #else:
-        #    DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, DPObj.initname)
-        #    DPObj.initname = newinitname
+        if epoch ==0 and iteration ==0:
+            newinitname = 'randexamples'
+            DPObj = DP.DP(initname = newinitname)
+            DPParam, newinitname = DPObj.fit(z_batch)
+        else:
+            DPObj = DP.DP(initname = newinitname)
+            DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
+            
         
         #k = 5
         #DPParam = \
@@ -267,7 +269,7 @@ for epoch in range(num_of_epoch):
         #}
         
         vade.compile(optimizer=adam_nn, loss=loss)
-        for j in range(10):
+        for j in range(100):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
         #if iteration == 5:

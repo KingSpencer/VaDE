@@ -62,7 +62,18 @@ class DP:
             data = XData(z_batch, dtype='auto')
         dp_model, dp_info_dict = self.run(data)
         DPParam = self.extractDPParam(dp_model, data)
-        return DPParam
+        return DPParam, dp_info_dict['task_output_path']
+    
+    def fitWithWarmStart(self, z_batch, initname):
+        if isinstance(z_batch, XData):
+            data = z_batch
+        else:
+            data = XData(z_batch, dtype='auto')
+        self.initname = initname    
+        dp_model, dp_info_dict = self.run(data)
+        DPParam = self.extractDPParam(dp_model, data)
+        return DPParam, dp_info_dict['task_output_path']
+            
     
 
     def extractDPParam(self, model, dataset):
@@ -99,6 +110,7 @@ class DP:
         DPParam['B'] = B
         DPParam['nu'] = nu
         DPParam['kappa'] = kappa
+        
         return DPParam
 
     
