@@ -192,7 +192,7 @@ def loss(x, x_decoded_mean):
         else:
             e += 0.5*N[k]*(v[k]*(temp + temp3))
 
-    loss_= alpha*original_dim * objectives.mean_squared_error(x, x_decoded_mean)-0.5 * K.sum(z_log_var, axis = -1)
+    loss_= alpha*original_dim * objectives.mean_squared_error(x, x_decoded_mean) # -0.5 * K.sum(z_log_var, axis = -1)
     # loss = K.sum(loss_, axis = 0) + e
     loss = K.sum(loss_, axis = 0)
     #for i in range(5):

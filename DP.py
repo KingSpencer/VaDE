@@ -33,7 +33,7 @@ from data.XData import XData
 
 class DP:
     
-    def __init__(self, output_path=outputPath, nLap=50, nTask=1, nBatch=5,sF=0.1, ECovMat='eye',
+    def __init__(self, output_path=outputPath, nLap=50, nTask=1, nBatch=2,sF=0.1, ECovMat='eye',
     K=1, initname='randexamples',moves='birth,merge,shuffle',
     m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, **kwargs):
         self.output_path = output_path
