@@ -16,13 +16,17 @@ parser.add_argument('-bnpyPath', action='store', type = str, dest='bnpyPath', de
                     help='path to bnpy code repo')
 parser.add_argument('-outputPath', action='store', type = str, dest='outputPath', default='/Users/crystal/Documents/VaDE_results', \
                     help='path to output')
+parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', default='/Users/crystal/Documents/VaDE', \
+                    help='root path to VaDE')
+
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
 outputPath = results.outputPath
-
+rootPath = results.rootPath
 sys.path.append(bnpyPath)
 subdir = os.path.join(bnpyPath, 'bnpy')
 sys.path.append(subdir)
+sys.path.append(rootPath)
 
 import bnpy
 from data.XData import XData
