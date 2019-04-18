@@ -41,6 +41,7 @@ root_path = results.rootPath
 sys.path.append(root_path)
 
 import DP as DP
+from bnpy.util.AnalyzeDP import * 
 
 
 def sampling(args):
@@ -192,7 +193,8 @@ def loss(x, x_decoded_mean):
             e += 0.5*N[k]*(v[k]*(temp + temp3))
 
     loss_= alpha*original_dim * objectives.mean_squared_error(x, x_decoded_mean)-0.5 * K.sum(z_log_var, axis = -1)
-    loss = K.sum(loss_, axis = 0) + e
+    # loss = K.sum(loss_, axis = 0) + e
+    loss = K.sum(loss_, axis = 0)
     #for i in range(5):
     #    loss_ += N
         
@@ -219,7 +221,7 @@ if ispretrain == True:
 num_of_exp = X.shape[0]
 num_of_epoch = 10
 num_of_iteration = int(num_of_exp / batch_size)
-adam_nn= Adam(lr=lr_nn,epsilon=1e-4)
+adam_nn= Adam(lr=lr_nn,epsilon=1e-4, decay = 0.01)
 
 
 #%%
@@ -237,7 +239,7 @@ for epoch in range(num_of_epoch):
         # forward pass
         z_batch = sample_output.predict(x_batch)
         #print(z_batch)
-
+        
         # to DP
         # DPParam = DP_fit(z_batch)
         # DPParam = np.ones((batch_size))
@@ -256,8 +258,29 @@ for epoch in range(num_of_epoch):
         else:
             DPObj = DP.DP(initname = newinitname)
             DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
-            
         
+        if not iteration is None:
+            trueY = Y[indices]    
+            fittedY = DPParam['Y']
+            ## get the true number of clusters
+            trueCluster, counts = np.unique(trueY, return_counts = True)
+            trueK = len(trueCluster)
+            print(("The true number of cluster is" + " "+ str(trueK)))
+            print("The proportion of image with true cluster in the batch: \n")
+            print(counts/len(trueY))
+            clusterResult =  clusterEvaluation(trueY, fittedY)
+            print("The cluster evaluation result is \n")
+            for key,val in clusterResult.items():
+                print(key,"=>", val)
+            ## get the true cluster and fitted cluster relationship
+            dictFitted2True = obtainTrueClusterLabel4AllFittedCluster(trueY, fittedY)
+            fittedClusters = dictFitted2True.keys()
+            for key in fittedClusters:
+                prec = dictFitted2True[key]['prec']
+                recall = dictFitted2True[key]['recall']
+                trueC =  dictFitted2True[key]['trueCluster']
+                print("Precision: {}, Recall: {}, fitted: {}, true: {}".format(prec, recall, key, trueC))
+            
         #k = 5
         #DPParam = \
         #{
@@ -269,7 +292,7 @@ for epoch in range(num_of_epoch):
         #}
         
         vade.compile(optimizer=adam_nn, loss=loss)
-        for j in range(100):
+        for j in range(10):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
         #if iteration == 5:
