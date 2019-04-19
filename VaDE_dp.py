@@ -2,7 +2,7 @@
 import numpy as np
 from keras.callbacks import Callback
 from keras.optimizers import Adam
-from keras.layers import Input, Dense, Lambda
+from keras.layers import Input, Dense, Lambda, Conv2D, Reshape, UpSampling2D, MaxPooling2D, Flatten
 from keras.models import Model
 from keras import backend as K
 
@@ -32,6 +32,8 @@ parser.add_argument('-outputPath', action='store', type = str, dest='outputPath'
                     help='path to output')
 parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', default='/Users/crystal/Documents/VaDE', \
                     help='root path to VaDE')
+parser.add_argument('-conv', action='store_true', \
+                    help='using convolutional autoencoder or not')
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -39,6 +41,9 @@ sys.path.append(bnpyPath)
 outputPath = results.outputPath
 root_path = results.rootPath
 sys.path.append(root_path)
+
+flatten = False
+
 
 import DP as DP
 from bnpy.util.AnalyzeDP import * 
@@ -50,7 +55,7 @@ def sampling(args):
     epsilon = K.random_normal(shape=(batch_size, latent_dim), mean=0.)
     return z_mean + K.exp(z_log_var / 2) * epsilon
 
-def load_data(dataset, root_path):
+def load_data(dataset, root_path, flatten=True):
     path = os.path.join(os.path.join(root_path, 'dataset'), dataset)
     # path = 'dataset/'+dataset+'/'
     if dataset == 'mnist':
@@ -68,9 +73,13 @@ def load_data(dataset, root_path):
         f.close()
         x_train = x_train.astype('float32') / 255.
         x_test = x_test.astype('float32') / 255.
-        x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-        x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+        if flatten:
+            x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+            x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+
         X = np.concatenate((x_train,x_test))
+        if not flatten:
+            X = np.expand_dims(X, axis=-1)
         Y = np.concatenate((y_train,y_test))
         
     if dataset == 'reuters10k':
@@ -141,20 +150,7 @@ def load_pretrain_weights(vade, root_path):
 
 
 
-dataset = 'mnist'
-#db = sys.argv[1]
-#if db in ['mnist','reuters10k','har']:
-#    dataset = db
-print ('training on: ' + dataset)
-ispretrain = True
-batch_size = 5000
-latent_dim = 10
-intermediate_dim = [500,500,2000]
-#theano.config.floatX='float32'
-accuracy=[]
-X, Y = load_data(dataset, root_path)
-original_dim,epoch,n_centroid,lr_nn,lr_gmm,decay_n,decay_nn,decay_gmm,alpha,datatype = config_init(dataset)
-global DPParam
+
 
 # gamma: 'LPMtx' (batch_size, # of cluster)
 # N : 'Nvec' (# of cluster, )
@@ -218,33 +214,94 @@ def loss(x, x_decoded_mean):
         else:
             e += 0.5*N[k]*(v[k]*(temp + temp3))
 
-    loss_= alpha*original_dim * objectives.mean_squared_error(x, x_decoded_mean) # -0.5 * K.sum(z_log_var, axis = -1)
+    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) # -0.5 * K.sum(z_log_var, axis = -1)
     # loss = K.sum(loss_, axis = 0) + e
-    loss = K.sum(loss_, axis = 0)
+    # loss = K.sum(loss_, axis = 0)
     #for i in range(5):
     #    loss_ += N
         
-    return loss
+    return loss_
 
-x = Input(batch_shape=(batch_size, original_dim))
-h = Dense(intermediate_dim[0], activation='relu')(x)
-h = Dense(intermediate_dim[1], activation='relu')(h)
-h = Dense(intermediate_dim[2], activation='relu')(h)
-z_mean = Dense(latent_dim)(h)
-z_log_var = Dense(latent_dim)(h)
-z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
-h_decoded = Dense(intermediate_dim[-1], activation='relu')(z)
-h_decoded = Dense(intermediate_dim[-2], activation='relu')(h_decoded)
-h_decoded = Dense(intermediate_dim[-3], activation='relu')(h_decoded)
-x_decoded_mean = Dense(original_dim, activation=datatype)(h_decoded)
+dataset = 'mnist'
+#db = sys.argv[1]
+#if db in ['mnist','reuters10k','har']:
+#    dataset = db
+print ('training on: ' + dataset)
+ispretrain = True
+batch_size = 5000
+latent_dim = 100
+intermediate_dim = [500,500,2000]
+#theano.config.floatX='float32'
+accuracy=[]
+X, Y = load_data(dataset, root_path, flatten)
+original_dim,epoch,n_centroid,lr_nn,lr_gmm,decay_n,decay_nn,decay_gmm,alpha,datatype = config_init(dataset)
+global DPParam
 
-sample_output = Model(x, z_mean)
+if flatten:
+    x = Input(batch_shape=(batch_size, original_dim))
+    h = Dense(intermediate_dim[0], activation='relu')(x)
+    h = Dense(intermediate_dim[1], activation='relu')(h)
+    h = Dense(intermediate_dim[2], activation='relu')(h)
+    z_mean = Dense(latent_dim)(h)
+    z_log_var = Dense(latent_dim)(h)
+    z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
+    h_decoded = Dense(intermediate_dim[-1], activation='relu')(z)
+    h_decoded = Dense(intermediate_dim[-2], activation='relu')(h_decoded)
+    h_decoded = Dense(intermediate_dim[-3], activation='relu')(h_decoded)
+    x_decoded_mean = Dense(original_dim, activation=datatype)(h_decoded)
 
-vade = Model(x, x_decoded_mean)
-if ispretrain == True:
-    vade = load_pretrain_weights(vade, root_path)
+    sample_output = Model(x, z_mean)
+
+    vade = Model(x, x_decoded_mean)
+    if ispretrain == True:
+        vade = load_pretrain_weights(vade, root_path)
+
+else: # use CNN
+    input_img = Input(shape=(28, 28, 1))  # adapt this if using `channels_first` image data format
+    x = Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+    x = MaxPooling2D((2, 2), padding='same')(x)
+    x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+    x = MaxPooling2D((2, 2), padding='same')(x)
+    x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+    x = MaxPooling2D((2, 2), padding='same')(x)
+    # at this point the representation is (4, 4, 8) i.e. 128-dimensional
+    # channel merge
+    # x = Conv2D(1, (3, 3), activation='relu', padding='same')(x)
+    # shape info needed to build decoder model
+    shape = K.int_shape(x)
+    x = Flatten()(x)
+    z_mean = Dense(latent_dim, name='z_mean')(x)
+    z_log_var = Dense(latent_dim, name='z_log_var')(x)
+    z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
+    # build decoder model
+    # for generative model
+    latent_inputs = Input(shape=(latent_dim,), name='z_sampling')
+    x = Dense(shape[1] * shape[2] * shape[3], activation='relu')(latent_inputs)
+    x = Reshape((shape[1], shape[2], shape[3]))(x)
+
+    x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+    x = UpSampling2D((2, 2))(x)
+    x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+    x = UpSampling2D((2, 2))(x)
+    x = Conv2D(16, (3, 3), activation='relu')(x)
+    x = UpSampling2D((2, 2))(x)
+    decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+
+    # constructing several models
+    sample_output = Model(input_img, z, name='encoder')
+    decoder = Model(latent_inputs, decoded, name='decoder')
+
+    decoded_for_vade = decoder(sample_output(input_img))
+    vade = Model(input_img, decoded_for_vade, name='vade')
+
+    vade.summary()
+    sample_output.summary()
+    decoder.summary()
+
+
 
 num_of_exp = X.shape[0]
+
 num_of_epoch = 10
 num_of_iteration = int(num_of_exp / batch_size)
 adam_nn= Adam(lr=lr_nn,epsilon=1e-4, decay = 0.01)
@@ -252,6 +309,12 @@ adam_nn= Adam(lr=lr_nn,epsilon=1e-4, decay = 0.01)
 
 #%%
 global newinitname 
+
+if not flatten:
+    print("Pretraining VaDE first!")
+    vade.compile(optimizer='adadelta', loss='binary_crossentropy')
+    vade.fit(X, X, epochs=100, batch_size=batch_size, validation_data=(X, X), shuffle=True)
+
 
 for epoch in range(num_of_epoch):    
     id_list = np.arange(num_of_exp)
@@ -262,9 +325,10 @@ for epoch in range(num_of_epoch):
     for iteration in range(num_of_iteration):
         indices = id_list[iteration*batch_size:(iteration+1)*batch_size]
         x_batch = X[indices, :]
+        
         #print(x_batch)
         # forward pass
-        z_batch = sample_output.predict(x_batch)
+        z_batch = sample_output.predict_on_batch(x_batch)
         #print(z_batch)
         
         # to DP
@@ -318,16 +382,13 @@ for epoch in range(num_of_epoch):
         #    'B'    : np.ones((k, latent_dim, latent_dim)),
         #    'nu'   : np.ones(k)
         #}
-        
-        # vade.compile(optimizer=adam_nn, loss=loss)
-        vade.compile(optimizer=adam_nn, loss=loss)
-        neg_elbo_previous = 0
-        for j in range(20):
+
+        if epoch ==0 and iteration ==0:
+            vade.compile(optimizer=adam_nn, loss=loss)
+        for j in range(10):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
-            relaDiff = np.abs((neg_elbo - neg_elbo_previous)/neg_elbo)
-            if relaDiff < 0.0005:
-                break
+
             
         #if iteration == 5:
         #    exit(0)
