@@ -1,6 +1,9 @@
+results
 .ipynb_checkpoints
 *.ipynb
 __pycache__
+conv_vae_pre_weights
+*.pkl
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

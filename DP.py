@@ -18,6 +18,8 @@ parser.add_argument('-outputPath', action='store', type = str, dest='outputPath'
                     help='path to output')
 parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', default='/Users/crystal/Documents/VaDE', \
                     help='root path to VaDE')
+parser.add_argument('-conv', action='store_true', \
+                    help='using convolutional autoencoder or not')
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
