@@ -33,7 +33,7 @@ from data.XData import XData
 
 class DP:
     
-    def __init__(self, output_path=outputPath, nLap=50, nTask=1, nBatch=2,sF=0.1, ECovMat='eye',
+    def __init__(self, output_path=outputPath, nLap=200, nTask=1, nBatch=2,sF=0.1, ECovMat='eye',
     K=1, initname='randexamples',moves='birth,merge,shuffle',
     m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, **kwargs):
         self.output_path = output_path
@@ -104,6 +104,10 @@ class DP:
         # scale precision on parameter m, which is lambda parameter in wiki for Normal-Wishart dist
         kappa = model.obsModel.Post.kappa
     
+        ## get the ELBO of the DP given z_batch
+        elbo = model.calc_evidence(dataset, SS, LP)
+        
+        
         ## save the variables in a dictionary
         DPParam = dict()
         DPParam['LPMtx'] = LPMtx
@@ -114,6 +118,8 @@ class DP:
         DPParam['B'] = B
         DPParam['nu'] = nu
         DPParam['kappa'] = kappa
+        DPParam['elbo'] = elbo
+        DPParam['model'] = model
         
         return DPParam
 

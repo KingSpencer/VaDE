@@ -42,6 +42,7 @@ sys.path.append(root_path)
 
 import DP as DP
 from bnpy.util.AnalyzeDP import * 
+from bnpy.data.XData import XData
 
 
 def sampling(args):
@@ -160,6 +161,31 @@ global DPParam
 # m : 'm' (# of cluster, latent_dim)
 # W : 'B' (# of cluster, latent_dim, latent_dim)
 # v: 'nu' (# of cluster) 
+#def loss_full_DP(x, x_decoded_mean):
+    ## given z_mean, calculate the new ELBO in DP
+#    model = DPParam['model']
+    ## transform z_mean as tensor object into a python numpy array
+#    z_mean_np = tf.keras.backend.eval(z_mean)
+    ## transform the numpy array as XData type requrired by bnpy
+#    z_mean_xdata = XData(z_mean_np,dtype='auto')   
+     
+    ## get sufficient statistics
+#    LP = model.calc_local_params(z_mean_xdata)
+#    SS = model.get_global_suff_stats(z_mean, LP, doPrecompEntropy=1)
+#   elbo = tf.convert_to_tensor(model.calc_evidence(z_mean_xdata, SS, LP), dtype=tf.float32)
+    
+#    loss_ = alpha*original_dim * objectives.mean_squared_error(x, x_decoded_mean) - elbo
+    
+#    ELBO = tf.convert_to_tensor(DPParam['elbo'], dtype = tf.float32)
+#    loss_= alpha*original_dim * objectives.mean_squared_error(x, x_decoded_mean) - ELBO
+#   loss = K.sum(loss_, axis = 0)
+#    return loss
+    
+    
+    
+    
+    
+
 def loss(x, x_decoded_mean):
     #N = tf.convert_to_tensor(DPParam, dtype=tf.float32)
     
@@ -232,6 +258,7 @@ for epoch in range(num_of_epoch):
     np.random.shuffle(id_list)
     #print(id_list)
     #exit(0)
+    print("The current epoch is epoch: {}".format(epoch))
     for iteration in range(num_of_iteration):
         indices = id_list[iteration*batch_size:(iteration+1)*batch_size]
         x_batch = X[indices, :]
@@ -251,15 +278,16 @@ for epoch in range(num_of_epoch):
         
         # DPParam = DPObj.fit(z_batch)
         
-        if epoch ==0 and iteration ==0:
+        if epoch ==0 and iteration == 0:
             newinitname = 'randexamples'
             DPObj = DP.DP(initname = newinitname)
             DPParam, newinitname = DPObj.fit(z_batch)
         else:
-            DPObj = DP.DP(initname = newinitname)
-            DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
+            if iteration == (num_of_iteration-1) and epoch !=0:
+                DPObj = DP.DP(initname = newinitname)
+                DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
-        if not iteration is None:
+        if iteration == (num_of_iteration-1):
             trueY = Y[indices]    
             fittedY = DPParam['Y']
             ## get the true number of clusters
@@ -291,10 +319,16 @@ for epoch in range(num_of_epoch):
         #    'nu'   : np.ones(k)
         #}
         
+        # vade.compile(optimizer=adam_nn, loss=loss)
         vade.compile(optimizer=adam_nn, loss=loss)
-        for j in range(10):
+        neg_elbo_previous = 0
+        for j in range(20):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
+            relaDiff = np.abs((neg_elbo - neg_elbo_previous)/neg_elbo)
+            if relaDiff < 0.0005:
+                break
+            
         #if iteration == 5:
         #    exit(0)
         
