@@ -414,9 +414,11 @@ print("The overall recall across all samples: {}".format(acc))
 ###############################################
 ## save DP model 
 dp_model_path = os.path.join(outputPath, 'dp_model.pkl')
+dp_model_param = os.path.join(outputPath, 'DPParam.pkl')
 accResult_path = os.path.join(outputPath, 'acc_result.pkl')
 fittedY_path = os.path.join(outputPath, 'fittedY.pkl')
 joblib.dump(DPParam['model'], dp_model_path) 
+joblib.dump(DPParam, dp_model_param) 
 joblib.dump(accResult, accResult_path)
 joblib.dump(fittedY, fittedY_path)
 
