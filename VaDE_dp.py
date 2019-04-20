@@ -409,15 +409,15 @@ fittedY = obtainFittedYFromDP(DPParam, z_fit)
 accResult = clusterAccuracy(Y, fittedY)
 ## this is the overall accuracy
 acc = accResult['overallRecall']
-prec = accResult['overallPrec']
 print("The overall recall across all samples: {}".format(acc))
-print("The overall recall across all samples: {}".format(prec))
 ###############################################
 ## save DP model 
 dp_model_path = os.path.join(outputPath, 'dp_model.pkl')
 accResult_path = os.path.join(outputPath, 'acc_result.pkl')
+fittedY_path = os.path.join(outputPath, 'fittedY.pkl')
 joblib.dump(DPParam['model'], dp_model_path) 
 joblib.dump(accResult, accResult_path)
+joblib.dump(fittedY, fittedY_path)
 
 ## save neural network model     
 vade.save(os.path.join(outputPath, "vade_DP.hdf5"))
