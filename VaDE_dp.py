@@ -409,6 +409,7 @@ fittedY = obtainFittedYFromDP(DPParam, z_fit)
 accResult = clusterAccuracy(Y, fittedY)
 ## this is the overall accuracy
 acc = accResult['overallRecall']
+## accResult['moreEvaluation'] is the dictionary saves all NMI, ARS, HS, CS, VM
 print("The overall recall across all samples: {}".format(acc))
 ###############################################
 ## save DP model 
