@@ -21,6 +21,8 @@ from sklearn import mixture
 from sklearn.cluster import KMeans
 from keras.models import model_from_json
 import tensorflow as tf
+from sklearn.externals import joblib ## replacement of pickle to carry large numpy arrays
+
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
@@ -35,6 +37,7 @@ parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', de
 parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
 
+
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
 sys.path.append(bnpyPath)
@@ -42,7 +45,9 @@ outputPath = results.outputPath
 root_path = results.rootPath
 sys.path.append(root_path)
 
-flatten = False
+flatten = True
+if results.conv:
+    flatten = False
 
 
 import DP as DP
@@ -229,7 +234,7 @@ dataset = 'mnist'
 print ('training on: ' + dataset)
 ispretrain = True
 batch_size = 5000
-latent_dim = 100
+latent_dim = 10
 intermediate_dim = [500,500,2000]
 #theano.config.floatX='float32'
 accuracy=[]
@@ -393,6 +398,28 @@ for epoch in range(num_of_epoch):
         #if iteration == 5:
         #    exit(0)
         
+#%%
+################################################
+## get z_fit from the encoder and fit with DP model to get all the labels for all training data
+z_fit = sample_output.predict(X, batch_size=batch_size)        
+fittedY = obtainFittedYFromDP(DPParam, z_fit)
+#%%
+################################################
+## obtain cluster accuracy
+accResult = clusterAccuracy(Y, fittedY)
+## this is the overall accuracy
+acc = accResult['overallRecall']
+prec = accResult['overallPrec']
+print("The overall recall across all samples: {}".format(acc))
+print("The overall recall across all samples: {}".format(prec))
+###############################################
+## save DP model 
+dp_model_path = os.path.join(outputPath, 'dp_model.pkl')
+accResult_path = os.path.join(outputPath, 'acc_result.pkl')
+joblib.dump(DPParam['model'], dp_model_path) 
+joblib.dump(accResult, accResult_path)
+
+## save neural network model     
 vade.save(os.path.join(outputPath, "vade_DP.hdf5"))
 
 
