@@ -2,6 +2,7 @@
 import numpy as np
 from keras.callbacks import Callback
 from keras.optimizers import Adam
+from keras.optimizers import Nadam
 from keras.layers import Input, Dense, Lambda, Conv2D, Reshape, UpSampling2D, MaxPooling2D, Flatten
 from keras.models import Model
 from keras import backend as K
@@ -211,20 +212,21 @@ def loss(x, x_decoded_mean):
         
         # TODO:!
         S_k = 1/N[k] * K.sum(K.batch_dot(tf.multiply(tf.expand_dims(gamma_k_rep,-1), (z_mean_1_last-z_k_bar_batch_1_last)), z_mean_1_mid - z_k_bar_batch_1_mid), axis=0) # (latent_dim, latent_dim)
-        temp = tf.linalg.trace(tf.matmul(S_k, W[k]))
-        temp2 = tf.matmul(tf.expand_dims((z_k_bar-m[k]), 0), W[k])
+        temp = tf.linalg.trace(tf.linalg.solve(W[k], S_k))
+        temp2 = tf.matmul(tf.expand_dims((z_k_bar-m[k]), 0), tf.linalg.inv(W[k]))
         temp3 = tf.squeeze(tf.matmul(temp2, tf.expand_dims((z_k_bar-m[k]), -1)))
         if k == 0:
             e = 0.5*N[k]*(v[k]*(temp + temp3))
         else:
             e += 0.5*N[k]*(v[k]*(temp + temp3))
 
-    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) # -0.5 * K.sum(z_log_var, axis = -1)
-    # loss = K.sum(loss_, axis = 0) + e
+    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) -0.5 * K.sum((z_log_var+1), axis = -1)
+    loss_ =  K.sum(loss_, axis=0) + e
     # loss = K.sum(loss_, axis = 0)
     #for i in range(5):
     #    loss_ += N
         
+    #return loss_
     return loss_
 
 dataset = 'mnist'
@@ -307,10 +309,9 @@ else: # use CNN
 
 num_of_exp = X.shape[0]
 
-num_of_epoch = 10
+num_of_epoch = 5
 num_of_iteration = int(num_of_exp / batch_size)
-adam_nn= Adam(lr=lr_nn,epsilon=1e-4, decay = 0.01)
-
+adam_nn= Adam(lr=lr_nn,epsilon=1e-4, decay = 0.05)
 
 #%%
 global newinitname 
@@ -352,11 +353,13 @@ for epoch in range(num_of_epoch):
             DPObj = DP.DP(initname = newinitname)
             DPParam, newinitname = DPObj.fit(z_batch)
         else:
-            if iteration == (num_of_iteration-1) and epoch !=0:
+            # if iteration == (num_of_iteration-1) and epoch !=0:
+            if epoch != 0:
                 DPObj = DP.DP(initname = newinitname)
                 DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
-        if iteration == (num_of_iteration-1):
+        # if iteration == (num_of_iteration-1):
+        if not iteration is None:
             trueY = Y[indices]    
             fittedY = DPParam['Y']
             ## get the true number of clusters
