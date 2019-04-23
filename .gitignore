@@ -1,3 +1,4 @@
+*.sh
 results
 .ipynb_checkpoints
 *.ipynb

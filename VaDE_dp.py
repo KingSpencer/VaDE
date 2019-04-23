@@ -426,7 +426,15 @@ joblib.dump(accResult, accResult_path)
 joblib.dump(fittedY, fittedY_path)
 
 ## save neural network model     
-vade.save(os.path.join(outputPath, "vade_DP.hdf5"))
+# vade.save(os.path.join(outputPath, "vade_DP.hdf5"))
+# we should save the model structure and weights seperately.
+# serialize model to JSON
+# this one is not working for now, don't know how to load self-defined layer
+model_json = vade.to_json()
+with open(os.path.join(outputPath, "vade_DP_model.json"), "w") as json_file:
+    json_file.write(model_json)
+# save the weights separately
+model.save_weights(os.path.join(outputPath, "vade_DP_weights.h5"))
 
 
 
