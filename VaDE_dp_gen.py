@@ -17,9 +17,8 @@ import argparse
 
 from scipy.misc import imsave
 
-
-#import theano.tensor as T
 import math
+from tqdm import tqdm
 from sklearn import mixture
 from sklearn.cluster import KMeans
 from keras.models import model_from_json
@@ -58,6 +57,23 @@ def get_models(batch_size, original_dim, latent_dim, intermediate_dim):
     #vade = Model(x, x_decoded_mean)
     return vade , encoder, decoder
 
+def get_temp_vade(batch_size, original_dim, latent_dim, intermediate_dim):
+    x = Input(batch_shape=(batch_size, original_dim))
+    h = Dense(intermediate_dim[0], activation='relu')(x)
+    h = Dense(intermediate_dim[1], activation='relu')(h)
+    h = Dense(intermediate_dim[2], activation='relu')(h)
+    z_mean = Dense(latent_dim)(h)
+    z_log_var = Dense(latent_dim)(h)
+    z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
+
+    h_decoded = Dense(intermediate_dim[-1], activation='relu')(z)
+    h_decoded = Dense(intermediate_dim[-2], activation='relu')(h_decoded)
+    h_decoded = Dense(intermediate_dim[-3], activation='relu')(h_decoded)
+    x_decoded_mean = Dense(original_dim, activation='sigmoid')(h_decoded)
+
+    vade = Model(x, x_decoded_mean)
+    return vade
+
 '''def load_pretrain_vade(vade, root_path="/home/zifeng/Research/VaDE/results"):
     batch_size, latent_dim = 128, 10
     path = os.path.join(root_path, 'vade_DP.hdf5')
@@ -89,16 +105,31 @@ def load_pretrain_weights(encoder, decoder, dataset="mnist", root_path="/home/zi
     decoder.layers[-4].set_weights(ae.layers[-4].get_weights())
     return encoder, decoder
 
+def load_pretrain_vade_weights(encoder, decoder, vade_temp):
+    encoder.layers[1].set_weights(vade_temp.layers[1].get_weights())
+    encoder.layers[2].set_weights(vade_temp.layers[2].get_weights())
+    encoder.layers[3].set_weights(vade_temp.layers[3].get_weights())
+    encoder.layers[4].set_weights(vade_temp.layers[4].get_weights())
+    decoder.layers[-1].set_weights(vade_temp.layers[-1].get_weights())
+    decoder.layers[-2].set_weights(vade_temp.layers[-2].get_weights())
+    decoder.layers[-3].set_weights(vade_temp.layers[-3].get_weights())
+    decoder.layers[-4].set_weights(vade_temp.layers[-4].get_weights())
+    return encoder, decoder
+
 if __name__ == "__main__":
     batch_size = 128
     original_dim = 784
     latent_dim = 10
     intermediate_dim = [500,500,2000]
     vade, encoder, decoder = get_models(batch_size, original_dim, latent_dim, intermediate_dim)
-    vade.summary()
+    vade_temp = get_temp_vade(batch_size, original_dim, latent_dim, intermediate_dim)
+    #vade.summary()
     #encoder.summary()
     #decoder.summary()
-    encoder, decoder = load_pretrain_weights(encoder, decoder)
+    # encoder, decoder = load_pretrain_weights(encoder, decoder)
+    vade_temp.load_weights("/home/zifeng/Research/VaDE/results/vade_DP_weights.h5")
+    print("************* weights loaded successfully! **************")
+    encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade_temp)
     # test loading and saving model structure
     #jj = vade.to_json()
     #aa = model_from_json(jj)
@@ -112,7 +143,8 @@ if __name__ == "__main__":
     
     # sampling from gaussians
     cluster_sample_list = []
-    for nc in range(len(m)):
+    print("************* generating new data! **************")
+    for nc in tqdm(range(len(m))):
         mean = m[nc]
         var = W[nc]
         z_sample = multivariate_normal(mean, var, 12)
@@ -127,5 +159,21 @@ if __name__ == "__main__":
         # print(flattened_generated.shape)
         # print(z_sample.shape)
     merged_sample = np.vstack(cluster_sample_list)
-    print(merged_sample.shape)
     imsave('./results/sample.png', merged_sample)
+
+    cluster_mean_list = []
+    print("************* generating new data with mean! **************")
+    for nc in tqdm(range(len(m))):
+        mean = m[nc]
+
+        z_sample = np.expand_dims(mean, 0)
+        # we then feed z_sample to the decoder
+        generated = decoder.predict(z_sample)
+        generated = generated.reshape(28, 28)
+        generated = generated * 255
+        generated = generated.astype(np.uint8)
+        cluster_mean_list.append(generated)
+        # print(flattened_generated.shape)
+        # print(z_sample.shape)
+    merged_mean_sample = np.hstack(cluster_mean_list)
+    imsave('./results/mean_sample.png', merged_mean_sample)
