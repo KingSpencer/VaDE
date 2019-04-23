@@ -424,7 +424,12 @@ joblib.dump(DPParam['model'], dp_model_path)
 joblib.dump(DPParam, dp_model_param) 
 joblib.dump(accResult, accResult_path)
 joblib.dump(fittedY, fittedY_path)
-
+# m : 'm' (# of cluster, latent_dim)
+# W : 'B' (# of cluster, latent_dim, latent_dim)
+m = os.path.join(outputPath, 'm.pkl')
+W = os.path.join(outputPath, 'W.pkl')
+joblib.dump(DPParam['m'], m)
+joblib.dump(DPParam['B'], W)
 ## save neural network model     
 # vade.save(os.path.join(outputPath, "vade_DP.hdf5"))
 # we should save the model structure and weights seperately.
@@ -434,7 +439,7 @@ model_json = vade.to_json()
 with open(os.path.join(outputPath, "vade_DP_model.json"), "w") as json_file:
     json_file.write(model_json)
 # save the weights separately
-model.save_weights(os.path.join(outputPath, "vade_DP_weights.h5"))
+vade.save_weights(os.path.join(outputPath, "vade_DP_weights.h5"))
 
 
 

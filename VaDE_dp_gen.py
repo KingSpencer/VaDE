@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.random import multivariate_normal
 from keras.callbacks import Callback
 from keras.optimizers import Adam
 from keras.optimizers import Nadam
@@ -14,6 +15,8 @@ import os
 import sys
 import argparse
 
+from scipy.misc import imsave
+
 
 #import theano.tensor as T
 import math
@@ -21,6 +24,7 @@ from sklearn import mixture
 from sklearn.cluster import KMeans
 from keras.models import model_from_json
 import tensorflow as tf
+from sklearn.externals import joblib
 
 class DPVAE_Generator:
     def __init__():
@@ -99,6 +103,29 @@ if __name__ == "__main__":
     #jj = vade.to_json()
     #aa = model_from_json(jj)
     # not working ...
-    print(len(vade.get_weights()))
+    # print(len(vade.get_weights()))
     # TODO: Load DP parameters and generate new data
- 
+    with open('./results/m.pkl', 'rb') as f:
+        m = joblib.load(f)
+    with open('./results/W.pkl', 'rb') as f:
+        W = joblib.load(f)
+    
+    # sampling from gaussians
+    cluster_sample_list = []
+    for nc in range(len(m)):
+        mean = m[nc]
+        var = W[nc]
+        z_sample = multivariate_normal(mean, var, 12)
+        # we then feed z_sample to the decoder
+        generated = decoder.predict(z_sample)
+        generated = generated.reshape(-1, 28, 28)
+        generated = generated * 255
+        generated = generated.astype(np.uint8)
+        generated_list = [generated[x] for x in range(generated.shape[0])]
+        flattened_generated = np.hstack(generated_list)
+        cluster_sample_list.append(flattened_generated)
+        # print(flattened_generated.shape)
+        # print(z_sample.shape)
+    merged_sample = np.vstack(cluster_sample_list)
+    print(merged_sample.shape)
+    imsave('./results/sample.png', merged_sample)
