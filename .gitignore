@@ -1,5 +1,6 @@
 *.sh
 results
+cnn_results/
 .ipynb_checkpoints
 *.ipynb
 __pycache__

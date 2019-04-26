@@ -4,7 +4,7 @@ from keras.callbacks import Callback
 from keras.optimizers import Adam
 from keras.optimizers import Nadam
 from keras.layers import Input, Dense, Lambda, Conv2D, Reshape, UpSampling2D, MaxPooling2D, Flatten
-from keras.models import Model
+from keras.models import Model, load_model
 from keras import backend as K
 
 from keras import objectives
@@ -23,7 +23,7 @@ from sklearn.cluster import KMeans
 from keras.models import model_from_json
 import tensorflow as tf
 from sklearn.externals import joblib ## replacement of pickle to carry large numpy arrays
-import json
+import pickle
 
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
@@ -151,6 +151,14 @@ def load_pretrain_weights(vade, root_path):
     vade.layers[-4].set_weights(ae.layers[-4].get_weights())
     return vade
 
+def load_pretrain_cnn_encoder(encoder, root_path, model='cnn_classifier.05-0.02.hdf5'):
+    print("Loading Pretrained Weights for CNN-VAE-Encoder!")
+    path = os.path.join(root_path, 'conv_classifier_pre_weights', model)
+    # layer cnn: 1, 3, 5, dense:8
+    pre_encoder = load_model(path)
+    for lid in [1, 3, 5, 8]:
+        encoder.layers[lid].set_weights(pre_encoder.layers[lid].get_weights()) 
+    return encoder
 '''def elbo_nn(DPParam):
     #gamma = DPParam['LPMtx']
     #N = DPParam['Nvec']
@@ -242,6 +250,47 @@ def loss(x, x_decoded_mean):
     #return loss_
     return loss_
 
+def cnn_loss(x, x_decoded_mean):
+    #N = tf.convert_to_tensor(DPParam, dtype=tf.float32)
+    
+
+    gamma = tf.convert_to_tensor(DPParam['LPMtx'], dtype=tf.float32)
+    N = tf.convert_to_tensor(DPParam['Nvec'], dtype=tf.float32)
+    m = tf.convert_to_tensor(DPParam['m'], dtype=tf.float32)
+    W = tf.convert_to_tensor(DPParam['B'], dtype=tf.float32)
+    v = tf.convert_to_tensor(DPParam['nu'], dtype=tf.float32)
+
+    num_cluster = N.shape[0]
+    z_mean_1_last = tf.expand_dims(z_mean, -1) # bs, latent_dim, 1
+    z_mean_1_mid = tf.expand_dims(z_mean, 1) # bs, 1, latent_dim
+
+    for k in range(num_cluster):
+        gamma_k_rep = tf.squeeze(K.repeat(tf.expand_dims(gamma[:, k], -1), latent_dim))
+        z_k_bar = 1/N[k] * K.sum(tf.multiply(gamma_k_rep, z_mean), axis=0) #(latent_dim, )
+        z_k_bar_batch = tf.squeeze(K.repeat(tf.expand_dims(z_k_bar, 0), batch_size))
+        #tf.transpose(z_k_bar_batch, perm=[1, 0])
+        z_k_bar_batch_1_last = tf.expand_dims(z_k_bar_batch, -1) # bs, latent_dim, 1
+        z_k_bar_batch_1_mid = tf.expand_dims(z_k_bar_batch, 1) # bs, 1, latent_dim
+        
+        # TODO:!
+        S_k = 1/N[k] * K.sum(K.batch_dot(tf.multiply(tf.expand_dims(gamma_k_rep,-1), (z_mean_1_last-z_k_bar_batch_1_last)), z_mean_1_mid - z_k_bar_batch_1_mid), axis=0) # (latent_dim, latent_dim)
+        temp = tf.linalg.trace(tf.linalg.solve(W[k], S_k))
+        temp2 = tf.matmul(tf.expand_dims((z_k_bar-m[k]), 0), tf.linalg.inv(W[k]))
+        temp3 = tf.squeeze(tf.matmul(temp2, tf.expand_dims((z_k_bar-m[k]), -1)))
+        if k == 0:
+            e = 0.5*N[k]*(v[k]*(temp + temp3))
+        else:
+            e += 0.5*N[k]*(v[k]*(temp + temp3))
+
+    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) - 0.005 * K.sum((z_log_var+1), axis = -1)
+    loss_ =  K.sum(loss_, axis=0) + e
+    # loss = K.sum(loss_, axis = 0)
+    #for i in range(5):
+    #    loss_ += N
+        
+    #return loss_
+    return loss_
+
 dataset = 'mnist'
 #db = sys.argv[1]
 #if db in ['mnist','reuters10k','har']:
@@ -278,11 +327,11 @@ if flatten:
 
 else: # use CNN
     input_img = Input(shape=(28, 28, 1))  # adapt this if using `channels_first` image data format
-    x = Conv2D(16, (3, 3), activation='relu', padding='same')(input_img)
+    x = Conv2D(32, (3, 3), activation='relu', padding='same')(input_img)
     x = MaxPooling2D((2, 2), padding='same')(x)
-    x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+    x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
     x = MaxPooling2D((2, 2), padding='same')(x)
-    x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+    x = Conv2D(128, (3, 3), activation='relu', padding='same')(x)
     x = MaxPooling2D((2, 2), padding='same')(x)
     # at this point the representation is (4, 4, 8) i.e. 128-dimensional
     # channel merge
@@ -299,11 +348,11 @@ else: # use CNN
     x = Dense(shape[1] * shape[2] * shape[3], activation='relu')(latent_inputs)
     x = Reshape((shape[1], shape[2], shape[3]))(x)
 
-    x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+    x = Conv2D(128, (3, 3), activation='relu', padding='same')(x)
     x = UpSampling2D((2, 2))(x)
-    x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+    x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
     x = UpSampling2D((2, 2))(x)
-    x = Conv2D(16, (3, 3), activation='relu')(x)
+    x = Conv2D(32, (3, 3), activation='relu')(x)
     x = UpSampling2D((2, 2))(x)
     decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
 
@@ -318,13 +367,17 @@ else: # use CNN
     sample_output.summary()
     decoder.summary()
 
+    if ispretrain == True:
+        sample_output = load_pretrain_cnn_encoder(sample_output, root_path)
+
+
 
 
 num_of_exp = X.shape[0]
 
-num_of_epoch = 5
+num_of_epoch = 2
 num_of_iteration = int(num_of_exp / batch_size)
-adam_nn= Adam(lr=lr_nn,epsilon=1e-4, decay = 0.05)
+adam_nn= Adam(lr=lr_nn,epsilon=1e-5, decay = 0.1)
 
 #%%
 global newinitname 
@@ -332,7 +385,7 @@ global newinitname
 if not flatten:
     print("Pretraining VaDE first!")
     vade.compile(optimizer='adadelta', loss='binary_crossentropy')
-    vade.fit(X, X, epochs=100, batch_size=batch_size, validation_data=(X, X), shuffle=True)
+    vade.fit(X, X, epochs=2, batch_size=batch_size, validation_data=(X, X), shuffle=True)
 
 
 for epoch in range(num_of_epoch):    
@@ -405,8 +458,11 @@ for epoch in range(num_of_epoch):
         #}
 
         if epoch ==0 and iteration ==0:
-            vade.compile(optimizer=adam_nn, loss=loss)
-        for j in range(10):
+            if flatten:
+                vade.compile(optimizer=adam_nn, loss=loss)
+            else:
+                vade.compile(optimizer=adam_nn, loss=cnn_loss)
+        for j in range(5):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
 

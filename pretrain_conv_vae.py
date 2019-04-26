@@ -3,7 +3,7 @@ import numpy as np
 from keras.callbacks import Callback, ModelCheckpoint
 from keras.optimizers import Adam
 from keras.layers import Input, Dense, Lambda, Conv2D, Reshape, UpSampling2D, MaxPooling2D, Flatten
-from keras.models import Model
+from keras.models import Model, load_model
 from keras import backend as K
 from keras.losses import mse
 
