@@ -23,6 +23,7 @@ from sklearn.cluster import KMeans
 from keras.models import model_from_json
 import tensorflow as tf
 from sklearn.externals import joblib ## replacement of pickle to carry large numpy arrays
+import json
 
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
@@ -406,6 +407,17 @@ for epoch in range(num_of_epoch):
 ## get z_fit from the encoder and fit with DP model to get all the labels for all training data
 z_fit = sample_output.predict(X, batch_size=batch_size)        
 fittedY = obtainFittedYFromDP(DPParam, z_fit)
+####################################
+## Obtain the relationship between fittec class lable and true label, stored in a dictionary
+true2Fitted =  obtainDictFromTrueToFittedUsingLabel(Y, fittedY)
+## dump true2Fitted
+true2FittedPath = os.path.join(outputPath, 'true2Fitted.json')
+# write to a file
+pickle.dump(true2Fitted, open(true2FittedPath, 'wb'))
+# reads it back
+# true2Fitted = pickle.load(open(true2FittedPath, "rb"))
+####################################
+
 #%%
 ################################################
 ## obtain cluster accuracy
