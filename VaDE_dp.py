@@ -55,6 +55,7 @@ if results.conv:
 import DP as DP
 from bnpy.util.AnalyzeDP import * 
 from bnpy.data.XData import XData
+import pickle
 
 
 def sampling(args):
