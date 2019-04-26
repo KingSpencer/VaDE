@@ -25,6 +25,10 @@ from keras.models import model_from_json
 import tensorflow as tf
 from sklearn.externals import joblib
 
+# fix path
+sys.path.append("../bnpy")
+sys.path.append("../bnpy/bnpy")
+
 class DPVAE_Generator:
     def __init__():
         pass
@@ -136,17 +140,25 @@ if __name__ == "__main__":
     # not working ...
     # print(len(vade.get_weights()))
     # TODO: Load DP parameters and generate new data
-    with open('./results/m.pkl', 'rb') as f:
-        m = joblib.load(f)
-    with open('./results/W.pkl', 'rb') as f:
-        W = joblib.load(f)
-    
+    # with open('./results/m.pkl', 'rb') as f:
+    #    m = joblib.load(f)
+    # with open('./results/W.pkl', 'rb') as f:
+    #    W = joblib.load(f)
+    with open('./results/DPParam.pkl', 'rb') as f:
+        DPParam = joblib.load(f)
+    m = DPParam['m']
+    W = DPParam['B']
+    nu = DPParam['nu']
+    beta = DPParam['kappa']
+
     # sampling from gaussians
     cluster_sample_list = []
     print("************* generating new data! **************")
     for nc in tqdm(range(len(m))):
         mean = m[nc]
-        var = W[nc]
+        #lam = np.linalg.inv(W[nc]) * nu[nc]
+        #var = np.linalg.inv(lam)
+        var = W[nc] * 1 / float(nu[nc])
         z_sample = multivariate_normal(mean, var, 12)
         # we then feed z_sample to the decoder
         generated = decoder.predict(z_sample)
