@@ -57,9 +57,21 @@ from bnpy.data.XData import XData
 
 
 def sampling(args):
-    z_mean, z_log_var = args
-    epsilon = K.random_normal(shape=(batch_size, latent_dim), mean=0.)
-    return z_mean + K.exp(z_log_var / 2) * epsilon
+        """Reparameterization trick by sampling fr an isotropic unit Gaussian.
+
+        # Arguments
+            args (tensor): mean and log of variance of Q(z|X)
+
+        # Returns
+            z (tensor): sampled latent vector
+        """
+
+        z_mean, z_log_var = args
+        batch = K.shape(z_mean)[0]
+        dim = K.int_shape(z_mean)[1]
+        # by default, random_normal has mean=0 and std=1.0
+        epsilon = K.random_normal(shape=(batch, dim))
+        return z_mean + K.exp(0.5 * z_log_var) * epsilon
 
 def load_data(dataset, root_path, flatten=True):
     path = os.path.join(os.path.join(root_path, 'dataset'), dataset)
