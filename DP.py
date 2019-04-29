@@ -20,6 +20,8 @@ parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', de
                     help='root path to VaDE')
 parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
+parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=10, help='the maximum number of clusters in DPMM')
+
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -29,6 +31,7 @@ sys.path.append(bnpyPath)
 subdir = os.path.join(bnpyPath, 'bnpy')
 sys.path.append(subdir)
 sys.path.append(rootPath)
+Kmax = results.Kmax
 
 import bnpy
 from data.XData import XData
