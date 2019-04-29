@@ -57,6 +57,7 @@ class DP:
         self.b_Kfresh = b_Kfresh
         self.doSaveToDisk = doSaveToDisk
         self.Kmax = Kmax
+        self.K = K
     
     
     def run(self, data, mixModel='DPMixtureModel', obsModel='Gauss', alg='memoVB'):
