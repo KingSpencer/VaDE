@@ -75,7 +75,7 @@ def sampling(args):
         epsilon = K.random_normal(shape=(batch, dim))
         return z_mean + K.exp(0.5 * z_log_var) * epsilon
 
-def load_data(dataset, root_path, flatten=True):
+def load_data(dataset, root_path, flatten=True, numbers=range(10)):
     path = os.path.join(os.path.join(root_path, 'dataset'), dataset)
     # path = 'dataset/'+dataset+'/'
     if dataset == 'mnist':
@@ -89,7 +89,9 @@ def load_data(dataset, root_path, flatten=True):
             (x_train, y_train), (x_test, y_test) = cPickle.load(f)
         else:
             (x_train, y_train), (x_test, y_test) = cPickle.load(f, encoding="bytes")
-    
+        
+
+
         f.close()
         x_train = x_train.astype('float32') / 255.
         x_test = x_test.astype('float32') / 255.
@@ -101,6 +103,16 @@ def load_data(dataset, root_path, flatten=True):
         if not flatten:
             X = np.expand_dims(X, axis=-1)
         Y = np.concatenate((y_train,y_test))
+
+        if len(numbers) == 10:
+            pass
+        else:
+            indices = []
+            for number in numbers:
+                indices += (np.where(Y == number).tolist())
+            #indices = np.vstack(indices)
+            X = X[indices]
+            Y = Y[indices]
         
     if dataset == 'reuters10k':
         data=scio.loadmat(os.path.join(path,'reuters10k.mat'))
