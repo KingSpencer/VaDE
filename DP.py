@@ -37,7 +37,7 @@ class DP:
     
     def __init__(self, output_path=outputPath, nLap=300, nTask=1, nBatch=5,sF=0.1, ECovMat='eye',
     K=1, initname='randexamples',moves='birth,merge,shuffle',
-    m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, gamma1=1.0, gamma0=5.0, **kwargs):
+    m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, gamma1=1.0, gamma0=5.0, Kmax=50, **kwargs):
         self.output_path = output_path
         self.nLap = nLap
         self.nTask = nTask
@@ -53,14 +53,16 @@ class DP:
         self.b_startLap = b_startLap
         self.b_Kfresh = b_Kfresh
         self.doSaveToDisk = doSaveToDisk
+        self.Kmax = Kmax
     
     
     def run(self, data, mixModel='DPMixtureModel', obsModel='Gauss', alg='memoVB'):
-        dp_model, dp_info_dict=bnpy.run(data, mixModel, obsModel, alg, output_path=self.output_path,
+        dp_model, dp_info_dict=bnpy.run(data, mixModel, obsModel, alg, K = self.K, output_path=self.output_path,
                                         nLap = self.nLap, nTask=self.nTask, nBatch=self.nBatch, sF=self.sF,
                                         ECovMat=self.ECovMat, m_startLap=self.m_startLap, initname=self.initname,
                                         moves=self.moves, b_startLap=self.b_startLap, b_Kfresh=self.b_Kfresh, 
-                                        doSaveToDisk=self.doSaveToDisk, gamma1=self.gamma1, gamma0 = self.gamma0)
+                                        doSaveToDisk=self.doSaveToDisk, gamma1=self.gamma1, gamma0 = self.gamma0,
+                                        Kmax = self.Kmax)
         return dp_model, dp_info_dict
                 
     
