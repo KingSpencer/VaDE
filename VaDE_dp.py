@@ -103,7 +103,7 @@ def load_data(dataset, root_path, flatten=True):
         Y = np.concatenate((y_train,y_test))
         
     if dataset == 'reuters10k':
-        data=scio.loadmat(path+'reuters10k.mat')
+        data=scio.loadmat(os.path.join(path,'reuters10k.mat'))
         X = data['X']
         Y = data['Y'].squeeze()
         
@@ -242,7 +242,7 @@ def loss(x, x_decoded_mean):
         else:
             e += 0.5*N[k]*(v[k]*(temp + temp3))
 
-    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) -0.5 * K.sum((z_log_var+1), axis = -1)
+    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) - 0.5 * K.sum((z_log_var+1), axis = -1)
     loss_ =  K.sum(loss_, axis=0) + e
     # loss = K.sum(loss_, axis = 0)
     #for i in range(5):
@@ -292,7 +292,7 @@ def cnn_loss(x, x_decoded_mean):
     #return loss_
     return loss_
 
-dataset = 'mnist'
+dataset = 'reuters10k'
 #db = sys.argv[1]
 #if db in ['mnist','reuters10k','har']:
 #    dataset = db

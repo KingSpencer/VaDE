@@ -1,6 +1,8 @@
 *.sh
 results
 cnn_results/
+best_dense_results/
+reuters_results/
 .ipynb_checkpoints
 *.ipynb
 __pycache__
