@@ -21,6 +21,7 @@ parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', de
 parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
 parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=10, help='the maximum number of clusters in DPMM')
+parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
 
 
 results = parser.parse_args()
@@ -32,6 +33,11 @@ subdir = os.path.join(bnpyPath, 'bnpy')
 sys.path.append(subdir)
 sys.path.append(rootPath)
 Kmax = results.Kmax
+
+dataset = results.dataset
+
+if dataset == 'reuters10k':
+    Kmax = 5
 
 import bnpy
 from data.XData import XData

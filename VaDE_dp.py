@@ -39,7 +39,10 @@ parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', de
 parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
 ## add argument for the maximum number of clusters in DP
-parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=10, help='the maximum number of clusters in DPMM')
+parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=50, help='the maximum number of clusters in DPMM')
+## parse data set option as an argument
+parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
+
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -48,6 +51,10 @@ outputPath = results.outputPath
 root_path = results.rootPath
 sys.path.append(root_path)
 Kmax = results.Kmax
+dataset = results.dataset
+
+if dataset == 'reuters10k':
+    Kmax = 5
 
 flatten = True
 if results.conv:
@@ -306,7 +313,7 @@ def cnn_loss(x, x_decoded_mean):
     #return loss_
     return loss_
 
-dataset = 'reuters10k'
+# dataset = 'reuters10k'
 #db = sys.argv[1]
 #if db in ['mnist','reuters10k','har']:
 #    dataset = db
@@ -432,7 +439,7 @@ for epoch in range(num_of_epoch):
         if epoch ==0 and iteration == 0:
             newinitname = 'randexamples'
             if dataset == 'reuters10k':
-                DPObj = DP.DP(initname = newinitname, Kmax = 10)
+                DPObj = DP.DP(initname = newinitname, Kmax = Kmax)
             else:
                 DPObj = DP.DP(initname = newinitname)
             DPParam, newinitname = DPObj.fit(z_batch)
@@ -440,7 +447,7 @@ for epoch in range(num_of_epoch):
             # if iteration == (num_of_iteration-1) and epoch !=0:
             if epoch != 0:
                 if dataset == 'reuters10k':
-                    DPObj = DP.DP(initname = newinitname, Kmax = 10)
+                    DPObj = DP.DP(initname = newinitname, Kmax = Kmax)
                 else:    
                     DPObj = DP.DP(initname = newinitname)
                 DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
