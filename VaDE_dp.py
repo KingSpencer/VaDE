@@ -38,7 +38,12 @@ parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', de
                     help='root path to VaDE')
 parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
-
+## add argument for the maximum number of clusters in DP
+parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=50, help='the maximum number of clusters in DPMM')
+## parse data set option as an argument
+parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
+parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
+parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -46,6 +51,13 @@ sys.path.append(bnpyPath)
 outputPath = results.outputPath
 root_path = results.rootPath
 sys.path.append(root_path)
+Kmax = results.Kmax
+dataset = results.dataset
+epoch = results.epoch
+batch_iter = results.batch_iter
+
+if dataset == 'reuters10k':
+    Kmax = 5
 
 flatten = True
 if results.conv:
@@ -109,7 +121,7 @@ def load_data(dataset, root_path, flatten=True, numbers=range(10)):
         else:
             indices = []
             for number in numbers:
-                indices += (np.where(Y == number).tolist())
+                indices += list(np.where(Y == number)[0])
             #indices = np.vstack(indices)
             X = X[indices]
             Y = Y[indices]
@@ -304,7 +316,7 @@ def cnn_loss(x, x_decoded_mean):
     #return loss_
     return loss_
 
-dataset = 'reuters10k'
+# dataset = 'reuters10k'
 #db = sys.argv[1]
 #if db in ['mnist','reuters10k','har']:
 #    dataset = db
@@ -388,7 +400,7 @@ else: # use CNN
 
 num_of_exp = X.shape[0]
 
-num_of_epoch = 2
+num_of_epoch = epoch
 num_of_iteration = int(num_of_exp / batch_size)
 adam_nn= Adam(lr=lr_nn,epsilon=1e-5, decay = 0.1)
 
@@ -429,12 +441,18 @@ for epoch in range(num_of_epoch):
         
         if epoch ==0 and iteration == 0:
             newinitname = 'randexamples'
-            DPObj = DP.DP(initname = newinitname)
+            if dataset == 'reuters10k':
+                DPObj = DP.DP(initname = newinitname, Kmax = Kmax)
+            else:
+                DPObj = DP.DP(initname = newinitname)
             DPParam, newinitname = DPObj.fit(z_batch)
         else:
             # if iteration == (num_of_iteration-1) and epoch !=0:
             if epoch != 0:
-                DPObj = DP.DP(initname = newinitname)
+                if dataset == 'reuters10k':
+                    DPObj = DP.DP(initname = newinitname, Kmax = Kmax)
+                else:    
+                    DPObj = DP.DP(initname = newinitname)
                 DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
         # if iteration == (num_of_iteration-1):
@@ -475,7 +493,7 @@ for epoch in range(num_of_epoch):
                 vade.compile(optimizer=adam_nn, loss=loss)
             else:
                 vade.compile(optimizer=adam_nn, loss=cnn_loss)
-        for j in range(5):
+        for j in range(batch_iter):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
 

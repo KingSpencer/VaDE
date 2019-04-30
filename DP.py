@@ -20,6 +20,10 @@ parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', de
                     help='root path to VaDE')
 parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
+parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=10, help='the maximum number of clusters in DPMM')
+parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
+parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
+parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -29,6 +33,11 @@ sys.path.append(bnpyPath)
 subdir = os.path.join(bnpyPath, 'bnpy')
 sys.path.append(subdir)
 sys.path.append(rootPath)
+Kmax = results.Kmax
+dataset = results.dataset
+
+if dataset == 'reuters10k':
+    Kmax = 5
 
 import bnpy
 from data.XData import XData
@@ -37,7 +46,7 @@ class DP:
     
     def __init__(self, output_path=outputPath, nLap=300, nTask=1, nBatch=5,sF=0.1, ECovMat='eye',
     K=1, initname='randexamples',moves='birth,merge,shuffle',
-    m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, gamma1=1.0, gamma0=5.0, **kwargs):
+    m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, gamma1=1.0, gamma0=5.0, Kmax=50, **kwargs):
         self.output_path = output_path
         self.nLap = nLap
         self.nTask = nTask
@@ -53,14 +62,17 @@ class DP:
         self.b_startLap = b_startLap
         self.b_Kfresh = b_Kfresh
         self.doSaveToDisk = doSaveToDisk
+        self.Kmax = Kmax
+        self.K = K
     
     
     def run(self, data, mixModel='DPMixtureModel', obsModel='Gauss', alg='memoVB'):
-        dp_model, dp_info_dict=bnpy.run(data, mixModel, obsModel, alg, output_path=self.output_path,
+        dp_model, dp_info_dict=bnpy.run(data, mixModel, obsModel, alg, K = self.K, output_path=self.output_path,
                                         nLap = self.nLap, nTask=self.nTask, nBatch=self.nBatch, sF=self.sF,
                                         ECovMat=self.ECovMat, m_startLap=self.m_startLap, initname=self.initname,
                                         moves=self.moves, b_startLap=self.b_startLap, b_Kfresh=self.b_Kfresh, 
-                                        doSaveToDisk=self.doSaveToDisk, gamma1=self.gamma1, gamma0 = self.gamma0)
+                                        doSaveToDisk=self.doSaveToDisk, gamma1=self.gamma1, gamma0 = self.gamma0,
+                                        Kmax = self.Kmax)
         return dp_model, dp_info_dict
                 
     
