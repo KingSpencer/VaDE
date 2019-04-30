@@ -22,7 +22,8 @@ parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
 parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=10, help='the maximum number of clusters in DPMM')
 parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
-
+parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
+parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -34,7 +35,6 @@ sys.path.append(subdir)
 sys.path.append(rootPath)
 Kmax = results.Kmax
 
-dataset = results.dataset
 
 if dataset == 'reuters10k':
     Kmax = 5

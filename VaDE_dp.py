@@ -42,7 +42,8 @@ parser.add_argument('-conv', action='store_true', \
 parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=50, help='the maximum number of clusters in DPMM')
 ## parse data set option as an argument
 parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
-
+parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
+parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -52,6 +53,8 @@ root_path = results.rootPath
 sys.path.append(root_path)
 Kmax = results.Kmax
 dataset = results.dataset
+epoch = results.epoch
+batch_iter = results.batch_iter
 
 if dataset == 'reuters10k':
     Kmax = 5
@@ -397,7 +400,7 @@ else: # use CNN
 
 num_of_exp = X.shape[0]
 
-num_of_epoch = 10
+num_of_epoch = epoch
 num_of_iteration = int(num_of_exp / batch_size)
 adam_nn= Adam(lr=lr_nn,epsilon=1e-5, decay = 0.1)
 
@@ -490,7 +493,7 @@ for epoch in range(num_of_epoch):
                 vade.compile(optimizer=adam_nn, loss=loss)
             else:
                 vade.compile(optimizer=adam_nn, loss=cnn_loss)
-        for j in range(5):
+        for j in range(batch_iter):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
 
