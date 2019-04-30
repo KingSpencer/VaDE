@@ -58,10 +58,6 @@ epoch = results.epoch
 batch_iter = results.batch_iter
 scale = results.scale
 
-
-if dataset == 'reuters10k':
-    Kmax = 5
-
 flatten = True
 if results.conv:
     flatten = False

@@ -37,8 +37,6 @@ sys.path.append(rootPath)
 Kmax = results.Kmax
 dataset = results.dataset
 
-if dataset == 'reuters10k':
-    Kmax = 5
 
 import bnpy
 from data.XData import XData
