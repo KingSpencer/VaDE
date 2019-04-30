@@ -1,3 +1,4 @@
+stl10_utils/stl10_data/
 *.sh
 results
 cnn_results/
