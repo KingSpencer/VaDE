@@ -111,7 +111,7 @@ def load_data(dataset, root_path, flatten=True, numbers=range(10)):
         else:
             indices = []
             for number in numbers:
-                indices += (np.where(Y == number).tolist())
+                indices += list(np.where(Y == number)[0])
             #indices = np.vstack(indices)
             X = X[indices]
             Y = Y[indices]
