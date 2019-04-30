@@ -34,7 +34,7 @@ subdir = os.path.join(bnpyPath, 'bnpy')
 sys.path.append(subdir)
 sys.path.append(rootPath)
 Kmax = results.Kmax
-
+dataset = results.dataset
 
 if dataset == 'reuters10k':
     Kmax = 5
