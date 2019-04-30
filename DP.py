@@ -24,6 +24,7 @@ parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=1
 parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
 parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
 parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
+parser.add_argument('-scale', action='store', type = float, dest='scale', default = 0.005, help='the scale parameter in the loss function')
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath

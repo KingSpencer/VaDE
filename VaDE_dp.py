@@ -32,7 +32,7 @@ argv = sys.argv[1:]
 parser = argparse.ArgumentParser()
 parser.add_argument('-bnpyPath', action='store', type = str, dest='bnpyPath', default='/Users/crystal/Documents/bnpy/', \
                     help='path to bnpy code repo')
-parser.add_argument('-outputPath', action='store', type = str, dest='outputPath', default='/Users/crystal/Documents/VaDE_results', \
+parser.add_argument('-outputPath', action='store', type = str, dest='outputPath', default='/Users/crystal/Documents/VaDE_results/', \
                     help='path to output')
 parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', default='/Users/crystal/Documents/VaDE', \
                     help='root path to VaDE')
@@ -44,6 +44,7 @@ parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=5
 parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
 parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
 parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
+parser.add_argument('-scale', action='store', type = float, dest='scale', default = 0.005, help='the scale parameter in the loss function')
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -55,6 +56,8 @@ Kmax = results.Kmax
 dataset = results.dataset
 epoch = results.epoch
 batch_iter = results.batch_iter
+scale = results.scale
+
 
 if dataset == 'reuters10k':
     Kmax = 5
@@ -266,7 +269,7 @@ def loss(x, x_decoded_mean):
         else:
             e += 0.5*N[k]*(v[k]*(temp + temp3))
 
-    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) - 0.5 * K.sum((z_log_var+1), axis = -1)
+    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) - scale * 0.5 * K.sum((z_log_var+1), axis = -1)
     loss_ =  K.sum(loss_, axis=0) + e
     # loss = K.sum(loss_, axis = 0)
     #for i in range(5):
