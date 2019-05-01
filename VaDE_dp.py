@@ -562,7 +562,7 @@ fittedY = obtainFittedYFromDP(DPParam, z_fit)
 ## Obtain the relationship between fittec class lable and true label, stored in a dictionary
 true2Fitted =  obtainDictFromTrueToFittedUsingLabel(Y, fittedY)
 ## dump true2Fitted using full folder path, whose folder name saves the value of the cmd argument
-fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize)
+fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep)
 true2FittedPath = os.path.join(fullOutputPath, 'true2Fitted.json')
 # write to a file
 pickle.dump(true2Fitted, open(true2FittedPath, 'wb'))
