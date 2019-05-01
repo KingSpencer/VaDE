@@ -24,6 +24,7 @@ from keras.models import model_from_json
 import tensorflow as tf
 from sklearn.externals import joblib ## replacement of pickle to carry large numpy arrays
 import pickle
+from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
 
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
@@ -42,9 +43,11 @@ parser.add_argument('-conv', action='store_true', \
 parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=50, help='the maximum number of clusters in DPMM')
 ## parse data set option as an argument
 parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
-parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
-parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
-parser.add_argument('-scale', action='store', type = float, dest='scale', default = 0.005, help='the scale parameter in the loss function')
+parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 1, help='The number of epochs')
+parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 1, help='The number of updates in SGVB')
+parser.add_argument('-scale', action='store', type = float, dest='scale', default = 1.0, help='the scale parameter in the loss function')
+parser.add_argument('-batchsize', action='store', type = int, dest='batchsize', default = 5000, help='the default batch size when training neural network')
+
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -61,6 +64,7 @@ dataset = results.dataset
 epoch = results.epoch
 batch_iter = results.batch_iter
 scale = results.scale
+batchsize = results.batchsize
 
 flatten = True
 if results.conv:
@@ -351,7 +355,7 @@ def cnn_loss(x, x_decoded_mean):
 #    dataset = db
 print ('training on: ' + dataset)
 ispretrain = True
-batch_size = 5000
+batch_size = batchsize
 latent_dim = 10
 intermediate_dim = [500,500,2000]
 #theano.config.floatX='float32'
@@ -539,8 +543,9 @@ fittedY = obtainFittedYFromDP(DPParam, z_fit)
 ####################################
 ## Obtain the relationship between fittec class lable and true label, stored in a dictionary
 true2Fitted =  obtainDictFromTrueToFittedUsingLabel(Y, fittedY)
-## dump true2Fitted
-true2FittedPath = os.path.join(outputPath, 'true2Fitted.json')
+## dump true2Fitted using full folder path, whose folder name saves the value of the cmd argument
+fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize)
+true2FittedPath = os.path.join(fullOutputPath, 'true2Fitted.json')
 # write to a file
 pickle.dump(true2Fitted, open(true2FittedPath, 'wb'))
 # reads it back
@@ -557,10 +562,10 @@ acc = accResult['overallRecall']
 print("The overall recall across all samples: {}".format(acc))
 ###############################################
 ## save DP model 
-dp_model_path = os.path.join(outputPath, 'dp_model.pkl')
-dp_model_param = os.path.join(outputPath, 'DPParam.pkl')
-accResult_path = os.path.join(outputPath, 'acc_result.pkl')
-fittedY_path = os.path.join(outputPath, 'fittedY.pkl')
+dp_model_path = os.path.join(fullOutputPath, 'dp_model.pkl')
+dp_model_param = os.path.join(fullOutputPath, 'DPParam.pkl')
+accResult_path = os.path.join(fullOutputPath, 'acc_result.pkl')
+fittedY_path = os.path.join(fullOutputPath, 'fittedY.pkl')
 joblib.dump(DPParam['model'], dp_model_path) 
 joblib.dump(DPParam, dp_model_param) 
 joblib.dump(accResult, accResult_path)
@@ -577,10 +582,10 @@ joblib.dump(DPParam['B'], W)
 # serialize model to JSON
 # this one is not working for now, don't know how to load self-defined layer
 model_json = vade.to_json()
-with open(os.path.join(outputPath, "vade_DP_model.json"), "w") as json_file:
+with open(os.path.join(fullOutputPath, "vade_DP_model.json"), "w") as json_file:
     json_file.write(model_json)
 # save the weights separately
-vade.save_weights(os.path.join(outputPath, "vade_DP_weights.h5"))
+vade.save_weights(os.path.join(fullOutputPath, "vade_DP_weights.h5"))
 
 
 
