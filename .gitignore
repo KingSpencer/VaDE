@@ -1,5 +1,6 @@
 stl10_utils/stl10_data/
 *.sh
+stl10_results/
 results
 cnn_results/
 best_dense_results/
