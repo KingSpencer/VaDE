@@ -25,6 +25,10 @@ parser.add_argument('-dataset', action='store', type = str, dest='dataset',  def
 parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
 parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
 parser.add_argument('-scale', action='store', type = float, dest='scale', default = 0.005, help='the scale parameter in the loss function')
+parser.add_argument('-sf', action='store', type = float, dest='sf', default=0.1, help='the prior diagonal covariance matrix for Normal mixture in DP')
+parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', default=5.0, help='hyperparameters for DP in Beta dist')
+parser.add_argument('-gamma1', action='store', type= float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
+
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath

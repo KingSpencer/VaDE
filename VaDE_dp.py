@@ -29,6 +29,13 @@ from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
+rep = None
+rep = os.environ["rep"]
+rep = int(float(rep))
+if rep == None:
+    rep = 1
+
+
 argv = sys.argv[1:]
 parser = argparse.ArgumentParser()
 parser.add_argument('-bnpyPath', action='store', type = str, dest='bnpyPath', default='/Users/crystal/Documents/bnpy/', \
@@ -48,6 +55,9 @@ parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter'
 parser.add_argument('-scale', action='store', type = float, dest='scale', default = 1.0, help='the scale parameter in the loss function')
 parser.add_argument('-batchsize', action='store', type = int, dest='batchsize', default = 5000, help='the default batch size when training neural network')
 
+parser.add_argument('-sf', action='store', type = float, dest='sf', default=0.1, help='the prior diagonal covariance matrix for Normal mixture in DP')
+parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', default=5.0, help='hyperparameters for DP in Beta dist')
+parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
 
 results = parser.parse_args()
 bnpyPath = results.bnpyPath
@@ -65,6 +75,14 @@ epoch = results.epoch
 batch_iter = results.batch_iter
 scale = results.scale
 batchsize = results.batchsize
+
+## DP hyper-parameters
+sf = results.sf
+gamma0 = results.gamma0
+gamma1 = results.gamma1
+
+
+## Rep is useful when running the same experiment multiple times to obtain a standard error
 
 flatten = True
 if results.conv:

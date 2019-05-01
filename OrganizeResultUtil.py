@@ -7,7 +7,8 @@ Created on Tue Apr 30 21:49:55 2019
 """
 import os
 
-def createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize):
+def createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep=1):
+    
     if not isinstance(Kmax, str):
         Kmax = str(Kmax)
     if not isinstance(dataset, str):
@@ -20,7 +21,10 @@ def createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, 
         scale = str(scale)
     if not isinstance(batchsize, str):
         batchsize = str(batchsize)
-    folderName = 'Kmax' + Kmax + dataset + 'epoch' + epoch + 'batch_iter' + batch_iter + 'scale' + scale + 'bs' + batchsize    
+    if not isinstance(rep, str):
+        rep = str(rep)
+    
+    folderName = 'Kmax' + Kmax + dataset + 'epoch' + epoch + 'batch_iter' + batch_iter + 'scale' + scale + 'bs' + batchsize + 'rep'+ rep    
     wholeFolderName = os.path.join(outputPath, folderName)
     
     if os.path.exists(wholeFolderName):
