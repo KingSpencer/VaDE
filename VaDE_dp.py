@@ -50,6 +50,10 @@ results = parser.parse_args()
 bnpyPath = results.bnpyPath
 sys.path.append(bnpyPath)
 outputPath = results.outputPath
+
+if not os.path.exists(outputPath):
+    os.mkdir(outputPath)
+
 root_path = results.rootPath
 sys.path.append(root_path)
 Kmax = results.Kmax
@@ -138,23 +142,36 @@ def load_data(dataset, root_path, flatten=True, numbers=range(10)):
         X=X[:10200]
         Y=Y[:10200]
 
+    if dataset == 'stl10':
+        with open('./dataset/stl10/X.pkl', 'rb') as f:
+            X = pickle.load(f)
+        with open('./dataset/stl10/Y.pkl', 'rb') as f:
+            Y = pickle.load(f)
+            # here Y is one-hot, turn it back
+            Y = np.argmax(Y, axis=1)
+
     return X,Y
 
 def config_init(dataset):
+    # original_dim,epoches,n_centroid,lr_nn,lr_gmm,decay_n,decay_nn,decay_gmm,alpha,datatype 
     if dataset == 'mnist':
         return 784,3000,10,0.002,0.002,10,0.9,0.9,1,'sigmoid'
     if dataset == 'reuters10k':
         return 2000,15,4,0.002,0.002,5,0.5,0.5,1,'linear'
     if dataset == 'har':
         return 561,120,6,0.002,0.00002,10,0.9,0.9,5,'linear'
+    if dataset == 'stl10':
+        return 2048,10,10,0.002,0.002,10,0.9,0.9,1,'linear'
+
 
 def penalized_loss(noise):
     def loss(y_true, y_pred):
         return K.mean(K.square(y_pred - y_true) - K.square(y_true - noise), axis=-1)
     return loss
 
-def load_pretrain_weights(vade, root_path):
-    
+def load_pretrain_weights(vade, root_path, dataset):
+    if dataset == 'stl10':
+        dataset += '_supervised'
     path = os.path.join(root_path, 'pretrain_weights')
     filename = 'ae_' + dataset + '.json'
     fullFileName = os.path.join(path, filename)
@@ -164,15 +181,28 @@ def load_pretrain_weights(vade, root_path):
     weightFullFileName = os.path.join(path, weightFileName)
     ae.load_weights(weightFullFileName)
     
+
+    if 'stl10' not in dataset:
     #ae.load_weights('pretrain_weights/ae_'+dataset+'_weights.h5')
-    vade.layers[1].set_weights(ae.layers[0].get_weights())
-    vade.layers[2].set_weights(ae.layers[1].get_weights())
-    vade.layers[3].set_weights(ae.layers[2].get_weights())
-    vade.layers[4].set_weights(ae.layers[3].get_weights())
-    vade.layers[-1].set_weights(ae.layers[-1].get_weights())
-    vade.layers[-2].set_weights(ae.layers[-2].get_weights())
-    vade.layers[-3].set_weights(ae.layers[-3].get_weights())
-    vade.layers[-4].set_weights(ae.layers[-4].get_weights())
+        vade.layers[1].set_weights(ae.layers[0].get_weights())
+        vade.layers[2].set_weights(ae.layers[1].get_weights())
+        vade.layers[3].set_weights(ae.layers[2].get_weights())
+        vade.layers[4].set_weights(ae.layers[3].get_weights())
+
+        vade.layers[-1].set_weights(ae.layers[-1].get_weights())
+        vade.layers[-2].set_weights(ae.layers[-2].get_weights())
+        vade.layers[-3].set_weights(ae.layers[-3].get_weights())
+        vade.layers[-4].set_weights(ae.layers[-4].get_weights())
+    else:
+        vade.layers[1].set_weights(ae.layers[1].get_weights())
+        vade.layers[2].set_weights(ae.layers[2].get_weights())
+        vade.layers[3].set_weights(ae.layers[3].get_weights())
+        vade.layers[4].set_weights(ae.layers[4].get_weights())
+        vade.layers[-1].set_weights(ae.layers[-2].get_weights())
+        vade.layers[-2].set_weights(ae.layers[-3].get_weights())
+        vade.layers[-3].set_weights(ae.layers[-4].get_weights())
+        vade.layers[-4].set_weights(ae.layers[-5].get_weights())
+    
     return vade
 
 def load_pretrain_cnn_encoder(encoder, root_path, model='cnn_classifier.05-0.02.hdf5'):
@@ -327,7 +357,7 @@ intermediate_dim = [500,500,2000]
 #theano.config.floatX='float32'
 accuracy=[]
 X, Y = load_data(dataset, root_path, flatten)
-original_dim,epoch,n_centroid,lr_nn,lr_gmm,decay_n,decay_nn,decay_gmm,alpha,datatype = config_init(dataset)
+original_dim,epoches,n_centroid,lr_nn,lr_gmm,decay_n,decay_nn,decay_gmm,alpha,datatype = config_init(dataset)
 global DPParam
 
 if flatten:
@@ -347,7 +377,7 @@ if flatten:
 
     vade = Model(x, x_decoded_mean)
     if ispretrain == True:
-        vade = load_pretrain_weights(vade, root_path)
+        vade = load_pretrain_weights(vade, root_path, dataset)
 
 else: # use CNN
     input_img = Input(shape=(28, 28, 1))  # adapt this if using `channels_first` image data format
@@ -411,7 +441,8 @@ if not flatten:
     vade.compile(optimizer='adadelta', loss='binary_crossentropy')
     vade.fit(X, X, epochs=2, batch_size=batch_size, validation_data=(X, X), shuffle=True)
 
-
+gamma1 = 1.0
+gamma0 = 5.0
 for epoch in range(num_of_epoch):    
     id_list = np.arange(num_of_exp)
     np.random.shuffle(id_list)
@@ -441,17 +472,17 @@ for epoch in range(num_of_epoch):
         if epoch ==0 and iteration == 0:
             newinitname = 'randexamples'
             if dataset == 'reuters10k':
-                DPObj = DP.DP(initname = newinitname, Kmax = Kmax)
+                DPObj = DP.DP(initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
             else:
-                DPObj = DP.DP(initname = newinitname)
+                DPObj = DP.DP(initname = newinitname, gamma1=gamma1, gamma0=gamma0)
             DPParam, newinitname = DPObj.fit(z_batch)
         else:
             # if iteration == (num_of_iteration-1) and epoch !=0:
             if epoch != 0:
                 if dataset == 'reuters10k':
-                    DPObj = DP.DP(initname = newinitname, Kmax = Kmax)
+                    DPObj = DP.DP(initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
                 else:    
-                    DPObj = DP.DP(initname = newinitname)
+                    DPObj = DP.DP(initname = newinitname, gamma1=gamma1, gamma0=gamma0)
                 DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
         # if iteration == (num_of_iteration-1):

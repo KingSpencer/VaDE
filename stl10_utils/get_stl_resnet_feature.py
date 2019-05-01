@@ -43,6 +43,8 @@ def ResNet50(include_top=True,
     # Returns
         A Keras model instance.
 '''
+from keras.models import Model
+from keras.layers import Input, Dense
 from download_stl import load_dataset
 import numpy as np
 import os
@@ -50,12 +52,21 @@ import pickle
 
 if __name__ == "__main__":
     STL_shape = (96, 96, 3)
-    resnet = ResNet50(include_top=False, weights='imagenet', input_tensor=None, input_shape=STL_shape, pooling='avg')
+    input_img = Input(shape=STL_shape)
+    resnet = ResNet50(include_top=False, weights='imagenet', input_tensor=input_img, input_shape=STL_shape, pooling='avg')
+    X_feature = resnet(input_img)
+    feature = Dense(10, activation='softmax')(X_feature)
+    resnet_model = Model(input_img, feature)
+    resnet_feature_model = Model(input_img, X_feature)
     (x_train, y_train), (x_test, y_test) = load_dataset()
     X = np.vstack([x_train, x_test])
     Y = np.vstack([y_train, y_test])
     ###
-    X_feature = resnet.predict(X, verbose=1)
+    ### here we should do more tweaks
+    resnet_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
+    resnet_model.fit(X, Y, epochs=5, batch_size=128, shuffle=True)
+    ####### 
+    X_feature = resnet_feature_model.predict(X, verbose=1)
     print(X_feature.shape)
     # save it
     root_path = '../dataset/stl10'
