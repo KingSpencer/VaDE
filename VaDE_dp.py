@@ -36,6 +36,8 @@ if rep == None:
     rep = 1
 
 
+
+
 argv = sys.argv[1:]
 parser = argparse.ArgumentParser()
 parser.add_argument('-bnpyPath', action='store', type = str, dest='bnpyPath', default='/Users/crystal/Documents/bnpy/', \
@@ -87,8 +89,15 @@ gamma1 = results.gamma1
 flatten = True
 if results.conv:
     flatten = False
+    
 
+## specify full output path
+fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep)
+## name log file and write console output to log.txt
+logFileName = os. path.join(fullOutputPath, 'log.txt')
+sys.stdout = open(logFileName, 'w')
 
+#############################################    
 import DP as DP
 from bnpy.util.AnalyzeDP import * 
 from bnpy.data.XData import XData
@@ -562,7 +571,6 @@ fittedY = obtainFittedYFromDP(DPParam, z_fit)
 ## Obtain the relationship between fittec class lable and true label, stored in a dictionary
 true2Fitted =  obtainDictFromTrueToFittedUsingLabel(Y, fittedY)
 ## dump true2Fitted using full folder path, whose folder name saves the value of the cmd argument
-fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep)
 true2FittedPath = os.path.join(fullOutputPath, 'true2Fitted.json')
 # write to a file
 pickle.dump(true2Fitted, open(true2FittedPath, 'wb'))
