@@ -48,7 +48,7 @@ parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', de
                     help='root path to VaDE')
 parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
-parser.add_argument('-logfile', action='store_true', help='if logfile exists, save the log file to txt')
+parser.add_argument('-logFile', action='store_true', dest='logFile', help='if logfile exists, save the log file to txt')
 ## add argument for the maximum number of clusters in DP
 parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=50, help='the maximum number of clusters in DPMM')
 ## parse data set option as an argument

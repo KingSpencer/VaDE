@@ -28,6 +28,7 @@ parser.add_argument('-scale', action='store', type = float, dest='scale', defaul
 parser.add_argument('-sf', action='store', type = float, dest='sf', default=0.1, help='the prior diagonal covariance matrix for Normal mixture in DP')
 parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', default=5.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-gamma1', action='store', type= float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
+parser.add_argument('-logFile', action='store_true', dest='logFile', help='if logfile exists, save the log file to txt')
 
 
 results = parser.parse_args()
