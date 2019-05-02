@@ -84,12 +84,6 @@ gamma0 = results.gamma0
 gamma1 = results.gamma1
 
 from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
-
-
-rep = None
-
-
-    
     
 ## Rep is useful when running the same experiment multiple times to obtain a standard error
 
