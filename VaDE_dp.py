@@ -96,7 +96,8 @@ if results.conv:
 fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep)
 ## name log file and write console output to log.txt
 logFileName = os. path.join(fullOutputPath, 'log.txt')
-sys.stdout = open(logFileName, 'w')
+if results.logFile:
+    sys.stdout = open(logFileName, 'w')
 
 #############################################    
 import DP as DP
