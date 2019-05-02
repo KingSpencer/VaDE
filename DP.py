@@ -30,6 +30,8 @@ parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', defa
 parser.add_argument('-gamma1', action='store', type= float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-logFile', action='store_true', dest='logFile', help='if logfile exists, save the log file to txt')
 parser.add_argument('-useLocal', action='store_true', dest='useLocal', help='if use Local, rep environment variable will not be used')
+parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
+ 
 
 results = parser.parse_args()
 if results.useLocal:
