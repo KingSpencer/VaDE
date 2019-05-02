@@ -55,7 +55,7 @@ if __name__ == '__main__':
     # convert integers to dummy variables (i.e. one hot encoded)
     dummy_y = np_utils.to_categorical(encoded_Y)
     ae = get_ae_supervised()
-    ae.fit(X, [X, dummy_y], epochs=50, batch_size=batch_size)
+    ae.fit(X, [X, dummy_y], epochs=80, batch_size=batch_size)
     model_json = ae.to_json()
     output_path = '../pretrain_weights'
     with open(os.path.join(output_path, "ae_reuters10k_supervised.json"), "w") as json_file:

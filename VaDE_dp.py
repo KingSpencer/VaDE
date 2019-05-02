@@ -505,17 +505,17 @@ for epoch in range(num_of_epoch):
         if epoch ==0 and iteration == 0:
             newinitname = 'randexamples'
             if dataset == 'reuters10k':
-                DPObj = DP.DP(initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
+                DPObj = DP.DP(outputPath = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
             else:
-                DPObj = DP.DP(initname = newinitname, gamma1=gamma1, gamma0=gamma0)
+                DPObj = DP.DP(outputPath = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0)
             DPParam, newinitname = DPObj.fit(z_batch)
         else:
             # if iteration == (num_of_iteration-1) and epoch !=0:
             if epoch != 0:
                 if dataset == 'reuters10k':
-                    DPObj = DP.DP(initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
+                    DPObj = DP.DP(outputPath = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
                 else:    
-                    DPObj = DP.DP(initname = newinitname, gamma1=gamma1, gamma0=gamma0)
+                    DPObj = DP.DP(outputPath = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0)
                 DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
         # if iteration == (num_of_iteration-1):
