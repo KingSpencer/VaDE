@@ -24,7 +24,6 @@ from keras.models import model_from_json
 import tensorflow as tf
 from sklearn.externals import joblib ## replacement of pickle to carry large numpy arrays
 import pickle
-from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
 
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
@@ -55,6 +54,16 @@ parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', defa
 parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
 
 results = parser.parse_args()
+if results.useLocal:
+    parser.add_argument('-rep', action='store', type=int, default=1, help='add replication number as argument')
+    results = parser.parse_args()
+    rep = results.rep
+else:
+    rep = os.environ["rep"]
+    rep = int(float(rep))
+    
+
+results = parser.parse_args()
 bnpyPath = results.bnpyPath
 sys.path.append(bnpyPath)
 outputPath = results.outputPath
@@ -76,15 +85,12 @@ sf = results.sf
 gamma0 = results.gamma0
 gamma1 = results.gamma1
 
+from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
+
+
 rep = None
 
-if results.useLocal:
-    parser.add_argument('rep', action='store', type=int, dest='rep', default=1, help='add replication number as argument')
-    rep = results.rep
-else:
-    rep = os.environ["rep"]
-    rep = int(float(rep))
-    
+
     
     
 ## Rep is useful when running the same experiment multiple times to obtain a standard error
@@ -509,17 +515,17 @@ for epoch in range(num_of_epoch):
         if epoch ==0 and iteration == 0:
             newinitname = 'randexamples'
             if dataset == 'reuters10k':
-                DPObj = DP.DP(outputPath = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
+                DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
             else:
-                DPObj = DP.DP(outputPath = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0)
+                DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0)
             DPParam, newinitname = DPObj.fit(z_batch)
         else:
             # if iteration == (num_of_iteration-1) and epoch !=0:
             if epoch != 0:
                 if dataset == 'reuters10k':
-                    DPObj = DP.DP(outputPath = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
+                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax)
                 else:    
-                    DPObj = DP.DP(outputPath = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0)
+                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0)
                 DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
         # if iteration == (num_of_iteration-1):
