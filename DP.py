@@ -34,12 +34,12 @@ parser.add_argument('-useLocal', action='store_true', dest='useLocal', help='if 
 results = parser.parse_args()
 if results.useLocal:
     parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
-    results = parser.parse_args()
-    rep = results.rep
+    newresults = parser.parse_args()
+    rep = newresults.rep
 else:
     rep = os.environ["rep"]
     rep = int(float(rep))
-
+ß
 bnpyPath = results.bnpyPath
 outputPath = results.outputPath
 rootPath = results.rootPath
