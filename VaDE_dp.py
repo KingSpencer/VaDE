@@ -29,15 +29,6 @@ from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
-rep = None
-# rep = os.environ["rep"]
-# rep = int(float(rep))
-if rep == None:
-    rep = 1
-
-
-
-
 argv = sys.argv[1:]
 parser = argparse.ArgumentParser()
 parser.add_argument('-bnpyPath', action='store', type = str, dest='bnpyPath', default='/Users/crystal/Documents/bnpy/', \
@@ -49,10 +40,11 @@ parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', de
 parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
 parser.add_argument('-logFile', action='store_true', dest='logFile', help='if logfile exists, save the log file to txt')
+parser.add_argument('-useLocal', action='store_true', dest='useLocal', help='if use Local, rep environment variable will not be used')
 ## add argument for the maximum number of clusters in DP
 parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=50, help='the maximum number of clusters in DPMM')
 ## parse data set option as an argument
-parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
+parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'reuters10k', help='the options can be mnist,reuters10k and har')
 parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
 parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
 parser.add_argument('-scale', action='store', type = float, dest='scale', default = 1.0, help='the scale parameter in the loss function')
@@ -84,7 +76,17 @@ sf = results.sf
 gamma0 = results.gamma0
 gamma1 = results.gamma1
 
+rep = None
 
+if results.useLocal:
+    parser.add_argument('rep', action='store', type=int, dest='rep', default=1, help='add replication number as argument')
+    rep = results.rep
+else:
+    rep = os.environ["rep"]
+    rep = int(float(rep))
+    
+    
+    
 ## Rep is useful when running the same experiment multiple times to obtain a standard error
 
 flatten = True
