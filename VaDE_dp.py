@@ -55,7 +55,7 @@ parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', defa
 
 results = parser.parse_args()
 if results.useLocal:
-    parser.add_argument('-rep', action='store', type=int, default=1, help='add replication number as argument')
+    parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
     results = parser.parse_args()
     rep = results.rep
 else:
@@ -63,7 +63,6 @@ else:
     rep = int(float(rep))
     
 
-results = parser.parse_args()
 bnpyPath = results.bnpyPath
 sys.path.append(bnpyPath)
 outputPath = results.outputPath
