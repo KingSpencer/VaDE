@@ -584,6 +584,11 @@ pickle.dump(true2Fitted, open(true2FittedPath, 'wb'))
 
 #%%
 ################################################
+clusterResult =  clusterEvaluation(Y, fittedY)
+print("The cluster evaluation result is \n")
+for key,val in clusterResult.items():
+    print(key,"=>", val)
+    
 ## obtain cluster accuracy
 accResult = clusterAccuracy(Y, fittedY)
 ## this is the overall accuracy
