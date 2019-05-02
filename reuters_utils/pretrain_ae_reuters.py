@@ -44,19 +44,20 @@ if __name__ == '__main__':
     batch_size = 128
     ## load X and Y from Reuters10k 
     path = '../dataset/reuters10k'
-    # path = '/Users/crystal/Documents/VaDE/dataset/reuters10k'
+    path = '/Users/crystal/Documents/VaDE/dataset/reuters10k'
     data=scio.loadmat(os.path.join(path,'reuters10k.mat'))
     X = data['X']
     Y = data['Y'].squeeze()
     ## change Y to one hot encoding
-    encoder = LabelEncoder()
-    encoder.fit(Y)
-    encoded_Y = encoder.transform(Y)
+    #encoder = LabelEncoder()
+    #encoder.fit(Y)
+    #encoded_Y = encoder.transform(Y)
     # convert integers to dummy variables (i.e. one hot encoded)
-    dummy_y = np_utils.to_categorical(encoded_Y)
+    dummy_y = np_utils.to_categorical(Y)
     ae = get_ae_supervised()
-    ae.fit(X, [X, dummy_y], epochs=80, batch_size=batch_size)
+    ae.fit(X, [X, dummy_y], epochs=2, batch_size=batch_size)
     model_json = ae.to_json()
+    # output_path = '/Users/crystal/Documents/VaDE/pretrain_weights'
     output_path = '../pretrain_weights'
     with open(os.path.join(output_path, "ae_reuters10k_supervised.json"), "w") as json_file:
         json_file.write(model_json)
