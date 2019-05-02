@@ -52,17 +52,16 @@ parser.add_argument('-batchsize', action='store', type = int, dest='batchsize', 
 parser.add_argument('-sf', action='store', type = float, dest='sf', default=0.1, help='the prior diagonal covariance matrix for Normal mixture in DP')
 parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', default=5.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
+parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
+  
 
 results = parser.parse_args()
 if results.useLocal:
-    parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
-    newresults = parser.parse_args()
-    rep = newresults.rep
+    rep = results.rep
 else:
     rep = os.environ["rep"]
     rep = int(float(rep))
     
-
 bnpyPath = results.bnpyPath
 sys.path.append(bnpyPath)
 outputPath = results.outputPath
