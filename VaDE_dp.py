@@ -369,7 +369,7 @@ def cnn_loss(x, x_decoded_mean):
         else:
             e += 0.5*N[k]*(v[k]*(temp + temp3))
 
-    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) - 0.005 * K.sum((z_log_var+1), axis = -1)
+    loss_= alpha*original_dim * objectives.mean_squared_error(K.flatten(x), K.flatten(x_decoded_mean)) - scale * K.sum((z_log_var+1), axis = -1)
     loss_ =  K.sum(loss_, axis=0) + e
     # loss = K.sum(loss_, axis = 0)
     #for i in range(5):
