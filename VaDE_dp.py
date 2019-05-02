@@ -52,8 +52,8 @@ parser.add_argument('-conv', action='store_true', \
 parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=50, help='the maximum number of clusters in DPMM')
 ## parse data set option as an argument
 parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
-parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 1, help='The number of epochs')
-parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 1, help='The number of updates in SGVB')
+parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
+parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
 parser.add_argument('-scale', action='store', type = float, dest='scale', default = 1.0, help='the scale parameter in the loss function')
 parser.add_argument('-batchsize', action='store', type = int, dest='batchsize', default = 5000, help='the default batch size when training neural network')
 
@@ -203,6 +203,8 @@ def penalized_loss(noise):
 def load_pretrain_weights(vade, root_path, dataset):
     if dataset == 'stl10':
         dataset += '_supervised'
+    if dataset == 'reuters10k':
+        dataset += '_supervised'
     path = os.path.join(root_path, 'pretrain_weights')
     filename = 'ae_' + dataset + '.json'
     fullFileName = os.path.join(path, filename)
@@ -213,7 +215,7 @@ def load_pretrain_weights(vade, root_path, dataset):
     ae.load_weights(weightFullFileName)
     
 
-    if 'stl10' not in dataset:
+    if 'stl10' not in dataset and 'reuters10k' not in dataset:
     #ae.load_weights('pretrain_weights/ae_'+dataset+'_weights.h5')
         vade.layers[1].set_weights(ae.layers[0].get_weights())
         vade.layers[2].set_weights(ae.layers[1].get_weights())
