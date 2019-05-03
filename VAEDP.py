@@ -97,7 +97,7 @@ from bnpy.data.XData import XData
 import pickle
 # path for latent z
 pathOfZ = os.path.join(root_path, 'latent_mnist.pkl')
-aa = pickle.load(open(pathOfZ), 'rb')
+aa = pickle.load(open(pathOfZ, 'rb'))
 ######################################################################
 ## make full output path 
 fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep, sf)
