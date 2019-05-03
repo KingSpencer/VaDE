@@ -15,8 +15,6 @@ import os
 import sys
 import argparse
 
-
-#import theano.tensor as T
 import math
 from sklearn import mixture
 from sklearn.cluster import KMeans
@@ -93,7 +91,7 @@ if results.conv:
     
 
 ## specify full output path
-fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep)
+fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep, sf)
 ## name log file and write console output to log.txt
 logFileName = os. path.join(fullOutputPath, 'log.txt')
 if results.logFile:
