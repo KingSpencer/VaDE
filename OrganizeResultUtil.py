@@ -23,7 +23,7 @@ def createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, 
         batchsize = str(batchsize)
     if not isinstance(rep, str):
         rep = str(rep)
-    if not isinstance(rep, str):
+    if not isinstance(sf, str):
         sf = str(sf)
     
     folderName = 'Kmax' + Kmax + dataset + 'epoch' + epoch + 'batch_iter' + batch_iter + 'scale' + scale + 'bs' + batchsize + 'rep'+ rep + 'sf'+sf    
