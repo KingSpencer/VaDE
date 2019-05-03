@@ -31,6 +31,7 @@ parser.add_argument('-gamma1', action='store', type= float, dest='gamma1', defau
 parser.add_argument('-logFile', action='store_true', dest='logFile', help='if logfile exists, save the log file to txt')
 parser.add_argument('-useLocal', action='store_true', dest='useLocal', help='if use Local, rep environment variable will not be used')
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
+parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
  
 
 results = parser.parse_args()

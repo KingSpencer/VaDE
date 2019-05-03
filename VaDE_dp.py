@@ -59,6 +59,7 @@ parser.add_argument('-sf', action='store', type = float, dest='sf', default=0.1,
 parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', default=5.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
+parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
   
 
 results = parser.parse_args()
