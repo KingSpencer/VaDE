@@ -23,6 +23,14 @@ import tensorflow as tf
 from sklearn.externals import joblib ## replacement of pickle to carry large numpy arrays
 import pickle
 
+# This is for not eating up the whole RAM
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+config = tf.ConfigProto()
+config.gpu_options.allow_growth=True
+#config.gpu_options.per_process_gpu_memory_fraction = 0.3
+set_session(tf.Session(config=config))
+
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
