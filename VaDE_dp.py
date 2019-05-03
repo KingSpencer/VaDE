@@ -4,7 +4,7 @@ from keras.callbacks import Callback
 from keras.optimizers import Adam
 from keras.optimizers import Nadam
 from keras.layers import Input, Dense, Lambda, Conv2D, Reshape, UpSampling2D, MaxPooling2D, Flatten
-from keras.models import Model, load_model
+from keras.models import Model, load_model, model_from_json
 from keras import backend as K
 
 from keras import objectives
@@ -253,8 +253,17 @@ def load_pretrain_cnn_encoder(encoder, root_path, model='cnn_classifier.05-0.02.
     # layer cnn: 1, 3, 5, dense:8
     pre_encoder = load_model(path)
     for lid in [1, 3, 5, 8]:
-        encoder.layers[lid].set_weights(pre_encoder.layers[lid].get_weights()) 
+        encoder.layers[lid].set_weights(pre_encoder.layers[lid].get_weights())     
     return encoder
+
+def load_pretrain_cnn_vae(vade, root_path, model='vae_cnn_mnist_semi_supervised'):
+    pre_vae = model_from_json(os.path.join(root_path, 'conv_vae_pre_weights', model+'.json'))
+    pre_vae.load_weights(os.path.join(root_path, 'conv_vae_pre_weights', model+'.weights'))
+    for lid in [1, 3, 5, 8]:
+        vade.layers[lid].set_weights(pre_vae.layers[lid].get_weights()) 
+    for lid in [-1, -3, -5, -7, -9]:
+        vade.layers[lid].set_weights(pre_vae.layers[lid-1].get_weights())
+    return vade
 '''def elbo_nn(DPParam):
     #gamma = DPParam['LPMtx']
     #N = DPParam['Nvec']
@@ -440,8 +449,8 @@ else: # use CNN
     z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
     # build decoder model
     # for generative model
-    latent_inputs = Input(shape=(latent_dim,), name='z_sampling')
-    x = Dense(shape[1] * shape[2] * shape[3], activation='relu')(latent_inputs)
+    # latent_inputs = Input(shape=(latent_dim,), name='z_sampling')
+    x = Dense(shape[1] * shape[2] * shape[3], activation='relu')(z)
     x = Reshape((shape[1], shape[2], shape[3]))(x)
 
     x = Conv2D(128, (3, 3), activation='relu', padding='same')(x)
@@ -454,17 +463,20 @@ else: # use CNN
 
     # constructing several models
     sample_output = Model(input_img, z, name='encoder')
-    decoder = Model(latent_inputs, decoded, name='decoder')
+    #decoder = Model(latent_inputs, decoded, name='decoder')
 
-    decoded_for_vade = decoder(sample_output(input_img))
-    vade = Model(input_img, decoded_for_vade, name='vade')
+    #decoded_for_vade = decoder(sample_output(input_img))
+    vade = Model(input_img, decoded, name='vade')
 
     vade.summary()
     sample_output.summary()
-    decoder.summary()
+    #decoder.summary()
 
     if ispretrain == True:
-        sample_output = load_pretrain_cnn_encoder(sample_output, root_path)
+        #sample_output = load_pretrain_cnn_encoder(sample_output, root_path)
+        # TODO:
+        print("*********Loading Pretrained Weights for MNIST-CNN********")
+        vade = load_pretrain_cnn_vae(vade, root_path)
 
 
 
