@@ -131,6 +131,7 @@ class AE_model:
 
         #vade.add_loss(reconstruction_loss)
         self.vade = vade
+        vade.summary()
         # self.vade.compile(optimizer='adadelta', loss='binary_crossentropy')
         #self.encoder = encoder
         #self.decoder = decoder
@@ -146,7 +147,7 @@ class AE_model:
         self.vade.fit(self.x_train, [self.x_train, self.y_train],
                 epochs=epochs,
                 batch_size=batch_size,
-                validation_data=(self.x_test, [self.y_test, self.y_test]),
+                validation_data=(self.x_test, [self.x_test, self.y_test]),
                 shuffle=True)
          #       callbacks=[ckpt])
         # self.vade.save('./conv_vae_pre_weights/vae_cnn_mnist.model')
