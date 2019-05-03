@@ -57,10 +57,10 @@ class AE_model:
         y_test = np.eye(10)[y_test]
         y_train = np.eye(10)[y_train]
 
-        self.x_train = x_test
-        self.x_test = x_train
-        self.y_train = y_test
-        self.y_test = y_train
+        #self.x_train = x_test
+        #self.x_test = x_train
+        #self.y_train = y_test
+        #self.y_test = y_train
 
     '''def _sampling(self, args):
             latent_dim = self.latent_dim
