@@ -2,7 +2,7 @@
 import numpy as np
 from keras.callbacks import Callback, ModelCheckpoint
 from keras.optimizers import Adam
-from keras.layers import Input, Dense, Lambda, Conv2D, Reshape, UpSampling2D, MaxPooling2D, Flatten
+from keras.layers import Input, Dense, Lambda, Conv2D, Reshape, UpSampling2D, MaxPooling2D, Flatten, Activation
 from keras.models import Model, load_model
 from keras import backend as K
 from keras.losses import mse
@@ -37,32 +37,30 @@ class AE_model:
         dataset = 'mnist'
         path = os.path.join(os.path.join(root_path, 'dataset'), dataset)
         # path = 'dataset/'+dataset+'/'
-        if dataset == 'mnist':
-            path = os.path.join(path, 'mnist.pkl.gz')
-            if path.endswith(".gz"):
-                f = gzip.open(path, 'rb')
-            else:
-                f = open(path, 'rb')
-        
-            if sys.version_info < (3,):
-                (x_train, y_train), (x_test, y_test) = cPickle.load(f)
-            else:
-                (x_train, y_train), (x_test, y_test) = cPickle.load(f, encoding="bytes")
-        
-            f.close()
-            x_train = x_train.astype('float32') / 255.
-            x_test = x_test.astype('float32') / 255.
-            if flatten:
-                x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-                x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
-            X = np.concatenate((x_train,x_test))
-            if not flatten:
-                X = np.expand_dims(X, axis=-1)
-            Y = np.concatenate((y_train,y_test))
+        path = os.path.join(path, 'mnist.pkl.gz')
+        if path.endswith(".gz"):
+            f = gzip.open(path, 'rb')
+        else:
+            f = open(path, 'rb')
+    
+        if sys.version_info < (3,):
+            (x_train, y_train), (x_test, y_test) = cPickle.load(f)
+        else:
+            (x_train, y_train), (x_test, y_test) = cPickle.load(f, encoding="bytes")
+    
+        f.close()
+        x_train = x_train.astype('float32') / 255.
+        x_test = x_test.astype('float32') / 255.
+        x_train = np.expand_dims(x_train, axis=-1)
+        x_test = np.expand_dims(x_test, axis=-1)            
+        y_test = np.eye(10)[y_test]
+        y_train = np.eye(10)[y_train]
 
-        self.X_data = X
-        self.Y_data = Y
+        self.x_train = x_test
+        self.x_test = x_train
+        self.y_train = y_test
+        self.y_test = y_train
 
     '''def _sampling(self, args):
             latent_dim = self.latent_dim
@@ -98,7 +96,7 @@ class AE_model:
         x = MaxPooling2D((2, 2), padding='same')(x)
         x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
         x = MaxPooling2D((2, 2), padding='same')(x)
-        x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
+        x = Conv2D(128, (3, 3), activation='relu', padding='same')(x)
         x = MaxPooling2D((2, 2), padding='same')(x)
         # at this point the representation is (4, 4, 8) i.e. 128-dimensional
         # channel merge
@@ -107,51 +105,52 @@ class AE_model:
         shape = K.int_shape(x)
         x = Flatten()(x)
         z_mean = Dense(latent_dim, name='z_mean')(x)
-        z_log_var = Dense(latent_dim, name='z_log_var')(x)
-        z = Lambda(self._sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
+        y_pred = Activation('softmax', name='pred_out')(z_mean)
+        #z_log_var = Dense(latent_dim, name='z_log_var')(x)
+        #z = Lambda(self._sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
         # build decoder model
         # for generative model
-        latent_inputs = Input(shape=(latent_dim,), name='z_sampling')
-        x = Dense(shape[1] * shape[2] * shape[3], activation='relu')(latent_inputs)
+        x = Dense(shape[1] * shape[2] * shape[3], activation='relu')(z_mean)
         x = Reshape((shape[1], shape[2], shape[3]))(x)
 
-        x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
+        x = Conv2D(128, (3, 3), activation='relu', padding='same')(x)
         x = UpSampling2D((2, 2))(x)
         x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
         x = UpSampling2D((2, 2))(x)
         x = Conv2D(32, (3, 3), activation='relu')(x)
         x = UpSampling2D((2, 2))(x)
-        decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+        decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same', name='decoded')(x)
 
         # constructing several models
-        encoder = Model(input_img, z, name='encoder')
-        decoder = Model(latent_inputs, decoded, name='decoder')
-        decoded_for_vade = decoder(encoder(input_img))
-        vade = Model(input_img, decoded_for_vade, name='vade')
+        #encoder = Model(input_img, z_mean, name='encoder')
+        #decoder = Model(latent_inputs, decoded, name='decoder')
+        #decoded_for_vade = decoder(encoder(input_img))
+        vade = Model(input_img, [decoded, y_pred], name='vade')
 
         #reconstruction_loss = mse(K.flatten(input_img), K.flatten(decoded_for_vade))
 
         #vade.add_loss(reconstruction_loss)
         self.vade = vade
         # self.vade.compile(optimizer='adadelta', loss='binary_crossentropy')
-        self.encoder = encoder
-        self.decoder = decoder
+        #self.encoder = encoder
+        #self.decoder = decoder
 
 
 
     def train(self, epochs=5, save_path="./conv_vae_pre_weights"):
-        self.vade.compile(optimizer='adadelta', loss='binary_crossentropy')
+        self.vade.compile(optimizer='adadelta', loss=['mse', 'categorical_crossentropy'], loss_weights=[1.0, 1.0], metrics={'decoded':'mae', 'pred_out':'acc'})
         batch_size = self.batch_size
         if not os.path.exists(save_path):
             os.mkdir(save_path)
         #ckpt = ModelCheckpoint(save_path, monitor='loss', verbose=0, save_best_only=True, save_weights_only=True, mode='auto', period=1)
-        self.vade.fit(self.X_data, self.X_data,
+        self.vade.fit(self.x_train, [self.x_train, self.y_train],
                 epochs=epochs,
                 batch_size=batch_size,
-                validation_data=(self.X_data, self.X_data),
+                validation_data=(self.x_test, [self.y_test, self.y_test]),
                 shuffle=True)
          #       callbacks=[ckpt])
         # self.vade.save('./conv_vae_pre_weights/vae_cnn_mnist.model')
+        exit(0)
         self.vade.save_weights('./conv_vae_pre_weights/vae_cnn_mnist.weights')
         self.trained = True
 
@@ -169,4 +168,4 @@ if __name__ == "__main__":
     conv_AE.load_data()
     conv_AE.construct_model()
     conv_AE.train()
-    conv_AE.test_sample()
+    #conv_AE.test_sample()
