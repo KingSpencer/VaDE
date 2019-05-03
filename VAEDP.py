@@ -59,7 +59,7 @@ parser.add_argument('-sf', action='store', type = float, dest='sf', default=0.1,
 parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', default=5.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
-  
+parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
 
 results = parser.parse_args()
 if results.useLocal:
@@ -88,6 +88,12 @@ batchsize = results.batchsize
 sf = results.sf
 gamma0 = results.gamma0
 gamma1 = results.gamma1
+nLap = results.nLap
+
+flatten = True
+if results.conv:
+    flatten = False
+
 from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
 import DP as DP
 from bnpy.util.AnalyzeDP import * 
@@ -110,7 +116,7 @@ if results.logFile:
 MNIST_df = XData(aa['z'],dtype='auto')
 ##########################################################
 ## create a DP object and get DPParam
-DPObj = DP.DP(output_path = fullOutputPath, initname = 'randexamples', gamma1=gamma1, gamma0=gamma0, Kmax = Kmax, sf=sf)
+DPObj = DP.DP(output_path = fullOutputPath, initname = 'randexamples', gamma1=gamma1, gamma0=gamma0, Kmax = Kmax, sf=sf, nLap = nLap)
 DPParam, newinitname = DPObj.fit(aa['z'])
 ## after training model, get DPParam
 #########################################################
@@ -121,6 +127,71 @@ z_fit = aa['z']
 fittedY = obtainFittedYFromDP(DPParam, z_fit)
 ####################################
 ## Obtain the relationship between fittec class lable and true label, stored in a dictionary
+## get true label Y
+def load_data(dataset, root_path, flatten=True, numbers=range(10)):
+    path = os.path.join(os.path.join(root_path, 'dataset'), dataset)
+    # path = 'dataset/'+dataset+'/'
+    if dataset == 'mnist':
+        path = os.path.join(path, 'mnist.pkl.gz')
+        if path.endswith(".gz"):
+            f = gzip.open(path, 'rb')
+        else:
+            f = open(path, 'rb')
+    
+        if sys.version_info < (3,):
+            (x_train, y_train), (x_test, y_test) = cPickle.load(f)
+        else:
+            (x_train, y_train), (x_test, y_test) = cPickle.load(f, encoding="bytes")
+        
+
+
+        f.close()
+        x_train = x_train.astype('float32') / 255.
+        x_test = x_test.astype('float32') / 255.
+        if flatten:
+            x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+            x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+
+        X = np.concatenate((x_train,x_test))
+        if not flatten:
+            X = np.expand_dims(X, axis=-1)
+        Y = np.concatenate((y_train,y_test))
+
+        if len(numbers) == 10:
+            pass
+        else:
+            indices = []
+            for number in numbers:
+                indices += list(np.where(Y == number)[0])
+            #indices = np.vstack(indices)
+            X = X[indices]
+            Y = Y[indices]
+        
+    if dataset == 'reuters10k':
+        data=scio.loadmat(os.path.join(path,'reuters10k.mat'))
+        X = data['X']
+        Y = data['Y'].squeeze()
+        
+    if dataset == 'har':
+        data=scio.loadmat(path+'HAR.mat')
+        X=data['X']
+        X=X.astype('float32')
+        Y=data['Y']-1
+        X=X[:10200]
+        Y=Y[:10200]
+
+    if dataset == 'stl10':
+        with open('./dataset/stl10/X.pkl', 'rb') as f:
+            X = pickle.load(f)
+        with open('./dataset/stl10/Y.pkl', 'rb') as f:
+            Y = pickle.load(f)
+            # here Y is one-hot, turn it back
+            Y = np.argmax(Y, axis=1)
+
+    return X,Y
+
+X, Y = load_data(dataset, root_path, flatten)
+#########################################################
 true2Fitted =  obtainDictFromTrueToFittedUsingLabel(Y, fittedY)
 ## dump true2Fitted using full folder path, whose folder name saves the value of the cmd argument
 true2FittedPath = os.path.join(fullOutputPath, 'true2Fitted.json')
