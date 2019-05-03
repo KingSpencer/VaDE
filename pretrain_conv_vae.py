@@ -33,7 +33,7 @@ class AE_model:
         self.trained = False
         self.batch_size = batch_size
 
-    def load_data(self, root_path="/home/zifeng/Research/VaDE", flatten=False):
+    def load_data(self, root_path=".", flatten=False):
         dataset = 'mnist'
         path = os.path.join(os.path.join(root_path, 'dataset'), dataset)
         # path = 'dataset/'+dataset+'/'
