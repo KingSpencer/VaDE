@@ -151,13 +151,17 @@ class AE_model:
                 shuffle=True)
          #       callbacks=[ckpt])
         # self.vade.save('./conv_vae_pre_weights/vae_cnn_mnist.model')
-        exit(0)
-        self.vade.save_weights('./conv_vae_pre_weights/vae_cnn_mnist.weights')
+        self.vade.save_weights('./conv_vae_pre_weights/vae_cnn_mnist_semi_supervised.weights')
+        model_json = self.vade.to_json()
+        # output_path = '/Users/crystal/Documents/VaDE/pretrain_weights'
+        output_path = './conv_vae_pre_weights/'
+        with open(os.path.join(output_path, "vae_cnn_mnist_semi_supervised.json"), "w") as json_file:
+            json_file.write(model_json)
         self.trained = True
 
     def test_sample(self, save_path = "./sample.pkl"):
         if not self.trained:
-            self.vade.load_weights('./conv_vae_pre_weights/vae_cnn_mnist.weights')
+            self.vade.load_weights('./conv_vae_pre_weights/vae_cnn_mnist_semi_supervised.weights')
         sample = self.vade.predict(self.X_data[0:2])
         with open(save_path, 'wb') as f:
             pickle.dump(sample, f)
