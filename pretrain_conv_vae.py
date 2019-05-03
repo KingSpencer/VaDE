@@ -61,6 +61,10 @@ class AE_model:
         #self.x_test = x_train
         #self.y_train = y_test
         #self.y_test = y_train
+        self.x_train = x_train
+        self.y_train = y_train
+        self.x_test = x_test
+        self.y_test = y_test
 
     '''def _sampling(self, args):
             latent_dim = self.latent_dim
