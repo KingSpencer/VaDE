@@ -57,14 +57,14 @@ class AE_model:
         y_test = np.eye(10)[y_test]
         y_train = np.eye(10)[y_train]
 
-        #self.x_train = x_test
-        #self.x_test = x_train
-        #self.y_train = y_test
-        #self.y_test = y_train
-        self.x_train = x_train
-        self.y_train = y_train
-        self.x_test = x_test
-        self.y_test = y_test
+        self.x_train = x_test
+        self.x_test = x_train
+        self.y_train = y_test
+        self.y_test = y_train
+        #self.x_train = x_train
+        #self.y_train = y_train
+        #self.x_test = x_test
+        #self.y_test = y_test
 
     '''def _sampling(self, args):
             latent_dim = self.latent_dim
@@ -176,5 +176,5 @@ if __name__ == "__main__":
     conv_AE = AE_model(10)
     conv_AE.load_data()
     conv_AE.construct_model()
-    conv_AE.train()
+    conv_AE.train(epochs = 10)
     #conv_AE.test_sample()
