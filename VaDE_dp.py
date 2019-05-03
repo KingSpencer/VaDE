@@ -257,7 +257,8 @@ def load_pretrain_cnn_encoder(encoder, root_path, model='cnn_classifier.05-0.02.
     return encoder
 
 def load_pretrain_cnn_vae(vade, root_path, model='vae_cnn_mnist_semi_supervised'):
-    pre_vae = model_from_json(os.path.join(root_path, 'conv_vae_pre_weights', model+'.json'))
+    with open(os.path.join(root_path, 'conv_vae_pre_weights', model+'.json')) as f:
+        pre_vae = model_from_json(f.read())
     pre_vae.load_weights(os.path.join(root_path, 'conv_vae_pre_weights', model+'.weights'))
     for lid in [1, 3, 5, 8]:
         vade.layers[lid].set_weights(pre_vae.layers[lid].get_weights()) 
