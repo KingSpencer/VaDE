@@ -57,10 +57,28 @@ class AE_model:
         y_test = np.eye(10)[y_test]
         y_train = np.eye(10)[y_train]
 
-        self.x_train = x_test
-        self.x_test = x_train
-        self.y_train = y_test
-        self.y_test = y_train
+        #self.x_train = x_test
+        #self.x_test = x_train
+        #self.y_train = y_test
+        #self.y_test = y_train
+        
+        ###########################################
+        ## get more 4 and 9,  5, 3 and 8
+        X = np.concatenate((x_train,x_test))
+        Y = np.concatenate((y_train,y_test))
+        ## sample 30% of the whole data as training
+        ## the rest as validation
+        total_obs = len(Y)
+        prop = 0.3
+        nTrain = np.round(total_obs * prop)
+        train_ind = np.random.choice(total_obs, int(nTrain), replace=False)
+        test_ind = np.setdiff1d(np.arange(0, total_obs, 1), train_ind)
+        
+        self.x_train = X[train_ind, :, :, :]
+        self.y_train = Y[train_ind, :]
+        self.x_test = X[test_ind, :, :, :]
+        self.y_test = Y[test_ind, :]
+        
         #self.x_train = x_train
         #self.y_train = y_train
         #self.x_test = x_test
