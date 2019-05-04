@@ -176,5 +176,5 @@ if __name__ == "__main__":
     conv_AE = AE_model(10)
     conv_AE.load_data()
     conv_AE.construct_model()
-    conv_AE.train(epochs = 10)
+    conv_AE.train(epochs = 5)
     #conv_AE.test_sample()
