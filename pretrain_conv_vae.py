@@ -24,6 +24,13 @@ from keras.models import model_from_json
 import tensorflow as tf
 
 import pickle
+import argparse
+argv = sys.argv[1:]
+parser = argparse.ArgumentParser()
+parser.add_argument('-prop', action='store', type = float, dest='prop', default=0.4, help='proportion of whole data for training')
+
+results = parser.parse_args()
+prop = results.prop
 
 
 
@@ -69,7 +76,6 @@ class AE_model:
         ## sample 30% of the whole data as training
         ## the rest as validation
         total_obs = len(Y)
-        prop = 0.3
         nTrain = np.round(total_obs * prop)
         train_ind = np.random.choice(total_obs, int(nTrain), replace=False)
         test_ind = np.setdiff1d(np.arange(0, total_obs, 1), train_ind)
