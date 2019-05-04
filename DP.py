@@ -32,6 +32,7 @@ parser.add_argument('-logFile', action='store_true', dest='logFile', help='if lo
 parser.add_argument('-useLocal', action='store_true', dest='useLocal', help='if use Local, rep environment variable will not be used')
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
 parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
+parser.add_argument('-batchsize', action='store', type = int, dest='batchsize', default = 5000, help='the default batch size when training neural network')
  
 
 results = parser.parse_args()
