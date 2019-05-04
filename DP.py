@@ -33,6 +33,7 @@ parser.add_argument('-useLocal', action='store_true', dest='useLocal', help='if 
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
 parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
 parser.add_argument('-batchsize', action='store', type = int, dest='batchsize', default = 5000, help='the default batch size when training neural network')
+parser.add_argument('-threshold', action='store', type=float, dest='threshold', default = 0.88, help= 'stopping criteria')  
  
 
 results = parser.parse_args()
@@ -51,7 +52,7 @@ sys.path.append(subdir)
 sys.path.append(rootPath)
 Kmax = results.Kmax
 dataset = results.dataset
-
+threshold = results.threshold
 
 import bnpy
 from data.XData import XData

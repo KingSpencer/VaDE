@@ -60,7 +60,7 @@ parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', defa
 parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
 parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
-  
+parser.add_argument('-threshold', action='store', type=float, dest='threshold', default = 0.88, help= 'stopping criteria')  
 
 results = parser.parse_args()
 if results.useLocal:
@@ -89,6 +89,8 @@ batchsize = results.batchsize
 sf = results.sf
 gamma0 = results.gamma0
 gamma1 = results.gamma1
+threshold = results.threshold
+
 
 from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
     
@@ -498,6 +500,8 @@ if not flatten:
 
 gamma1 = 1.0
 gamma0 = 5.0
+stopProgram = False
+
 for epoch in range(num_of_epoch):    
     id_list = np.arange(num_of_exp)
     np.random.shuffle(id_list)
@@ -541,28 +545,37 @@ for epoch in range(num_of_epoch):
                 DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
         # if iteration == (num_of_iteration-1):
-        if not iteration is None:
-            trueY = Y[indices]    
-            fittedY = DPParam['Y']
-            ## get the true number of clusters
-            trueCluster, counts = np.unique(trueY, return_counts = True)
-            trueK = len(trueCluster)
-            print(("The true number of cluster is" + " "+ str(trueK)))
-            print("The proportion of image with true cluster in the batch: \n")
-            print(counts/len(trueY))
-            clusterResult =  clusterEvaluation(trueY, fittedY)
-            print("The cluster evaluation result is \n")
-            for key,val in clusterResult.items():
-                print(key,"=>", val)
-            ## get the true cluster and fitted cluster relationship
-            dictFitted2True = obtainTrueClusterLabel4AllFittedCluster(trueY, fittedY)
-            fittedClusters = dictFitted2True.keys()
-            for key in fittedClusters:
-                prec = dictFitted2True[key]['prec']
-                recall = dictFitted2True[key]['recall']
-                trueC =  dictFitted2True[key]['trueCluster']
-                print("Precision: {}, Recall: {}, fitted: {}, true: {}".format(prec, recall, key, trueC))
-            
+        trueY = Y[indices]    
+        fittedY = DPParam['Y']
+        ## get the true number of clusters
+        trueCluster, counts = np.unique(trueY, return_counts = True)
+        trueK = len(trueCluster)
+        print(("The true number of cluster is" + " "+ str(trueK)))
+        print("The proportion of image with true cluster in the batch: \n")
+        print(counts/len(trueY))
+        clusterResult =  clusterEvaluation(trueY, fittedY)
+        print("The cluster evaluation result is \n")
+        for key,val in clusterResult.items():
+            print(key,"=>", val)
+        ## get the true cluster and fitted cluster relationship
+        dictFitted2True = obtainTrueClusterLabel4AllFittedCluster(trueY, fittedY)
+        fittedClusters = dictFitted2True.keys()
+        for key in fittedClusters:
+            prec = dictFitted2True[key]['prec']
+            recall = dictFitted2True[key]['recall']
+            trueC =  dictFitted2True[key]['trueCluster']
+            print("Precision: {}, Recall: {}, fitted: {}, true: {}".format(prec, recall, key, trueC))
+        
+        z_fit = sample_output.predict(X, batch_size=batch_size)        
+        fittedY = obtainFittedYFromDP(DPParam, z_fit)
+        accResult = clusterAccuracy(Y, fittedY)
+        ## this is the overall accuracy
+        acc = accResult['overallRecall']
+        print("The current ACC is :{}".format(acc))
+        if acc > threshold:
+            stopProgram = True
+            break
+        
         #k = 5
         #DPParam = \
         #{
@@ -578,6 +591,9 @@ for epoch in range(num_of_epoch):
                 vade.compile(optimizer=adam_nn, loss=loss)
             else:
                 vade.compile(optimizer=adam_nn, loss=cnn_loss)
+        
+        if stopProgram:
+            break
         for j in range(batch_iter):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
@@ -615,6 +631,14 @@ accResult = clusterAccuracy(Y, fittedY)
 acc = accResult['overallRecall']
 ## accResult['moreEvaluation'] is the dictionary saves all NMI, ARS, HS, CS, VM
 print("The overall recall across all samples: {}".format(acc))
+dictFitted2True = obtainTrueClusterLabel4AllFittedCluster(Y, fittedY)
+fittedClusters = dictFitted2True.keys()
+for key in fittedClusters:
+    prec = dictFitted2True[key]['prec']
+    recall = dictFitted2True[key]['recall']
+    trueC =  dictFitted2True[key]['trueCluster']
+    print("Precision: {}, Recall: {}, fitted: {}, true: {}".format(prec, recall, key, trueC))
+
 ###############################################
 ## save DP model 
 dp_model_path = os.path.join(fullOutputPath, 'dp_model.pkl')
