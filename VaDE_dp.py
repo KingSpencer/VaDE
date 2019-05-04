@@ -573,7 +573,7 @@ for epoch in range(num_of_epoch):
         ## this is the overall accuracy
         acc = accResult['overallRecall']
         print("The current ACC is :{}".format(acc))
-        if acc > threshold:
+        if acc > threshold and epoch > 0:
             stopProgram = True
             break
         
