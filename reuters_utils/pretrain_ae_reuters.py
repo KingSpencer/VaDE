@@ -16,8 +16,11 @@ import sys
 argv = sys.argv[1:]
 parser = argparse.ArgumentParser()
 parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'reuters10k', help='the options can be mnist,reuters10k and har')
+parser.add_argument('-prop', action='store', type = float, dest='prop', default=0.4, help='proportion of whole data for training')
+
 results = parser.parse_args()
 dataset = results.dataset
+prop = results.prop
 
 
 def get_ae(original_dim=2000, latent_dim=10, intermediate_dim=[500,500,2000]):
@@ -101,7 +104,6 @@ if __name__ == '__main__':
         
     ## choose part of data as training and part of it as validation
     total_obs = len(Y)
-    prop = 0.4
     nTrain = np.round(total_obs * prop)
     train_ind = np.random.choice(total_obs, int(nTrain), replace=False)
     test_ind = np.setdiff1d(np.arange(0, total_obs, 1), train_ind)
