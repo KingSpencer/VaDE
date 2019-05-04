@@ -567,15 +567,15 @@ for epoch in range(num_of_epoch):
             trueC =  dictFitted2True[key]['trueCluster']
             print("Precision: {}, Recall: {}, fitted: {}, true: {}".format(prec, recall, key, trueC))
         
-        # z_fit = sample_output.predict(X, batch_size=batch_size)        
-        # fittedY = obtainFittedYFromDP(DPParam, z_fit)
-        # accResult = clusterAccuracy(Y, fittedY)
-        ## this is the overall accuracy
-        #acc = accResult['overallRecall']
-        #print("The current ACC is :{}".format(acc))
-        #if acc > threshold and epoch > 0:
-        #    stopProgram = True
-        #    break
+        z_fit = sample_output.predict(X, batch_size=batch_size)        
+        fittedY = obtainFittedYFromDP(DPParam, z_fit)
+        accResult = clusterAccuracy(Y, fittedY)
+        # this is the overall accuracy
+        acc = accResult['overallRecall']
+        print("The current ACC is :{}".format(acc))
+        if acc > threshold and epoch > 0:
+            stopProgram = True
+            break
         
         #k = 5
         #DPParam = \
