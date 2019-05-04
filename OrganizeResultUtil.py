@@ -7,7 +7,7 @@ Created on Tue Apr 30 21:49:55 2019
 """
 import os
 
-def createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, sf=0.1, rep=1):
+def createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize,rep=1, sf=0.1):
     
     if not isinstance(Kmax, str):
         Kmax = str(Kmax)
