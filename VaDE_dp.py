@@ -61,6 +61,7 @@ parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', defa
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
 parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
 parser.add_argument('-threshold', action='store', type=float, dest='threshold', default = 0.88, help= 'stopping criteria')  
+parser.add_argument('-useNewPretrained', action='store_true', type = str, dest='useNewPretrained', help='Indicator about using new pretrained weights')
 
 results = parser.parse_args()
 if results.useLocal:
@@ -91,6 +92,7 @@ gamma0 = results.gamma0
 gamma1 = results.gamma1
 threshold = results.threshold
 nBatch = results.nBatch
+
 
 
 from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
@@ -230,8 +232,9 @@ def load_pretrain_weights(vade, root_path, dataset):
     ae.load_weights(weightFullFileName)
     
 
-    if 'stl10' not in dataset and 'reuters10k' not in dataset:
+    # if 'stl10' not in dataset and 'reuters10k' not in dataset:
     #ae.load_weights('pretrain_weights/ae_'+dataset+'_weights.h5')
+    if results.useNewPretrained:
         vade.layers[1].set_weights(ae.layers[0].get_weights())
         vade.layers[2].set_weights(ae.layers[1].get_weights())
         vade.layers[3].set_weights(ae.layers[2].get_weights())
