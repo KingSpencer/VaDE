@@ -122,8 +122,8 @@ if results.logFile:
 ###########################################################
 ## fit a GMM mixture, replace the DP part
 from sklearn.mixture import GaussianMixture 
-gmm = GaussianMixture(n_components=10)
-gmm.fit(aa['z'],random_state = randomState)
+gmm = GaussianMixture(n_components=10, random_state = RandomState)
+gmm.fit(aa['z'])
 fittedY = gmm.predict(aa['z'])
 Y = aa['y']
 
