@@ -217,6 +217,9 @@ def load_pretrain_weights(vade, root_path, dataset):
         dataset += '_supervised'
     if dataset == 'reuters10k':
         dataset += '_supervised'
+    ## ToDo : if the results in the folder is not good, I should remove this, use the pretrained weights provided by the original author
+    if dataset == 'mnist':
+        dataset += '_supervised'
     path = os.path.join(root_path, 'pretrain_weights')
     filename = 'ae_' + dataset + '.json'
     fullFileName = os.path.join(path, filename)
@@ -575,7 +578,7 @@ for epoch in range(num_of_epoch):
         print("The current ACC is :{}".format(acc))
         if acc > threshold and epoch > 0:
             stopProgram = True
-            break
+            # break
         
         #k = 5
         #DPParam = \
