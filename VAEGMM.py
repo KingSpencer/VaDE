@@ -97,7 +97,7 @@ sf = results.sf
 gamma0 = results.gamma0
 gamma1 = results.gamma1
 from OrganizeResultUtil import createOutputFolderName, createFullOutputFileName
-
+from bnpy.util.AnalyzeDP import * 
 ######################################################################
 import pickle
 # path for latent z
