@@ -67,7 +67,8 @@ parser.add_argument('-sf', action='store', type = float, dest='sf', default=0.1,
 parser.add_argument('-gamma0', action='store', type = float, dest='gamma0', default=5.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', default=1.0, help='hyperparameters for DP in Beta dist')
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
-  
+parser.add_argument('-taskID', action='store', type=int, dest = 'taskID', default=1, help='use taskID to random seed for bnpy') 
+ 
 
 results = parser.parse_args()
 if results.useLocal:
@@ -91,6 +92,7 @@ epoch = results.epoch
 batch_iter = results.batch_iter
 scale = results.scale
 batchsize = results.batchsize
+randomState = results.taskID 
 
 ## DP hyper-parameters
 sf = results.sf
@@ -121,7 +123,7 @@ if results.logFile:
 ## fit a GMM mixture, replace the DP part
 from sklearn.mixture import GaussianMixture 
 gmm = GaussianMixture(n_components=10)
-gmm.fit(aa['z'])
+gmm.fit(aa['z'],random_state = randomState)
 fittedY = gmm.predict(aa['z'])
 Y = aa['y']
 
