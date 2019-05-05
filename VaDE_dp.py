@@ -61,7 +61,7 @@ parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', defa
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
 parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
 parser.add_argument('-threshold', action='store', type=float, dest='threshold', default = 0.88, help= 'stopping criteria')  
-parser.add_argument('-useNewPretrained', action='store_true', type = str, dest='useNewPretrained', help='Indicator about using new pretrained weights')
+parser.add_argument('-useNewPretrained', action='store_true',  dest='useNewPretrained', help='Indicator about using new pretrained weights')
 
 results = parser.parse_args()
 if results.useLocal:

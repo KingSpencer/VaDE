@@ -36,6 +36,8 @@ parser.add_argument('-batchsize', action='store', type = int, dest='batchsize', 
 parser.add_argument('-threshold', action='store', type=float, dest='threshold', default = 0.88, help= 'stopping criteria')  
 parser.add_argument('-nBatch', action='store', type = int, dest='nBatch', default = 5, help='number of batches in DP')
 parser.add_argument('-taskID', action='store', type=int, dest = 'taskID', default=1, help='use taskID to random seed for bnpy') 
+parser.add_argument('-useNewPretrained', action='store_true',  dest='useNewPretrained', help='Indicator about using new pretrained weights')
+
 
 results = parser.parse_args()
 if results.useLocal:
