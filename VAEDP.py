@@ -102,7 +102,7 @@ from bnpy.data.XData import XData
 ######################################################################
 import pickle
 # path for latent z
-pathOfZ = os.path.join(root_path, 'latent_mnist.pkl')
+pathOfZ = os.path.join(root_path, 'reuters_utils/latent_mnist_supervised.pkl')
 aa = pickle.load(open(pathOfZ, 'rb'))
 ######################################################################
 ## make full output path 
@@ -211,6 +211,13 @@ accResult = clusterAccuracy(Y, fittedY)
 acc = accResult['overallRecall']
 ## accResult['moreEvaluation'] is the dictionary saves all NMI, ARS, HS, CS, VM
 print("The overall recall across all samples: {}".format(acc))
+dictFitted2True = obtainTrueClusterLabel4AllFittedCluster(Y, fittedY)
+fittedClusters = dictFitted2True.keys()
+for key in fittedClusters:
+    prec = dictFitted2True[key]['prec']
+    recall = dictFitted2True[key]['recall']
+    trueC =  dictFitted2True[key]['trueCluster']
+    print("Precision: {}, Recall: {}, fitted: {}, true: {}".format(prec, recall, key, trueC))
 ###############################################
 ## save DP model 
 dp_model_path = os.path.join(fullOutputPath, 'dp_model.pkl')
