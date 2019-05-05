@@ -63,7 +63,7 @@ class DP:
     
     def __init__(self, output_path=outputPath, nLap=300, nTask=1, nBatch=5,sF=0.1, ECovMat='eye',
     K=1, initname='randexamples',moves='birth,merge,shuffle',
-    m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, gamma1=1.0, gamma0=5.0, Kmax=50, **kwargs):
+    m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, gamma1=1.0, gamma0=5.0, Kmax=50, taskID = 1,  **kwargs):
         self.output_path = output_path
         self.nLap = nLap
         self.nTask = nTask
@@ -81,6 +81,7 @@ class DP:
         self.doSaveToDisk = doSaveToDisk
         self.Kmax = Kmax
         self.K = K
+        self.taskID = taskID
     
     
     def run(self, data, mixModel='DPMixtureModel', obsModel='Gauss', alg='memoVB'):
@@ -89,7 +90,7 @@ class DP:
                                         ECovMat=self.ECovMat, m_startLap=self.m_startLap, initname=self.initname,
                                         moves=self.moves, b_startLap=self.b_startLap, b_Kfresh=self.b_Kfresh, 
                                         doSaveToDisk=self.doSaveToDisk, gamma1=self.gamma1, gamma0 = self.gamma0,
-                                        Kmax = self.Kmax)
+                                        Kmax = self.Kmax, taskID = self.taskID)
         return dp_model, dp_info_dict
                 
     
