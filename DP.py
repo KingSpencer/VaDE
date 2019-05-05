@@ -35,7 +35,7 @@ parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=50
 parser.add_argument('-batchsize', action='store', type = int, dest='batchsize', default = 5000, help='the default batch size when training neural network')
 parser.add_argument('-threshold', action='store', type=float, dest='threshold', default = 0.88, help= 'stopping criteria')  
 parser.add_argument('-nBatch', action='store', type = int, dest='nBatch', default = 5, help='number of batches in DP')
-parser.add_argument('-nTaskID', action='store', type=int, dest = 'nTaskID', default=1, help'task id for bnpy') 
+parser.add_argument('-nTaskID', action='store', type=int, dest = 'nTaskID', default=1, help='task id for bnpy') 
 
 results = parser.parse_args()
 if results.useLocal:
