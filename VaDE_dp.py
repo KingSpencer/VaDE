@@ -62,6 +62,8 @@ parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, h
 parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
 parser.add_argument('-threshold', action='store', type=float, dest='threshold', default = 0.88, help= 'stopping criteria')  
 parser.add_argument('-useNewPretrained', action='store_true',  dest='useNewPretrained', help='Indicator about using new pretrained weights')
+parser.add_argument('-taskID', action='store', type=int, dest = 'taskID', default=1, help='use taskID to random seed for bnpy') 
+taskID = results.taskID
 
 results = parser.parse_args()
 if results.useLocal:
@@ -538,17 +540,17 @@ for epoch in range(num_of_epoch):
         if epoch ==0 and iteration == 0:
             newinitname = 'randexamples'
             if dataset == 'reuters10k':
-                DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax, sf=sf, nBatch = nBatch)
+                DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax, sf=sf, nBatch = nBatch, taskID=taskID)
             else:
-                DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, sf=sf, nBatch = nBatch)
+                DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, sf=sf, nBatch = nBatch,taskID=taskID)
             DPParam, newinitname = DPObj.fit(z_batch)
         else:
             # if iteration == (num_of_iteration-1) and epoch !=0:
             if epoch != 0:
                 if dataset == 'reuters10k':
-                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax,sf=sf, nBatch = nBatch)
+                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax,sf=sf, nBatch = nBatch,taskID=taskID)
                 else:    
-                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0,sf=sf, nBatch = nBatch)
+                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0,sf=sf, nBatch = nBatch, taskID=taskID)
                 DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
         # if iteration == (num_of_iteration-1):
