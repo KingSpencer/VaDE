@@ -105,7 +105,10 @@ from bnpy.data.XData import XData
 ######################################################################
 import pickle
 # path for latent z
-pathOfZ = os.path.join(root_path, 'reuters_utils/latent_mnist_supervised.pkl')
+if dataset == 'mnist':
+    pathOfZ = os.path.join(root_path, 'reuters_utils/latent_mnist_supervised.pkl')
+if dataset == 'reuters10k':
+    pathOfZ = os.path.join(root_path, 'reuters_utils/latent_reuters10k_supervised.pkl')
 aa = pickle.load(open(pathOfZ, 'rb'))
 ######################################################################
 ## make full output path 
