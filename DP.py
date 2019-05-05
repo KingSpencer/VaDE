@@ -54,7 +54,7 @@ sys.path.append(rootPath)
 Kmax = results.Kmax
 dataset = results.dataset
 threshold = results.threshold
-seed = results.seed
+taskID = results.taskID
 
 import bnpy
 from data.XData import XData
@@ -63,7 +63,7 @@ class DP:
     
     def __init__(self, output_path=outputPath, nLap=300, nTask=1, nBatch=5,sF=0.1, ECovMat='eye',
     K=1, initname='randexamples',moves='birth,merge,shuffle',
-    m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, gamma1=1.0, gamma0=5.0, Kmax=50, taskID = 1,  **kwargs):
+    m_startLap=5, b_startLap=2, b_Kfresh=4, doSaveToDisk=True, gamma1=1.0, gamma0=5.0, Kmax=50, taskID = taskID,  **kwargs):
         self.output_path = output_path
         self.nLap = nLap
         self.nTask = nTask
