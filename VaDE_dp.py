@@ -63,7 +63,7 @@ parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=50
 parser.add_argument('-threshold', action='store', type=float, dest='threshold', default = 0.88, help= 'stopping criteria')  
 parser.add_argument('-useNewPretrained', action='store_true',  dest='useNewPretrained', help='Indicator about using new pretrained weights')
 parser.add_argument('-taskID', action='store', type=int, dest = 'taskID', default=1, help='use taskID to random seed for bnpy') 
-taskID = results.taskID
+
 
 results = parser.parse_args()
 if results.useLocal:
@@ -94,6 +94,7 @@ gamma0 = results.gamma0
 gamma1 = results.gamma1
 threshold = results.threshold
 nBatch = results.nBatch
+taskID = results.taskID
 
 
 
