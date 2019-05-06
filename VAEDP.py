@@ -113,14 +113,14 @@ if dataset == 'reuters10k' and not useUnsupervised:
     pathOfZ = os.path.join(root_path, 'reuters_utils/latent_reuters10k_supervised.pkl')
     
 if dataset == 'mnist' and useUnsupervised:
+    pathOfZ = os.path.join(root_path, 'latent_mnist.pkl')
+    
+#if dataset == 'reuters10k' and useUnsupervised:
+#    pass
     
     
 
-if dataset == 'reuters10k' and useUnsupervised:
-    
-    
-
-if dataset == 'stl' and useUnsupervised:
+# if dataset == 'stl' and useUnsupervised:
     
     
     
