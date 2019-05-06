@@ -578,7 +578,7 @@ for epoch in range(num_of_epoch):
         
         z_fit = sample_output.predict(X, batch_size=batch_size)        
         fittedY = obtainFittedYFromDP(DPParam, z_fit)
-        accResult = clusterAccuracy(Y, fittedY)
+        accResult = clusterAccuracyUpdated(Y, fittedY)
         # this is the overall accuracy
         acc = accResult['overallRecall']
         print("The current ACC is :{}".format(acc))
@@ -636,7 +636,7 @@ for key,val in clusterResult.items():
     print(key,"=>", val)
     
 ## obtain cluster accuracy
-accResult = clusterAccuracy(Y, fittedY)
+accResult = clusterAccuracyUpdated(Y, fittedY)
 ## this is the overall accuracy
 acc = accResult['overallRecall']
 ## accResult['moreEvaluation'] is the dictionary saves all NMI, ARS, HS, CS, VM

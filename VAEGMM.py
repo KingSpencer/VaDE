@@ -141,7 +141,7 @@ for key,val in clusterResult.items():
     print(key,"=>", val)
     
 ## obtain cluster accuracy
-accResult = clusterAccuracy(Y, fittedY)
+accResult = clusterAccuracyUpdated(Y, fittedY)
 ## this is the overall accuracy
 acc = accResult['overallRecall']
 ## accResult['moreEvaluation'] is the dictionary saves all NMI, ARS, HS, CS, VM
