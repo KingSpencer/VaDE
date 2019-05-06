@@ -37,6 +37,7 @@ parser.add_argument('-threshold', action='store', type=float, dest='threshold', 
 parser.add_argument('-nBatch', action='store', type = int, dest='nBatch', default = 5, help='number of batches in DP')
 parser.add_argument('-taskID', action='store', type=int, dest = 'taskID', default=1, help='use taskID to random seed for bnpy') 
 parser.add_argument('-useNewPretrained', action='store_true',  dest='useNewPretrained', help='Indicator about using new pretrained weights')
+parser.add_argument('-useUnsupervised', action='store_true', help='if true, use the original latent representation from the author')
 
 
 results = parser.parse_args()

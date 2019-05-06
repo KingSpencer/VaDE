@@ -61,7 +61,7 @@ parser.add_argument('-gamma1', action='store', type = float, dest='gamma1', defa
 parser.add_argument('-rep', action='store', type=int, dest = 'rep', default=1, help='add replication number as argument')
 parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=500, help='the number of laps in DP')  
 parser.add_argument('-taskID', action='store', type=int, dest = 'taskID', default=1, help='use taskID to random seed for bnpy') 
-
+parser.add_argument('-useUnsupervised', action='store_true', help='if true, use the original latent representation from the author')
 
 results = parser.parse_args()
 if results.useLocal:
@@ -69,6 +69,8 @@ if results.useLocal:
 else:
     rep = os.environ["rep"]
     rep = int(float(rep))
+ 
+useUnsupervised = results.useUnsupervised
     
 bnpyPath = results.bnpyPath
 sys.path.append(bnpyPath)
@@ -105,10 +107,25 @@ from bnpy.data.XData import XData
 ######################################################################
 import pickle
 # path for latent z
-if dataset == 'mnist':
+if dataset == 'mnist' and not useUnsupervised:
     pathOfZ = os.path.join(root_path, 'reuters_utils/latent_mnist_supervised.pkl')
-if dataset == 'reuters10k':
+if dataset == 'reuters10k' and not useUnsupervised:
     pathOfZ = os.path.join(root_path, 'reuters_utils/latent_reuters10k_supervised.pkl')
+    
+if dataset == 'mnist' and useUnsupervised:
+    
+    
+
+if dataset == 'reuters10k' and useUnsupervised:
+    
+    
+
+if dataset == 'stl' and useUnsupervised:
+    
+    
+    
+    
+    
 aa = pickle.load(open(pathOfZ, 'rb'))
 ######################################################################
 ## make full output path 
