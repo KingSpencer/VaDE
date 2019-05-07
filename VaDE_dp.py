@@ -498,7 +498,10 @@ num_of_exp = X.shape[0]
 
 num_of_epoch = epoch
 num_of_iteration = int(num_of_exp / batch_size)
-adam_nn= Adam(lr=lr_nn,epsilon=1e-5, decay = 0.1)
+if 'reuters10k' in dataset or 'stl10' in dataset or results.conv:
+    adam_nn= Adam(lr=lr_nn,epsilon=1e-5, decay = 0.1)
+if 'mnist' in dataset and not results.conv:
+    adam_nn = Adam(lr=lr_nn, epsilon=1e-5, decay = 0.005)
 
 #%%
 global newinitname 
