@@ -64,7 +64,7 @@ if __name__ == "__main__":
     ###
     ### here we should do more tweaks
     resnet_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
-    resnet_model.fit(X, Y, epochs=5, batch_size=128, shuffle=True)
+    resnet_model.fit(x_test, y_test, validation_data=(x_train, y_train), epochs=5, batch_size=128, shuffle=True)
     ####### 
     X_feature = resnet_feature_model.predict(X, verbose=1)
     print(X_feature.shape)
