@@ -38,6 +38,7 @@ parser.add_argument('-nBatch', action='store', type = int, dest='nBatch', defaul
 parser.add_argument('-taskID', action='store', type=int, dest = 'taskID', default=1, help='use taskID to random seed for bnpy') 
 parser.add_argument('-useNewPretrained', action='store_true',  dest='useNewPretrained', help='Indicator about using new pretrained weights')
 parser.add_argument('-useUnsupervised', action='store_true', help='if true, use the original latent representation from the author')
+parser.add_argument('-learningRate', action='store', type=float, dest='lr', default=0.01, help='the learning rate in adam_nn')
 
 
 results = parser.parse_args()
