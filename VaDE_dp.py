@@ -235,7 +235,7 @@ def load_pretrain_weights(vade, root_path, dataset):
     ae.load_weights(weightFullFileName)
     
 
-    if 'stl10' not in dataset and 'reuters10k' not in dataset and 'mnist' not in dataset:
+    if 'stl10' not in dataset and 'reuters10k' not in dataset:
     #ae.load_weights('pretrain_weights/ae_'+dataset+'_weights.h5')
     # if results.useNewPretrained:
         vade.layers[1].set_weights(ae.layers[0].get_weights())
