@@ -48,7 +48,8 @@ def get_ae_supervised(original_dim=2000, latent_dim=10, intermediate_dim=[500,50
     if dataset == 'reuters10k':
         y_pred = Dense(4, activation = 'softmax', name='prediction_out')(z)
     if dataset == 'mnist':
-        y_pred = Dense(10, activation = 'softmax', name='prediction_out')(z)
+        #y_pred = Dense(10, activation = 'softmax', name='prediction_out')(z)
+        y_pred = Activation('softmax', name='prediction_out')(z)
     h_decoded = Dense(intermediate_dim[-1], activation='relu')(z)
     h_decoded = Dense(intermediate_dim[-2], activation='relu')(h_decoded)
     h_decoded = Dense(intermediate_dim[-3], activation='relu')(h_decoded)
@@ -112,7 +113,13 @@ if __name__ == '__main__':
     y_train = dummy_y[train_ind, :]
     x_test = X[test_ind, :]
     y_test = dummy_y[test_ind, :]
-    ae.fit(x_train, [x_train, y_train], epochs=2, batch_size=batch_size, validation_data=(x_test, [x_test, y_test]), shuffle=True)
+
+    '''if dataset == 'mnist':
+        x_train = x_train
+        y_train = y_train
+        x_test = x_test
+        y_test = y_test'''
+    ae.fit(x_train, [x_train, y_train], epochs=5, batch_size=batch_size, validation_data=(x_test, [x_test, y_test]), shuffle=True)
     
     # ae.fit(X, [X, dummy_y], epochs=2, batch_size=batch_size)
     

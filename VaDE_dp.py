@@ -203,7 +203,8 @@ def load_data(dataset, root_path, flatten=True, numbers=range(10)):
 def config_init(dataset):
     # original_dim,epoches,n_centroid,lr_nn,lr_gmm,decay_n,decay_nn,decay_gmm,alpha,datatype 
     if dataset == 'mnist':
-        return 784,3000,10,0.002,0.002,10,0.9,0.9,1,'sigmoid'
+        #return 784,3000,10,0.002,0.002,10,0.9,0.9,1,'sigmoid'
+        return 784,3000,10, 2e-4,0.002,10,0.9,0.9,1,'sigmoid'
     if dataset == 'reuters10k':
         return 2000,15,4,0.002,0.002,5,0.5,0.5,1,'linear'
     if dataset == 'har':
@@ -223,8 +224,8 @@ def load_pretrain_weights(vade, root_path, dataset):
     if dataset == 'reuters10k':
         dataset += '_supervised'
     ## The following lines are commented out since the results are not good, thus use the pretrained weights provided by the original author
-    # if dataset == 'mnist':
-    #    dataset += '_supervised'
+    if dataset == 'mnist':
+        dataset += '_supervised'
     path = os.path.join(root_path, 'pretrain_weights')
     filename = 'ae_' + dataset + '.json'
     fullFileName = os.path.join(path, filename)
