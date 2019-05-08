@@ -1,5 +1,5 @@
 stl10_utils/stl10_data/
-*.sh
+
 stl10_results/
 stl10_results_new/
 mnist_results*
