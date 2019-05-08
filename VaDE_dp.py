@@ -63,6 +63,7 @@ parser.add_argument('-nLap', action='store', type=int, dest = 'nLap', default=50
 parser.add_argument('-threshold', action='store', type=float, dest='threshold', default = 0.88, help= 'stopping criteria')  
 parser.add_argument('-useNewPretrained', action='store_true',  dest='useNewPretrained', help='Indicator about using new pretrained weights')
 parser.add_argument('-taskID', action='store', type=int, dest = 'taskID', default=1, help='use taskID to random seed for bnpy') 
+parser.add_argument('-learningRate', action='store', type=float, dest='lr', default=0.01, help='the learning rate in adam_nn')
 
 
 results = parser.parse_args()
@@ -87,7 +88,7 @@ epoch = results.epoch
 batch_iter = results.batch_iter
 scale = results.scale
 batchsize = results.batchsize
-
+lr = results.lr
 ## DP hyper-parameters
 sf = results.sf
 gamma0 = results.gamma0
@@ -236,7 +237,7 @@ def load_pretrain_weights(vade, root_path, dataset):
     ae.load_weights(weightFullFileName)
     
 
-    if 'stl10' not in dataset and 'reuters10k' not in dataset and 'mnist' not in dataset:
+    if 'stl10' not in dataset and 'reuters10k' not in dataset:
     #ae.load_weights('pretrain_weights/ae_'+dataset+'_weights.h5')
     # if results.useNewPretrained:
         vade.layers[1].set_weights(ae.layers[0].get_weights())
@@ -499,7 +500,10 @@ num_of_exp = X.shape[0]
 
 num_of_epoch = epoch
 num_of_iteration = int(num_of_exp / batch_size)
-adam_nn= Adam(lr=lr_nn,epsilon=1e-5, decay = 0.1)
+if 'reuters10k' in dataset or 'stl10' in dataset or results.conv:
+    adam_nn= Adam(lr=lr_nn,epsilon=1e-5, decay = 0.1)
+if 'mnist' in dataset and not results.conv:
+    adam_nn = Adam(lr=lr_nn, epsilon=1e-5, decay = lr)
 
 #%%
 global newinitname 
