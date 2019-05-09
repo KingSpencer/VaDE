@@ -187,7 +187,8 @@ if __name__ == '__main__':
         ae.save_weights(os.path.join(output_path, "ae_reuters10k_supervised_weights.h5"))
     if dataset == 'mnist':
         if newCluster:
-            with open(os.path.join(output_path, "/newCluster/ae_mnist_supervised.json"), "w") as json_file:
+            output_path = os.path.join(output_path, '/newCluster')
+            with open(os.path.join(output_path, "ae_mnist_supervised.json"), "w") as json_file:
                 json_file.write(model_json)
             ae.save_weights(os.path.join(output_path, '/newCluster/ae_mnist_supervised_weights.h5'))
         else:
