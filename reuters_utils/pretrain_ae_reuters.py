@@ -122,8 +122,8 @@ if __name__ == '__main__':
         X = np.concatenate((x_train,x_test))
         Y = np.concatenate((y_train,y_test))
     
-    numList = [1, 3, 5, 6, 7, 8, 9]    
-    if newCluster:
+    numList = [1, 3, 5, 6, 7, 8, 9]   
+    if newCluster:        
         ## extract X and Y without 0 and 2
         indices = []
         for number in numList:
@@ -139,12 +139,6 @@ if __name__ == '__main__':
     #encoded_Y = encoder.transform(Y)
     # convert integers to dummy variables (i.e. one hot encoded)
     dummy_y = np_utils.to_categorical(Y)
-
-    if newCluster:
-        nObs = dummy_y.shape[0]
-        colZeros = np.zeros((nObs, 2))
-        ## cbind two columns of zeros to dummy_y
-        dummy_y = np.column_stack((dummy_y, colZeros))
     
     if dataset == 'reuters10k':
         ae,encoder = get_ae_supervised()
