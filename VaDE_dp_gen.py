@@ -159,7 +159,7 @@ if __name__ == "__main__":
     original_dim = 784
     latent_dim = 10
     intermediate_dim = [500,500,2000]
-    model_flag = 'cnn'
+    model_flag = 'dense'
     vade, encoder, decoder = get_models(model_flag, batch_size, original_dim, latent_dim, intermediate_dim)
     if model_flag == 'dense':
         vade_temp = get_temp_vade(batch_size, original_dim, latent_dim, intermediate_dim)
@@ -167,7 +167,8 @@ if __name__ == "__main__":
         #encoder.summary()
         #decoder.summary()
         # encoder, decoder = load_pretrain_weights(encoder, decoder)
-        vade_temp.load_weights("/home/zifeng/Research/VaDE/results/vade_DP_weights.h5")
+        #vade_temp.load_weights("/home/zifeng/Research/DPVAE/best_mnist_results/Kmax50mnistepoch10batch_iter3scale0.005bs5000rep4sf0.1/vade_DP_weights.h5")
+        vade_temp.load_weights("/home/zifeng/Research/DPVAE/results/vade_DP_weights.h5")
         print("************* weights loaded successfully! **************")
         encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade_temp)
     elif model_flag == 'cnn':
@@ -183,6 +184,7 @@ if __name__ == "__main__":
     # with open('./results/W.pkl', 'rb') as f:
     #    W = joblib.load(f)
     if model_flag == 'dense':
+        #with open('./best_mnist_results/Kmax50mnistepoch10batch_iter3scale0.005bs5000rep4sf0.1/DPParam.pkl', 'rb') as f:
         with open('./results/DPParam.pkl', 'rb') as f:
             DPParam = joblib.load(f)
     elif model_flag == 'cnn':
@@ -195,12 +197,12 @@ if __name__ == "__main__":
     nu = DPParam['nu']
     beta = DPParam['kappa']
 
-    if model_flag == 'dense':
+    '''if model_flag == 'dense':
         l = [0, 1, 2, 4,5,6,7,8,9,10]
         m = m[l]
         W = W[l]
         nu = nu[l]
-        beta = beta[l]
+        beta = beta[l]'''
     # sampling from gaussians
     cluster_sample_list = []
     print("************* generating new data! **************")
@@ -213,7 +215,8 @@ if __name__ == "__main__":
         # we then feed z_sample to the decoder
         generated = decoder.predict(z_sample)
         generated = generated.reshape(-1, 28, 28)
-        generated = np.minimum(generated * 255 * 1.2, 255)
+        #generated = np.minimum(generated * 255 * 1.2, 255)
+        generated *= 255
         generated = generated.astype(np.uint8)
         generated_list = [generated[x] for x in range(generated.shape[0])]
         flattened_generated = np.hstack(generated_list)
@@ -221,7 +224,7 @@ if __name__ == "__main__":
         # print(flattened_generated.shape)
         # print(z_sample.shape)
     merged_sample = np.vstack(cluster_sample_list)
-    imsave('./results/sample_cnn.png', merged_sample)
+    imsave('./results/sample_best_mnist.png', merged_sample)
 
     cluster_mean_list = []
     print("************* generating new data with mean! **************")
@@ -232,10 +235,11 @@ if __name__ == "__main__":
         # we then feed z_sample to the decoder
         generated = decoder.predict(z_sample)
         generated = generated.reshape(28, 28)
-        generated = np.minimum(generated * 255 * 1.2, 255)
+        #generated = np.minimum(generated * 255 * 1.2, 255)
+        generated *= 255
         generated = generated.astype(np.uint8)
         cluster_mean_list.append(generated)
         # print(flattened_generated.shape)
         # print(z_sample.shape)
     merged_mean_sample = np.hstack(cluster_mean_list)
-    imsave('./results/mean_sample_cnn.png', merged_mean_sample)
+    imsave('./results/mean_sample_best_mnist.png', merged_mean_sample)

@@ -12,11 +12,13 @@ import gzip
 from six.moves import cPickle
 import numpy as np
 import sys
+from keras import optimizers
+from scipy.misc import imsave
 
 argv = sys.argv[1:]
 parser = argparse.ArgumentParser()
-parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'reuters10k', help='the options can be mnist,reuters10k and har')
-parser.add_argument('-prop', action='store', type = float, dest='prop', default=0.4, help='proportion of whole data for training')
+parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
+parser.add_argument('-prop', action='store', type = float, dest='prop', default=0.2, help='proportion of whole data for training')
 
 results = parser.parse_args()
 dataset = results.dataset
@@ -39,7 +41,7 @@ def get_ae(original_dim=2000, latent_dim=10, intermediate_dim=[500,500,2000]):
     ae.compile(optimizer='adadelta', loss='mse')
     return ae
 
-def get_ae_supervised(original_dim=2000, latent_dim=10, intermediate_dim=[500,500,2000]):
+def get_ae_supervised(dataset='reuters', original_dim=2000, latent_dim=10, intermediate_dim=[500,500,2000]):
     x = Input(shape=(original_dim, ))
     h = Dense(intermediate_dim[0], activation='relu')(x)
     h = Dense(intermediate_dim[1], activation='relu')(h)
@@ -53,10 +55,17 @@ def get_ae_supervised(original_dim=2000, latent_dim=10, intermediate_dim=[500,50
     h_decoded = Dense(intermediate_dim[-1], activation='relu')(z)
     h_decoded = Dense(intermediate_dim[-2], activation='relu')(h_decoded)
     h_decoded = Dense(intermediate_dim[-3], activation='relu')(h_decoded)
-    x_decoded = Dense(original_dim, activation='linear', name='decoded_out')(h_decoded)
+    if dataset == 'mnist':
+        activation = 'sigmoid'
+    else:
+        activation = 'linear'
+    x_decoded = Dense(original_dim, activation=activation, name='decoded_out')(h_decoded)
     ae = Model(x, [x_decoded, y_pred])
     encoder = Model(x, z)
-    ae.compile(optimizer='adadelta', loss=['mse','categorical_crossentropy'], loss_weights=[1,1], metrics={'decoded_out':'mae', 'prediction_out':'acc'})
+
+    adam = optimizers.Adam(lr=0.0005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0, amsgrad=False)
+
+    ae.compile(optimizer=adam, loss=['mse','categorical_crossentropy'], loss_weights=[1,0.01], metrics={'decoded_out':'mae', 'prediction_out':'acc'})
     ae.summary()
     return ae, encoder
 
@@ -101,7 +110,7 @@ if __name__ == '__main__':
     if dataset == 'reuters10k':
         ae,encoder = get_ae_supervised()
     if dataset == 'mnist':
-        ae,encoder = get_ae_supervised(original_dim=784, latent_dim=10)
+        ae,encoder = get_ae_supervised(dataset='mnist', original_dim=784, latent_dim=10)
         
     ## choose part of data as training and part of it as validation
     total_obs = len(Y)
@@ -119,7 +128,7 @@ if __name__ == '__main__':
         y_train = y_train
         x_test = x_test
         y_test = y_test'''
-    ae.fit(x_train, [x_train, y_train], epochs=5, batch_size=batch_size, validation_data=(x_test, [x_test, y_test]), shuffle=True)
+    ae.fit(x_train, [x_train, y_train], epochs=150, batch_size=batch_size, validation_data=(x_test, [x_test, y_test]), shuffle=True)
     
     # ae.fit(X, [X, dummy_y], epochs=2, batch_size=batch_size)
     
@@ -146,6 +155,12 @@ if __name__ == '__main__':
         with open(os.path.join(output_path, "ae_mnist_supervised.json"), "w") as json_file:
             json_file.write(model_json)
         ae.save_weights(os.path.join(output_path, "ae_mnist_supervised_weights.h5"))
+
+        # generate a sample
+        [img_sample, y] = ae.predict(X[0:2])
+        img_sample *= 255
+        img_sampe = img_sample.astype(np.uint8)
+        imsave('sample.png', img_sample)
         
 
 
