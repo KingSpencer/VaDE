@@ -11,11 +11,10 @@ reuters_results/
 *.ipynb
 __pycache__
 conv_vae_pre_weights
-*.pkl
+#*.pkl
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
-
 # Folder config file
 Desktop.ini
 
