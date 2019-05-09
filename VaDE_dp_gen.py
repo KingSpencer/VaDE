@@ -167,9 +167,9 @@ if __name__ == "__main__":
         #encoder.summary()
         #decoder.summary()
         # encoder, decoder = load_pretrain_weights(encoder, decoder)
-      vade_temp.load_weights("./best_mnist_results/vade_DP_weights.h5")
+        vade_temp.load_weights("./best_mnist_results/vade_DP_weights.h5")
         #vade_temp.load_weights("/home/zifeng/Research/DPVAE/results/vade_DP_weights.h5")
-       print("************* weights loaded successfully! **************")
+        print("************* weights loaded successfully! **************")
         encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade_temp)
     elif model_flag == 'cnn':
         vade.load_weights("./best_cnn_results/vade_DP_weights.h5")
