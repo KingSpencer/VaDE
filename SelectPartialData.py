@@ -176,20 +176,20 @@ XFirst, YFirst = shuffle(XFirstBatch, YFirstBatch, random_state=0)
 XSecond, YSecond = shuffle(XSecondBatch, YSecondBatch, random_state=0)
 
 ## pickle the data
-with open('./newCluster/Xtrain.pkl', 'wb') as f:
+with open('../newCluster/Xtrain.pkl', 'wb') as f:
     pickle.dump(Xtrain, f)
-with open('./newCluster/Ytrain.pkl', 'wb') as f:
+with open('../newCluster/Ytrain.pkl', 'wb') as f:
     pickle.dump(Ytrain, f)
     
-with open('./newCluster/XFirstBatch.pkl', 'wb') as f:
+with open('../newCluster/XFirstBatch.pkl', 'wb') as f:
     pickle.dump(XFirst, f)
-with open('./newCluster/YFirstBatch.pkl', 'wb') as f:
+with open('../newCluster/YFirstBatch.pkl', 'wb') as f:
     pickle.dump(YFirst, f)
 
-with open('./newCluster/XSecondBatch.pkl', 'wb') as f:
+with open('../newCluster/XSecondBatch.pkl', 'wb') as f:
     pickle.dump(XSecond, f)
 
-with open('./newCluster/YSecondBatch.pkl', 'wb') as f:
+with open('../newCluster/YSecondBatch.pkl', 'wb') as f:
     pickle.dump(YSecond, f)
 
 
