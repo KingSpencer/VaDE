@@ -150,7 +150,9 @@ if __name__ == '__main__':
         y_train = y_train
         x_test = x_test
         y_test = y_test'''
+
     ae.fit(x_train, [x_train, y_train], epochs=30, batch_size=batch_size, validation_data=(x_test, [x_test, y_test]), shuffle=True)
+
     
     # ae.fit(X, [X, dummy_y], epochs=2, batch_size=batch_size)
     
@@ -183,6 +185,7 @@ if __name__ == '__main__':
         img_sample *= 255
         img_sampe = img_sample.astype(np.uint8)
         imsave('sample.png', img_sample[0].reshape(28,28))
+
         
 
 
