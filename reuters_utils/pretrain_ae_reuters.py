@@ -121,15 +121,31 @@ if __name__ == '__main__':
 
         X = np.concatenate((x_train,x_test))
         Y = np.concatenate((y_train,y_test))
-        
-        
     
+    numList = [1, 3, 5, 6, 7, 8, 9]    
+    if newCluster:
+        ## extract X and Y without 0 and 2
+        indices = []
+        for number in numList:
+            indices += list(np.where(Y == number)[0])
+        #indices = np.vstack(indices)
+        X = X[indices]
+        Y = Y[indices]
+        
+           
     ## change Y to one hot encoding
     #encoder = LabelEncoder()
     #encoder.fit(Y)
     #encoded_Y = encoder.transform(Y)
     # convert integers to dummy variables (i.e. one hot encoded)
     dummy_y = np_utils.to_categorical(Y)
+
+    if newCluster:
+        nObs = dummy_y.shape[0]
+        colZeros = np.zeros((nObs, 2))
+        ## cbind two columns of zeros to dummy_y
+        dummy_y = np.column_stack((dummy_y, colZeros))
+    
     if dataset == 'reuters10k':
         ae,encoder = get_ae_supervised()
     if dataset == 'mnist':
@@ -177,9 +193,9 @@ if __name__ == '__main__':
         ae.save_weights(os.path.join(output_path, "ae_reuters10k_supervised_weights.h5"))
     if dataset == 'mnist':
         if newCluster:
-            with open(os.path.join(output_path, "./newCluster/ae_mnist_supervised.json"), "w") as json_file:
+            with open(os.path.join(output_path, "/newCluster/ae_mnist_supervised.json"), "w") as json_file:
                 json_file.write(model_json)
-            ae.save_weights(os.path.join(output_path, './newCluster/ae_mnist_supervised_weights.h5'))
+            ae.save_weights(os.path.join(output_path, '/newCluster/ae_mnist_supervised_weights.h5'))
         else:
             with open(os.path.join(output_path, "ae_mnist_supervised.json"), "w") as json_file:
                 json_file.write(model_json)
