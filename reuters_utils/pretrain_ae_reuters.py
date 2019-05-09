@@ -19,11 +19,12 @@ argv = sys.argv[1:]
 parser = argparse.ArgumentParser()
 parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
 parser.add_argument('-prop', action='store', type = float, dest='prop', default=0.2, help='proportion of whole data for training')
+parser.add_argument('-newCluster', action='store_true', dest='newCluster', help='indicator for running the new cluster experiment')
 
 results = parser.parse_args()
 dataset = results.dataset
 prop = results.prop
-
+newCluster = results.newCluster
 
 def get_ae(original_dim=2000, latent_dim=10, intermediate_dim=[500,500,2000]):
     x = Input(shape=(original_dim, ))
@@ -175,9 +176,14 @@ if __name__ == '__main__':
             json_file.write(model_json)
         ae.save_weights(os.path.join(output_path, "ae_reuters10k_supervised_weights.h5"))
     if dataset == 'mnist':
-        with open(os.path.join(output_path, "ae_mnist_supervised.json"), "w") as json_file:
-            json_file.write(model_json)
-        ae.save_weights(os.path.join(output_path, "ae_mnist_supervised_weights.h5"))
+        if newCluster:
+            with open(os.path.join(output_path, "./newCluster/ae_mnist_supervised.json"), "w") as json_file:
+                json_file.write(model_json)
+            ae.save_weights(os.path.join(output_path, './newCluster/ae_mnist_supervised_weights.h5'))
+        else:
+            with open(os.path.join(output_path, "ae_mnist_supervised.json"), "w") as json_file:
+                json_file.write(model_json)
+            ae.save_weights(os.path.join(output_path, "ae_mnist_supervised_weights.h5"))
 
         # generate a sample
         [img_sample, y] = ae.predict(X[0:2])
