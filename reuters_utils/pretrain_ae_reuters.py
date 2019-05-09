@@ -1,7 +1,7 @@
 from keras.optimizers import Adam
 from keras.optimizers import Nadam
 from keras.layers import Input, Dense, Activation
-from keras.models import Model
+from keras.models import Model, model_from_json
 import pickle
 import os
 import scipy.io as scio
@@ -67,6 +67,28 @@ def get_ae_supervised(dataset='reuters', original_dim=2000, latent_dim=10, inter
 
     ae.compile(optimizer=adam, loss=['mse','categorical_crossentropy'], loss_weights=[1,0.01], metrics={'decoded_out':'mae', 'prediction_out':'acc'})
     ae.summary()
+
+    if dataset=='mnist':
+        root_path = '/home/zifeng/Research/DPVAE'
+        path = os.path.join(root_path, 'pretrain_weights')
+        filename = 'ae_' + dataset + '.json'
+        fullFileName = os.path.join(path, filename)
+        ae_prev = model_from_json(open(fullFileName).read())
+        # ae = model_from_json(open('pretrain_weights/ae_'+dataset+'.json').read())
+        weightFileName = 'ae_' + dataset + '_weights.h5'
+        weightFullFileName = os.path.join(path, weightFileName)
+        ae_prev.load_weights(weightFullFileName)
+        ## copy weights then
+        ae.layers[1].set_weights(ae_prev.layers[0].get_weights())
+        ae.layers[2].set_weights(ae_prev.layers[1].get_weights())
+        ae.layers[3].set_weights(ae_prev.layers[2].get_weights())
+        ae.layers[4].set_weights(ae_prev.layers[3].get_weights())
+
+        ae.layers[-2].set_weights(ae_prev.layers[-1].get_weights())
+        ae.layers[-3].set_weights(ae_prev.layers[-2].get_weights())
+        ae.layers[-4].set_weights(ae_prev.layers[-3].get_weights())
+        ae.layers[-5].set_weights(ae_prev.layers[-4].get_weights())
+
     return ae, encoder
 
 if __name__ == '__main__':
@@ -128,7 +150,7 @@ if __name__ == '__main__':
         y_train = y_train
         x_test = x_test
         y_test = y_test'''
-    ae.fit(x_train, [x_train, y_train], epochs=150, batch_size=batch_size, validation_data=(x_test, [x_test, y_test]), shuffle=True)
+    ae.fit(x_train, [x_train, y_train], epochs=30, batch_size=batch_size, validation_data=(x_test, [x_test, y_test]), shuffle=True)
     
     # ae.fit(X, [X, dummy_y], epochs=2, batch_size=batch_size)
     
@@ -160,7 +182,7 @@ if __name__ == '__main__':
         [img_sample, y] = ae.predict(X[0:2])
         img_sample *= 255
         img_sampe = img_sample.astype(np.uint8)
-        imsave('sample.png', img_sample)
+        imsave('sample.png', img_sample[0].reshape(28,28))
         
 
 
