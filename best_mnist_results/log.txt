@@ -1,0 +1,2006 @@
+training on: mnist
+The current epoch is epoch: 0
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = randexamples
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1245.3 MiB | K    1 | loss  2.151516237e+00 |  
+    0.400/300 after      0 sec. |   1245.3 MiB | K    1 | loss  2.129608697e+00 |  
+    0.600/300 after      0 sec. |   1245.3 MiB | K    1 | loss  2.122572088e+00 |  
+    1.000/300 after      0 sec. |   1245.3 MiB | K    1 | loss  2.118475039e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      0 sec. |   1246.6 MiB | K    5 | loss  1.660211989e+00 | Ndiff  874.386 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      2 sec. |   1248.0 MiB | K   15 | loss  1.453971452e+00 | Ndiff  874.386 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      2 sec. |   1248.2 MiB | K   15 | loss  1.414941573e+00 | Ndiff  124.442 
+MERGE @ lap 5.00 : 1/31 accepted. Ndiff 0.00. 2 skipped.
+    5.000/300 after      2 sec. |   1248.2 MiB | K   14 | loss  1.407971682e+00 | Ndiff   29.339 
+MERGE @ lap 6.00 : 1/30 accepted. Ndiff 0.00. 1 skipped.
+    6.000/300 after      2 sec. |   1248.2 MiB | K   13 | loss  1.405961071e+00 | Ndiff    2.834 
+MERGE @ lap 7.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+    7.000/300 after      3 sec. |   1248.2 MiB | K   13 | loss  1.405095870e+00 | Ndiff    7.083 
+MERGE @ lap 8.00 : 1/24 accepted. Ndiff 4.00. 0 skipped.
+    8.000/300 after      3 sec. |   1248.2 MiB | K   12 | loss  1.403512467e+00 | Ndiff    1.884 
+MERGE @ lap 9.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+    9.000/300 after      3 sec. |   1248.2 MiB | K   12 | loss  1.403309280e+00 | Ndiff    4.261 
+MERGE @ lap 10.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   10.000/300 after      3 sec. |   1248.2 MiB | K   12 | loss  1.403157739e+00 | Ndiff    1.490 
+MERGE @ lap 11.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      3 sec. |   1248.2 MiB | K   12 | loss  1.403041749e+00 | Ndiff    1.573 
+MERGE @ lap 12.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      4 sec. |   1248.2 MiB | K   12 | loss  1.402959632e+00 | Ndiff    1.034 
+MERGE @ lap 13.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      4 sec. |   1248.2 MiB | K   12 | loss  1.402902166e+00 | Ndiff    0.788 
+MERGE @ lap 14.00 : 0/17 accepted. Ndiff 0.00. 0 skipped.
+   14.000/300 after      4 sec. |   1248.2 MiB | K   12 | loss  1.402868859e+00 | Ndiff    0.525 
+MERGE @ lap 15.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   15.000/300 after      5 sec. |   1248.2 MiB | K   12 | loss  1.402843302e+00 | Ndiff    0.617 
+MERGE @ lap 16.00 : 0/2 accepted. Ndiff 0.00. 0 skipped.
+   16.000/300 after      5 sec. |   1248.2 MiB | K   12 | loss  1.402817496e+00 | Ndiff    0.524 
+MERGE @ lap 17.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      5 sec. |   1248.2 MiB | K   12 | loss  1.402793734e+00 | Ndiff    0.755 
+MERGE @ lap 18.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      5 sec. |   1248.2 MiB | K   12 | loss  1.402772550e+00 | Ndiff    0.703 
+MERGE @ lap 19.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      6 sec. |   1248.2 MiB | K   12 | loss  1.402754326e+00 | Ndiff    0.700 
+MERGE @ lap 20.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   20.000/300 after      6 sec. |   1248.2 MiB | K   12 | loss  1.402738092e+00 | Ndiff    0.658 
+MERGE @ lap 21.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   21.000/300 after      6 sec. |   1248.2 MiB | K   12 | loss  1.402721959e+00 | Ndiff    0.449 
+MERGE @ lap 22.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   22.000/300 after      7 sec. |   1248.2 MiB | K   12 | loss  1.402698108e+00 | Ndiff    0.635 
+MERGE @ lap 23.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   23.000/300 after      7 sec. |   1248.2 MiB | K   12 | loss  1.402657744e+00 | Ndiff    0.536 
+MERGE @ lap 24.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   24.000/300 after      7 sec. |   1248.2 MiB | K   12 | loss  1.402614723e+00 | Ndiff    0.570 
+MERGE @ lap 25.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   25.000/300 after      7 sec. |   1248.5 MiB | K   12 | loss  1.402582466e+00 | Ndiff    0.533 
+MERGE @ lap 26.00 : 0/17 accepted. Ndiff 0.00. 0 skipped.
+   26.000/300 after      7 sec. |   1248.5 MiB | K   12 | loss  1.402561677e+00 | Ndiff    0.801 
+MERGE @ lap 27.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   27.000/300 after      8 sec. |   1248.5 MiB | K   12 | loss  1.402549774e+00 | Ndiff    0.456 
+MERGE @ lap 28.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   28.000/300 after      8 sec. |   1248.5 MiB | K   12 | loss  1.402544143e+00 | Ndiff    0.310 
+MERGE @ lap 29.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   29.000/300 after      8 sec. |   1248.5 MiB | K   12 | loss  1.402540487e+00 | Ndiff    0.300 
+MERGE @ lap 30.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   30.000/300 after      9 sec. |   1248.5 MiB | K   12 | loss  1.402537573e+00 | Ndiff    0.285 
+MERGE @ lap 31.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   31.000/300 after      9 sec. |   1248.5 MiB | K   12 | loss  1.402534772e+00 | Ndiff    0.199 
+MERGE @ lap 32.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   32.000/300 after      9 sec. |   1248.5 MiB | K   12 | loss  1.402532146e+00 | Ndiff    0.210 
+MERGE @ lap 33.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   33.000/300 after      9 sec. |   1248.5 MiB | K   12 | loss  1.402529627e+00 | Ndiff    0.187 
+MERGE @ lap 34.00 : 0/2 accepted. Ndiff 0.00. 0 skipped.
+   34.000/300 after     10 sec. |   1248.5 MiB | K   12 | loss  1.402527269e+00 | Ndiff    0.168 
+MERGE @ lap 35.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   35.000/300 after     10 sec. |   1248.5 MiB | K   12 | loss  1.402525226e+00 | Ndiff    0.135 
+MERGE @ lap 36.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   36.000/300 after     10 sec. |   1248.5 MiB | K   12 | loss  1.402523665e+00 | Ndiff    0.129 
+MERGE @ lap 37.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   37.000/300 after     11 sec. |   1248.5 MiB | K   12 | loss  1.402522440e+00 | Ndiff    0.126 
+MERGE @ lap 38.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   38.000/300 after     11 sec. |   1248.5 MiB | K   12 | loss  1.402521380e+00 | Ndiff    0.114 
+MERGE @ lap 39.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   39.000/300 after     11 sec. |   1248.5 MiB | K   12 | loss  1.402520189e+00 | Ndiff    0.098 
+MERGE @ lap 40.00 : 0/2 accepted. Ndiff 0.00. 0 skipped.
+   40.000/300 after     12 sec. |   1248.5 MiB | K   12 | loss  1.402518401e+00 | Ndiff    0.139 
+MERGE @ lap 41.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   41.000/300 after     12 sec. |   1248.5 MiB | K   12 | loss  1.402513741e+00 | Ndiff    0.214 
+MERGE @ lap 42.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   42.000/300 after     12 sec. |   1248.5 MiB | K   12 | loss  1.402495040e+00 | Ndiff    0.322 
+MERGE @ lap 43.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   43.000/300 after     12 sec. |   1248.5 MiB | K   12 | loss  1.402434677e+00 | Ndiff    0.553 
+MERGE @ lap 44.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   44.000/300 after     13 sec. |   1248.5 MiB | K   12 | loss  1.402381388e+00 | Ndiff    0.546 
+MERGE @ lap 45.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   45.000/300 after     13 sec. |   1248.5 MiB | K   12 | loss  1.402145785e+00 | Ndiff    1.360 
+MERGE @ lap 46.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   46.000/300 after     13 sec. |   1248.5 MiB | K   12 | loss  1.401888598e+00 | Ndiff    1.285 
+MERGE @ lap 47.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   47.000/300 after     13 sec. |   1248.5 MiB | K   12 | loss  1.401862381e+00 | Ndiff    1.184 
+MERGE @ lap 48.00 : 0/18 accepted. Ndiff 0.00. 0 skipped.
+   48.000/300 after     14 sec. |   1248.5 MiB | K   12 | loss  1.401848407e+00 | Ndiff    0.872 
+MERGE @ lap 49.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   49.000/300 after     14 sec. |   1248.5 MiB | K   12 | loss  1.401838932e+00 | Ndiff    0.746 
+MERGE @ lap 50.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   50.000/300 after     14 sec. |   1248.5 MiB | K   12 | loss  1.401831984e+00 | Ndiff    0.709 
+MERGE @ lap 51.00 : 0/17 accepted. Ndiff 0.00. 0 skipped.
+   51.000/300 after     14 sec. |   1248.5 MiB | K   12 | loss  1.401827073e+00 | Ndiff    0.488 
+MERGE @ lap 52.00 : 0/12 accepted. Ndiff 0.00. 0 skipped.
+   52.000/300 after     15 sec. |   1248.5 MiB | K   12 | loss  1.401822557e+00 | Ndiff    0.409 
+MERGE @ lap 53.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   53.000/300 after     15 sec. |   1248.5 MiB | K   12 | loss  1.401818402e+00 | Ndiff    0.426 
+MERGE @ lap 54.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   54.000/300 after     15 sec. |   1248.5 MiB | K   12 | loss  1.401814943e+00 | Ndiff    0.385 
+MERGE @ lap 55.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   55.000/300 after     15 sec. |   1248.5 MiB | K   12 | loss  1.401811903e+00 | Ndiff    0.320 
+MERGE @ lap 56.00 : 0/18 accepted. Ndiff 0.00. 0 skipped.
+   56.000/300 after     16 sec. |   1248.5 MiB | K   12 | loss  1.401809538e+00 | Ndiff    0.346 
+MERGE @ lap 57.00 : 0/12 accepted. Ndiff 0.00. 0 skipped.
+   57.000/300 after     16 sec. |   1248.5 MiB | K   12 | loss  1.401807869e+00 | Ndiff    0.286 
+MERGE @ lap 58.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   58.000/300 after     16 sec. |   1248.5 MiB | K   12 | loss  1.401806851e+00 | Ndiff    0.214 
+MERGE @ lap 59.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   59.000/300 after     16 sec. |   1248.5 MiB | K   12 | loss  1.401806236e+00 | Ndiff    0.171 
+MERGE @ lap 60.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   60.000/300 after     17 sec. |   1248.5 MiB | K   12 | loss  1.401805888e+00 | Ndiff    0.134 
+MERGE @ lap 61.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   61.000/300 after     17 sec. |   1248.5 MiB | K   12 | loss  1.401805698e+00 | Ndiff    0.099 
+MERGE @ lap 62.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   62.000/300 after     17 sec. |   1248.5 MiB | K   12 | loss  1.401805600e+00 | Ndiff    0.080 
+MERGE @ lap 63.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   63.000/300 after     17 sec. |   1248.5 MiB | K   12 | loss  1.401805548e+00 | Ndiff    0.061 
+MERGE @ lap 64.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   64.000/300 after     18 sec. |   1248.5 MiB | K   12 | loss  1.401805522e+00 | Ndiff    0.035 
+MERGE @ lap 65.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   65.000/300 after     18 sec. |   1248.5 MiB | K   12 | loss  1.401805507e+00 | Ndiff    0.031 
+MERGE @ lap 66.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   66.000/300 after     18 sec. |   1248.5 MiB | K   12 | loss  1.401805500e+00 | Ndiff    0.022 
+MERGE @ lap 67.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   67.000/300 after     18 sec. |   1248.5 MiB | K   12 | loss  1.401805496e+00 | Ndiff    0.018 
+MERGE @ lap 68.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   68.000/300 after     18 sec. |   1248.5 MiB | K   12 | loss  1.401805494e+00 | Ndiff    0.010 
+MERGE @ lap 69.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   69.000/300 after     19 sec. |   1248.5 MiB | K   12 | loss  1.401805493e+00 | Ndiff    0.010 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.0982 0.1126 0.0998 0.0982 0.099  0.0916 0.0942 0.1062 0.0998 0.1004]
+The cluster evaluation result is 
+
+NMI => 0.8569548463637648
+ARS => 0.8265083209297609
+HS => 0.8845946419626016
+CS => 0.8301786760510258
+VM => 0.8565232511980427
+Precision: 0.9211538461538461, Recall: 0.9599198396793587, fitted: 0, true: 2
+Precision: 0.9679358717434869, Recall: 0.9757575757575757, fitted: 1, true: 4
+Precision: 0.9094567404426559, Recall: 0.905811623246493, fitted: 2, true: 8
+Precision: 0.9382716049382716, Recall: 0.9287169042769857, fitted: 3, true: 3
+Precision: 0.9956989247311828, Recall: 0.9429735234215886, fitted: 4, true: 0
+Precision: 0.9954853273137697, Recall: 0.9363057324840764, fitted: 5, true: 6
+Precision: 0.9954441913439636, Recall: 0.8705179282868526, fitted: 6, true: 9
+Precision: 0.9975369458128078, Recall: 0.7627118644067796, fitted: 7, true: 7
+Precision: 1.0, Recall: 0.7140319715808171, fitted: 8, true: 1
+Precision: 1.0, Recall: 0.8187772925764192, fitted: 9, true: 5
+Precision: 0.36792452830188677, Recall: 0.22033898305084745, fitted: 10, true: 7
+Precision: 0.9733333333333334, Recall: 0.25932504440497334, fitted: 11, true: 1
+The current ACC is :0.9295
+Iteration: 0-0, ELBO: -377633.25
+Iteration: 0-1, ELBO: -371734.8125
+Iteration: 0-2, ELBO: -364206.375
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.0984 0.1158 0.0992 0.1034 0.098  0.0838 0.095  0.105  0.1038 0.0976]
+The cluster evaluation result is 
+
+NMI => 0.003439811000848698
+ARS => -0.000336259314873127
+HS => 0.0035519119105687077
+CS => 0.003331248076944908
+VM => 0.00343804291721363
+Precision: 0.11730769230769231, Recall: 0.12448979591836734, fitted: 0, true: 4
+Precision: 0.13026052104208416, Recall: 0.11226252158894647, fitted: 1, true: 1
+Precision: 0.11871227364185111, Recall: 0.10189982728842832, fitted: 2, true: 1
+Precision: 0.11316872427983539, Recall: 0.09499136442141623, fitted: 3, true: 1
+Precision: 0.13763440860215054, Recall: 0.11053540587219343, fitted: 4, true: 1
+Precision: 0.12866817155756208, Recall: 0.09844559585492228, fitted: 5, true: 1
+Precision: 0.11389521640091116, Recall: 0.09523809523809523, fitted: 6, true: 7
+Precision: 0.12807881773399016, Recall: 0.08981001727115717, fitted: 7, true: 1
+Precision: 0.13930348258706468, Recall: 0.10789980732177264, fitted: 8, true: 8
+Precision: 0.128, Recall: 0.0967741935483871, fitted: 9, true: 2
+Precision: 0.11635220125786164, Recall: 0.06390328151986183, fitted: 10, true: 1
+Precision: 0.15333333333333332, Recall: 0.0471311475409836, fitted: 11, true: 9
+The current ACC is :0.9287428571428571
+Iteration: 1-0, ELBO: -2053895.0
+Iteration: 1-1, ELBO: -2026034.0
+Iteration: 1-2, ELBO: -1991558.75
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.0976 0.1168 0.102  0.0978 0.0896 0.0904 0.106  0.1104 0.096  0.0934]
+The cluster evaluation result is 
+
+NMI => 0.004100445049791239
+ARS => -6.085475272342641e-05
+HS => 0.0042344726149095464
+CS => 0.0039706596630609305
+VM => 0.004098325057232667
+Precision: 0.125, Recall: 0.11775362318840579, fitted: 0, true: 7
+Precision: 0.12424849699398798, Recall: 0.12156862745098039, fitted: 1, true: 2
+Precision: 0.12877263581488935, Recall: 0.11594202898550725, fitted: 2, true: 7
+Precision: 0.11934156378600823, Recall: 0.10507246376811594, fitted: 3, true: 7
+Precision: 0.11397849462365592, Recall: 0.09601449275362318, fitted: 4, true: 7
+Precision: 0.13318284424379231, Recall: 0.10102739726027397, fitted: 5, true: 1
+Precision: 0.12300683371298406, Recall: 0.10588235294117647, fitted: 6, true: 2
+Precision: 0.13054187192118227, Recall: 0.1083844580777096, fitted: 7, true: 3
+Precision: 0.13681592039800994, Recall: 0.10377358490566038, fitted: 8, true: 6
+Precision: 0.13866666666666666, Recall: 0.08904109589041095, fitted: 9, true: 1
+Precision: 0.14150943396226415, Recall: 0.07705479452054795, fitted: 10, true: 1
+Precision: 0.13333333333333333, Recall: 0.0392156862745098, fitted: 11, true: 2
+The current ACC is :0.9306857142857143
+Iteration: 2-0, ELBO: -1823692.0
+Iteration: 2-1, ELBO: -1792586.125
+Iteration: 2-2, ELBO: -1764102.125
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1022 0.1128 0.1066 0.1032 0.1042 0.0886 0.0868 0.101  0.0882 0.1064]
+The cluster evaluation result is 
+
+NMI => 0.004101658952208958
+ARS => -0.0001612139736376911
+HS => 0.004235936814604358
+CS => 0.0039716376557442186
+VM => 0.004099531773001722
+Precision: 0.12307692307692308, Recall: 0.12524461839530332, fitted: 0, true: 0
+Precision: 0.12424849699398798, Recall: 0.1099290780141844, fitted: 1, true: 1
+Precision: 0.12072434607645875, Recall: 0.11627906976744186, fitted: 2, true: 3
+Precision: 0.12139917695473251, Recall: 0.11545988258317025, fitted: 3, true: 0
+Precision: 0.11612903225806452, Recall: 0.09574468085106383, fitted: 4, true: 1
+Precision: 0.13544018058690746, Recall: 0.11516314779270634, fitted: 5, true: 4
+Precision: 0.11161731207289294, Recall: 0.0958904109589041, fitted: 6, true: 0
+Precision: 0.1206896551724138, Recall: 0.09210526315789473, fitted: 7, true: 9
+Precision: 0.13930348258706468, Recall: 0.09929078014184398, fitted: 8, true: 1
+Precision: 0.11733333333333333, Recall: 0.0825515947467167, fitted: 9, true: 2
+Precision: 0.15723270440251572, Recall: 0.09900990099009901, fitted: 10, true: 7
+Precision: 0.16, Recall: 0.046511627906976744, fitted: 11, true: 3
+The current ACC is :0.9321714285714285
+Iteration: 3-0, ELBO: -1823843.75
+Iteration: 3-1, ELBO: -1795265.75
+Iteration: 3-2, ELBO: -1772028.875
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.0964 0.1136 0.095  0.1044 0.102  0.0936 0.1034 0.1008 0.0966 0.0942]
+The cluster evaluation result is 
+
+NMI => 0.004625344039776842
+ARS => 0.00024228729653345195
+HS => 0.004774702887009923
+CS => 0.004480657329381321
+VM => 0.004623009150613227
+Precision: 0.13076923076923078, Recall: 0.1349206349206349, fitted: 0, true: 7
+Precision: 0.13026052104208416, Recall: 0.12745098039215685, fitted: 1, true: 4
+Precision: 0.12877263581488935, Recall: 0.11267605633802817, fitted: 2, true: 1
+Precision: 0.12551440329218108, Recall: 0.1073943661971831, fitted: 3, true: 1
+Precision: 0.12043010752688173, Recall: 0.11594202898550725, fitted: 4, true: 8
+Precision: 0.13318284424379231, Recall: 0.12421052631578948, fitted: 5, true: 2
+Precision: 0.11617312072892938, Recall: 0.10580912863070539, fitted: 6, true: 0
+Precision: 0.14039408866995073, Recall: 0.10035211267605634, fitted: 7, true: 1
+Precision: 0.12189054726368159, Recall: 0.1031578947368421, fitted: 8, true: 2
+Precision: 0.11466666666666667, Recall: 0.07570422535211267, fitted: 9, true: 1
+Precision: 0.12578616352201258, Recall: 0.08421052631578947, fitted: 10, true: 2
+Precision: 0.15333333333333332, Recall: 0.040492957746478875, fitted: 11, true: 1
+The current ACC is :0.9334142857142858
+Iteration: 4-0, ELBO: -1722928.375
+Iteration: 4-1, ELBO: -1700617.0
+Iteration: 4-2, ELBO: -1681248.125
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1046 0.1146 0.1008 0.0938 0.0974 0.0872 0.0962 0.1066 0.0956 0.1032]
+The cluster evaluation result is 
+
+NMI => 0.0038538438347528133
+ARS => -0.00013158877390869028
+HS => 0.003979114687472642
+CS => 0.0037325167704818467
+VM => 0.0038518729489704613
+Precision: 0.12115384615384615, Recall: 0.1099476439790576, fitted: 0, true: 1
+Precision: 0.12224448897795591, Recall: 0.11444652908067542, fitted: 1, true: 7
+Precision: 0.13078470824949698, Recall: 0.124282982791587, fitted: 2, true: 0
+Precision: 0.11728395061728394, Recall: 0.11704312114989733, fitted: 3, true: 4
+Precision: 0.11827956989247312, Recall: 0.10516252390057361, fitted: 4, true: 0
+Precision: 0.12415349887133183, Recall: 0.09598603839441536, fitted: 5, true: 1
+Precision: 0.12984054669703873, Recall: 0.11046511627906977, fitted: 6, true: 9
+Precision: 0.1354679802955665, Recall: 0.09598603839441536, fitted: 7, true: 1
+Precision: 0.12935323383084577, Recall: 0.11087420042643924, fitted: 8, true: 3
+Precision: 0.11733333333333333, Recall: 0.07678883071553229, fitted: 9, true: 1
+Precision: 0.14150943396226415, Recall: 0.08442776735459662, fitted: 10, true: 7
+Precision: 0.12666666666666668, Recall: 0.037698412698412696, fitted: 11, true: 2
+The current ACC is :0.9341
+Iteration: 5-0, ELBO: -1700196.875
+Iteration: 5-1, ELBO: -1679054.125
+Iteration: 5-2, ELBO: -1662109.5
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.0946 0.1072 0.1032 0.1086 0.091  0.0956 0.0958 0.1054 0.1004 0.0982]
+The cluster evaluation result is 
+
+NMI => 0.004554571034011379
+ARS => 0.00032094796172423717
+HS => 0.004701526591821413
+CS => 0.004412208864231697
+VM => 0.004552275497546458
+Precision: 0.11923076923076924, Recall: 0.12350597609561753, fitted: 0, true: 8
+Precision: 0.11623246492985972, Recall: 0.10681399631675875, fitted: 1, true: 3
+Precision: 0.13279678068410464, Recall: 0.12790697674418605, fitted: 2, true: 2
+Precision: 0.13991769547325103, Recall: 0.1384928716904277, fitted: 3, true: 9
+Precision: 0.11397849462365592, Recall: 0.10557768924302789, fitted: 4, true: 8
+Precision: 0.13544018058690746, Recall: 0.11194029850746269, fitted: 5, true: 1
+Precision: 0.14123006833712984, Recall: 0.1141804788213628, fitted: 6, true: 3
+Precision: 0.12807881773399016, Recall: 0.10855949895615867, fitted: 7, true: 6
+Precision: 0.13681592039800994, Recall: 0.10436432637571158, fitted: 8, true: 7
+Precision: 0.11466666666666667, Recall: 0.08022388059701492, fitted: 9, true: 1
+Precision: 0.12264150943396226, Recall: 0.0718232044198895, fitted: 10, true: 3
+Precision: 0.13333333333333333, Recall: 0.03731343283582089, fitted: 11, true: 1
+The current ACC is :0.9344857142857143
+Iteration: 6-0, ELBO: -1596622.125
+Iteration: 6-1, ELBO: -1580731.75
+Iteration: 6-2, ELBO: -1565896.125
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.0884 0.1128 0.1038 0.0972 0.1002 0.0884 0.1024 0.1072 0.1008 0.0988]
+The cluster evaluation result is 
+
+NMI => 0.003058649097635785
+ARS => -0.0004937009825580874
+HS => 0.0031580329856736875
+CS => 0.0029623928391211765
+VM => 0.003057086082006969
+Precision: 0.11923076923076924, Recall: 0.11946050096339114, fitted: 0, true: 2
+Precision: 0.12024048096192384, Recall: 0.11194029850746269, fitted: 1, true: 7
+Precision: 0.12072434607645875, Recall: 0.10638297872340426, fitted: 2, true: 1
+Precision: 0.13168724279835392, Recall: 0.11347517730496454, fitted: 3, true: 1
+Precision: 0.11182795698924732, Recall: 0.10526315789473684, fitted: 4, true: 9
+Precision: 0.11963882618510158, Recall: 0.09397163120567376, fitted: 5, true: 1
+Precision: 0.12300683371298406, Recall: 0.10404624277456648, fitted: 6, true: 2
+Precision: 0.12315270935960591, Recall: 0.09765625, fitted: 7, true: 6
+Precision: 0.11940298507462686, Recall: 0.0851063829787234, fitted: 8, true: 1
+Precision: 0.128, Recall: 0.0851063829787234, fitted: 9, true: 1
+Precision: 0.12578616352201258, Recall: 0.07462686567164178, fitted: 10, true: 7
+Precision: 0.13333333333333333, Recall: 0.03992015968063872, fitted: 11, true: 4
+The current ACC is :0.9341571428571429
+Iteration: 7-0, ELBO: -1582272.125
+Iteration: 7-1, ELBO: -1568170.75
+Iteration: 7-2, ELBO: -1557205.75
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.096  0.107  0.0948 0.1092 0.0932 0.0934 0.1004 0.1082 0.0998 0.098 ]
+The cluster evaluation result is 
+
+NMI => 0.004088893443071677
+ARS => -0.000153828121450572
+HS => 0.004220914547143354
+CS => 0.003961001674414311
+VM => 0.004086829817382704
+Precision: 0.12115384615384615, Recall: 0.11538461538461539, fitted: 0, true: 3
+Precision: 0.12424849699398798, Recall: 0.12424849699398798, fitted: 1, true: 8
+Precision: 0.11468812877263582, Recall: 0.11422845691382766, fitted: 2, true: 8
+Precision: 0.12551440329218108, Recall: 0.12448979591836734, fitted: 3, true: 9
+Precision: 0.11397849462365592, Recall: 0.09906542056074766, fitted: 4, true: 1
+Precision: 0.11512415349887133, Recall: 0.09340659340659341, fitted: 5, true: 3
+Precision: 0.1275626423690205, Recall: 0.10256410256410256, fitted: 6, true: 3
+Precision: 0.14285714285714285, Recall: 0.11836734693877551, fitted: 7, true: 9
+Precision: 0.12189054726368159, Recall: 0.08974358974358974, fitted: 8, true: 3
+Precision: 0.13866666666666666, Recall: 0.11158798283261803, fitted: 9, true: 4
+Precision: 0.11635220125786164, Recall: 0.0691588785046729, fitted: 10, true: 1
+Precision: 0.16, Recall: 0.04436229205175601, fitted: 11, true: 7
+The current ACC is :0.9334285714285714
+Iteration: 8-0, ELBO: -1546380.875
+Iteration: 8-1, ELBO: -1532580.0
+Iteration: 8-2, ELBO: -1522854.125
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1012 0.1184 0.1042 0.0914 0.0878 0.0908 0.1054 0.0988 0.1008 0.1012]
+The cluster evaluation result is 
+
+NMI => 0.00401916410198122
+ARS => -0.00015518468949725684
+HS => 0.004150530432957703
+CS => 0.003891955580034926
+VM => 0.004017086272219374
+Precision: 0.11923076923076924, Recall: 0.12550607287449392, fitted: 0, true: 7
+Precision: 0.11823647294589178, Recall: 0.09966216216216216, fitted: 1, true: 1
+Precision: 0.12877263581488935, Recall: 0.12144212523719165, fitted: 2, true: 6
+Precision: 0.13580246913580246, Recall: 0.1252371916508539, fitted: 3, true: 6
+Precision: 0.12473118279569892, Recall: 0.09797297297297297, fitted: 4, true: 1
+Precision: 0.12189616252821671, Recall: 0.10246679316888045, fitted: 5, true: 6
+Precision: 0.11845102505694761, Recall: 0.08783783783783784, fitted: 6, true: 1
+Precision: 0.12807881773399016, Recall: 0.08783783783783784, fitted: 7, true: 1
+Precision: 0.1318407960199005, Recall: 0.08952702702702703, fitted: 8, true: 1
+Precision: 0.13333333333333333, Recall: 0.08445945945945946, fitted: 9, true: 1
+Precision: 0.12578616352201258, Recall: 0.07905138339920949, fitted: 10, true: 9
+Precision: 0.18, Recall: 0.04560810810810811, fitted: 11, true: 1
+The current ACC is :0.9320714285714286
+Iteration: 9-0, ELBO: -1484202.0
+Iteration: 9-1, ELBO: -1475434.0
+Iteration: 9-2, ELBO: -1460980.125
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1002 0.108  0.097  0.11   0.1042 0.088  0.0968 0.096  0.0968 0.103 ]
+The cluster evaluation result is 
+
+NMI => 0.0039571968226395976
+ARS => -8.272405248738757e-05
+HS => 0.004085171286006353
+CS => 0.0038332313621095423
+VM => 0.0039551933360789425
+Precision: 0.12307692307692308, Recall: 0.12284069097888675, fitted: 0, true: 4
+Precision: 0.1282565130260521, Recall: 0.12427184466019417, fitted: 1, true: 9
+Precision: 0.12072434607645875, Recall: 0.1111111111111111, fitted: 2, true: 1
+Precision: 0.13991769547325103, Recall: 0.13203883495145632, fitted: 3, true: 9
+Precision: 0.11397849462365592, Recall: 0.09636363636363636, fitted: 4, true: 3
+Precision: 0.11738148984198646, Recall: 0.10833333333333334, fitted: 5, true: 7
+Precision: 0.11845102505694761, Recall: 0.09454545454545454, fitted: 6, true: 3
+Precision: 0.12315270935960591, Recall: 0.0970873786407767, fitted: 7, true: 9
+Precision: 0.13432835820895522, Recall: 0.09818181818181818, fitted: 8, true: 3
+Precision: 0.144, Recall: 0.10778443113772455, fitted: 9, true: 0
+Precision: 0.12578616352201258, Recall: 0.07407407407407407, fitted: 10, true: 1
+Precision: 0.15333333333333332, Recall: 0.04181818181818182, fitted: 11, true: 3
+The current ACC is :0.9302857142857143
+Iteration: 10-0, ELBO: -1474978.875
+Iteration: 10-1, ELBO: -1467574.875
+Iteration: 10-2, ELBO: -1458302.125
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.0984 0.1166 0.0912 0.107  0.101  0.0912 0.0934 0.109  0.0926 0.0996]
+The cluster evaluation result is 
+
+NMI => 0.004161005845802573
+ARS => -4.4803683168209874e-05
+HS => 0.004296834308641523
+CS => 0.004029471095495215
+VM => 0.004158860096628482
+Precision: 0.1423076923076923, Recall: 0.1269296740994854, fitted: 0, true: 1
+Precision: 0.11823647294589178, Recall: 0.1102803738317757, fitted: 1, true: 3
+Precision: 0.11871227364185111, Recall: 0.12633832976445397, fitted: 2, true: 6
+Precision: 0.12139917695473251, Recall: 0.10825688073394496, fitted: 3, true: 7
+Precision: 0.12043010752688173, Recall: 0.09605488850771869, fitted: 4, true: 1
+Precision: 0.11963882618510158, Recall: 0.09090909090909091, fitted: 5, true: 1
+Precision: 0.1252847380410023, Recall: 0.11044176706827309, fitted: 6, true: 9
+Precision: 0.1330049261083744, Recall: 0.09908256880733946, fitted: 7, true: 7
+Precision: 0.13930348258706468, Recall: 0.10467289719626169, fitted: 8, true: 3
+Precision: 0.13866666666666666, Recall: 0.08919382504288165, fitted: 9, true: 1
+Precision: 0.13836477987421383, Recall: 0.08224299065420561, fitted: 10, true: 3
+Precision: 0.18, Recall: 0.04631217838765009, fitted: 11, true: 1
+The current ACC is :0.9280285714285714
+Iteration: 11-0, ELBO: -1489463.125
+Iteration: 11-1, ELBO: -1480923.5
+Iteration: 11-2, ELBO: -1470551.125
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1006 0.1112 0.1008 0.0966 0.1014 0.088  0.0954 0.106  0.0998 0.1002]
+The cluster evaluation result is 
+
+NMI => 0.004402017241068752
+ARS => 0.00010867055723296692
+HS => 0.0045441843540076935
+CS => 0.004264297898384458
+VM => 0.004399794478873827
+Precision: 0.1346153846153846, Recall: 0.12589928057553956, fitted: 0, true: 1
+Precision: 0.12024048096192384, Recall: 0.11928429423459244, fitted: 1, true: 0
+Precision: 0.11468812877263582, Recall: 0.10251798561151079, fitted: 2, true: 1
+Precision: 0.1419753086419753, Recall: 0.13690476190476192, fitted: 3, true: 2
+Precision: 0.12043010752688173, Recall: 0.1111111111111111, fitted: 4, true: 2
+Precision: 0.11963882618510158, Recall: 0.09532374100719425, fitted: 5, true: 1
+Precision: 0.12984054669703873, Recall: 0.11801242236024845, fitted: 6, true: 3
+Precision: 0.11083743842364532, Recall: 0.08093525179856115, fitted: 7, true: 1
+Precision: 0.12437810945273632, Recall: 0.09433962264150944, fitted: 8, true: 7
+Precision: 0.16, Recall: 0.11320754716981132, fitted: 9, true: 7
+Precision: 0.1289308176100629, Recall: 0.08216432865731463, fitted: 10, true: 8
+Precision: 0.14666666666666667, Recall: 0.0437375745526839, fitted: 11, true: 0
+The current ACC is :0.9254571428571429
+Iteration: 12-0, ELBO: -1452314.875
+Iteration: 12-1, ELBO: -1444501.875
+Iteration: 12-2, ELBO: -1433589.5
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1038 0.108  0.0996 0.1074 0.0958 0.092  0.104  0.098  0.094  0.0974]
+The cluster evaluation result is 
+
+NMI => 0.003635466989434485
+ARS => -0.00026289385255228733
+HS => 0.0037526111683700994
+CS => 0.003521979666496679
+VM => 0.0036336394805660224
+Precision: 0.11538461538461539, Recall: 0.1111111111111111, fitted: 0, true: 1
+Precision: 0.13026052104208416, Recall: 0.12104283054003724, fitted: 1, true: 3
+Precision: 0.12474849094567404, Recall: 0.12653061224489795, fitted: 2, true: 7
+Precision: 0.12345679012345678, Recall: 0.1111111111111111, fitted: 3, true: 1
+Precision: 0.12258064516129032, Recall: 0.10614525139664804, fitted: 4, true: 3
+Precision: 0.11738148984198646, Recall: 0.10677618069815195, fitted: 5, true: 9
+Precision: 0.11845102505694761, Recall: 0.0962962962962963, fitted: 6, true: 1
+Precision: 0.11330049261083744, Recall: 0.08518518518518518, fitted: 7, true: 1
+Precision: 0.12686567164179105, Recall: 0.09497206703910614, fitted: 8, true: 3
+Precision: 0.12266666666666666, Recall: 0.0944558521560575, fitted: 9, true: 9
+Precision: 0.14150943396226415, Recall: 0.08333333333333333, fitted: 10, true: 1
+Precision: 0.13333333333333333, Recall: 0.04081632653061224, fitted: 11, true: 7
+The current ACC is :0.9219428571428572
+Iteration: 13-0, ELBO: -1385311.375
+Iteration: 13-1, ELBO: -1378137.875
+Iteration: 13-2, ELBO: -1369475.0
+The current epoch is epoch: 1
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1632.8 MiB | K   12 | loss  1.560571279e+00 |  
+    0.400/300 after      0 sec. |   1632.8 MiB | K   12 | loss  1.382092920e+00 |  
+    0.600/300 after      0 sec. |   1632.8 MiB | K   12 | loss  1.335432398e+00 |  
+    1.000/300 after      0 sec. |   1632.8 MiB | K   12 | loss  1.281558436e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      1 sec. |   1632.8 MiB | K   12 | loss  1.271311413e+00 | Ndiff   21.201 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      1 sec. |   1632.8 MiB | K   12 | loss  1.270558792e+00 | Ndiff    2.783 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      1 sec. |   1632.8 MiB | K   12 | loss  1.270261037e+00 | Ndiff    1.895 
+MERGE @ lap 5.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+    5.000/300 after      2 sec. |   1632.8 MiB | K   12 | loss  1.270132389e+00 | Ndiff    2.256 
+MERGE @ lap 6.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+    6.000/300 after      2 sec. |   1632.8 MiB | K   12 | loss  1.269989736e+00 | Ndiff    1.281 
+MERGE @ lap 7.00 : 1/10 accepted. Ndiff 40.28. 0 skipped.
+    7.000/300 after      2 sec. |   1632.8 MiB | K   11 | loss  1.269192246e+00 | Ndiff    1.138 
+MERGE @ lap 8.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+    8.000/300 after      3 sec. |   1632.8 MiB | K   11 | loss  1.269170510e+00 | Ndiff    0.580 
+MERGE @ lap 9.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+    9.000/300 after      3 sec. |   1632.8 MiB | K   11 | loss  1.269161609e+00 | Ndiff    0.363 
+MERGE @ lap 10.00: No promising candidates, so no attempts.
+   10.000/300 after      3 sec. |   1632.8 MiB | K   11 | loss  1.269155691e+00 | Ndiff    0.286 
+MERGE @ lap 11.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      3 sec. |   1632.8 MiB | K   11 | loss  1.269151193e+00 | Ndiff    0.254 
+MERGE @ lap 12.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      4 sec. |   1632.8 MiB | K   11 | loss  1.269147363e+00 | Ndiff    0.210 
+MERGE @ lap 13.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      4 sec. |   1632.8 MiB | K   11 | loss  1.269144256e+00 | Ndiff    0.215 
+MERGE @ lap 14.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   14.000/300 after      4 sec. |   1632.8 MiB | K   11 | loss  1.269141759e+00 | Ndiff    0.206 
+MERGE @ lap 15.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   15.000/300 after      5 sec. |   1632.8 MiB | K   11 | loss  1.269139714e+00 | Ndiff    0.195 
+MERGE @ lap 16.00: No promising candidates, so no attempts.
+   16.000/300 after      5 sec. |   1632.8 MiB | K   11 | loss  1.269138088e+00 | Ndiff    0.175 
+MERGE @ lap 17.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      5 sec. |   1632.8 MiB | K   11 | loss  1.269136875e+00 | Ndiff    0.210 
+MERGE @ lap 18.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      6 sec. |   1632.8 MiB | K   11 | loss  1.269135902e+00 | Ndiff    0.168 
+MERGE @ lap 19.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      6 sec. |   1632.8 MiB | K   11 | loss  1.269135118e+00 | Ndiff    0.149 
+MERGE @ lap 20.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   20.000/300 after      6 sec. |   1632.8 MiB | K   11 | loss  1.269134512e+00 | Ndiff    0.165 
+MERGE @ lap 21.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   21.000/300 after      6 sec. |   1632.8 MiB | K   11 | loss  1.269134037e+00 | Ndiff    0.106 
+MERGE @ lap 22.00: No promising candidates, so no attempts.
+   22.000/300 after      7 sec. |   1632.8 MiB | K   11 | loss  1.269133652e+00 | Ndiff    0.140 
+MERGE @ lap 23.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   23.000/300 after      7 sec. |   1632.8 MiB | K   11 | loss  1.269133341e+00 | Ndiff    0.091 
+MERGE @ lap 24.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   24.000/300 after      7 sec. |   1632.8 MiB | K   11 | loss  1.269133080e+00 | Ndiff    0.084 
+MERGE @ lap 25.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   25.000/300 after      8 sec. |   1632.8 MiB | K   11 | loss  1.269132865e+00 | Ndiff    0.081 
+MERGE @ lap 26.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   26.000/300 after      8 sec. |   1632.8 MiB | K   11 | loss  1.269132692e+00 | Ndiff    0.078 
+MERGE @ lap 27.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   27.000/300 after      8 sec. |   1632.8 MiB | K   11 | loss  1.269132547e+00 | Ndiff    0.059 
+MERGE @ lap 28.00: No promising candidates, so no attempts.
+   28.000/300 after      8 sec. |   1632.8 MiB | K   11 | loss  1.269132419e+00 | Ndiff    0.043 
+MERGE @ lap 29.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   29.000/300 after      9 sec. |   1632.8 MiB | K   11 | loss  1.269132305e+00 | Ndiff    0.058 
+MERGE @ lap 30.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   30.000/300 after      9 sec. |   1632.8 MiB | K   11 | loss  1.269132201e+00 | Ndiff    0.041 
+MERGE @ lap 31.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   31.000/300 after      9 sec. |   1632.8 MiB | K   11 | loss  1.269132096e+00 | Ndiff    0.045 
+MERGE @ lap 32.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   32.000/300 after     10 sec. |   1632.8 MiB | K   11 | loss  1.269131993e+00 | Ndiff    0.054 
+MERGE @ lap 33.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   33.000/300 after     10 sec. |   1632.8 MiB | K   11 | loss  1.269131886e+00 | Ndiff    0.053 
+MERGE @ lap 34.00: No promising candidates, so no attempts.
+   34.000/300 after     10 sec. |   1632.8 MiB | K   11 | loss  1.269131777e+00 | Ndiff    0.059 
+MERGE @ lap 35.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   35.000/300 after     10 sec. |   1632.8 MiB | K   11 | loss  1.269131662e+00 | Ndiff    0.057 
+MERGE @ lap 36.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   36.000/300 after     11 sec. |   1632.8 MiB | K   11 | loss  1.269131549e+00 | Ndiff    0.039 
+MERGE @ lap 37.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   37.000/300 after     11 sec. |   1632.8 MiB | K   11 | loss  1.269131429e+00 | Ndiff    0.059 
+MERGE @ lap 38.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   38.000/300 after     11 sec. |   1632.8 MiB | K   11 | loss  1.269131307e+00 | Ndiff    0.054 
+MERGE @ lap 39.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   39.000/300 after     12 sec. |   1632.8 MiB | K   11 | loss  1.269131186e+00 | Ndiff    0.062 
+MERGE @ lap 40.00: No promising candidates, so no attempts.
+   40.000/300 after     12 sec. |   1632.8 MiB | K   11 | loss  1.269131070e+00 | Ndiff    0.056 
+MERGE @ lap 41.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   41.000/300 after     12 sec. |   1632.8 MiB | K   11 | loss  1.269130955e+00 | Ndiff    0.046 
+MERGE @ lap 42.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   42.000/300 after     12 sec. |   1632.8 MiB | K   11 | loss  1.269130848e+00 | Ndiff    0.052 
+MERGE @ lap 43.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   43.000/300 after     13 sec. |   1632.8 MiB | K   11 | loss  1.269130750e+00 | Ndiff    0.054 
+MERGE @ lap 44.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   44.000/300 after     13 sec. |   1632.8 MiB | K   11 | loss  1.269130665e+00 | Ndiff    0.047 
+MERGE @ lap 45.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   45.000/300 after     13 sec. |   1632.8 MiB | K   11 | loss  1.269130586e+00 | Ndiff    0.039 
+MERGE @ lap 46.00: No promising candidates, so no attempts.
+   46.000/300 after     14 sec. |   1632.8 MiB | K   11 | loss  1.269130520e+00 | Ndiff    0.045 
+MERGE @ lap 47.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   47.000/300 after     14 sec. |   1632.8 MiB | K   11 | loss  1.269130462e+00 | Ndiff    0.040 
+MERGE @ lap 48.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   48.000/300 after     14 sec. |   1632.8 MiB | K   11 | loss  1.269130415e+00 | Ndiff    0.030 
+MERGE @ lap 49.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   49.000/300 after     14 sec. |   1632.8 MiB | K   11 | loss  1.269130375e+00 | Ndiff    0.035 
+MERGE @ lap 50.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   50.000/300 after     15 sec. |   1632.8 MiB | K   11 | loss  1.269130342e+00 | Ndiff    0.026 
+MERGE @ lap 51.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   51.000/300 after     15 sec. |   1632.8 MiB | K   11 | loss  1.269130315e+00 | Ndiff    0.027 
+MERGE @ lap 52.00: No promising candidates, so no attempts.
+   52.000/300 after     15 sec. |   1632.8 MiB | K   11 | loss  1.269130293e+00 | Ndiff    0.025 
+MERGE @ lap 53.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   53.000/300 after     16 sec. |   1632.8 MiB | K   11 | loss  1.269130275e+00 | Ndiff    0.019 
+MERGE @ lap 54.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   54.000/300 after     16 sec. |   1632.8 MiB | K   11 | loss  1.269130261e+00 | Ndiff    0.019 
+MERGE @ lap 55.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   55.000/300 after     16 sec. |   1632.8 MiB | K   11 | loss  1.269130250e+00 | Ndiff    0.016 
+MERGE @ lap 56.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   56.000/300 after     17 sec. |   1632.8 MiB | K   11 | loss  1.269130241e+00 | Ndiff    0.016 
+MERGE @ lap 57.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   57.000/300 after     17 sec. |   1632.8 MiB | K   11 | loss  1.269130234e+00 | Ndiff    0.012 
+MERGE @ lap 58.00: No promising candidates, so no attempts.
+   58.000/300 after     17 sec. |   1632.8 MiB | K   11 | loss  1.269130229e+00 | Ndiff    0.013 
+MERGE @ lap 59.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   59.000/300 after     17 sec. |   1632.8 MiB | K   11 | loss  1.269130224e+00 | Ndiff    0.011 
+MERGE @ lap 60.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   60.000/300 after     18 sec. |   1632.8 MiB | K   11 | loss  1.269130221e+00 | Ndiff    0.010 
+MERGE @ lap 61.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   61.000/300 after     18 sec. |   1632.8 MiB | K   11 | loss  1.269130218e+00 | Ndiff    0.006 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1022 0.1088 0.1006 0.1056 0.095  0.0902 0.098  0.1034 0.096  0.1002]
+The cluster evaluation result is 
+
+NMI => 0.8688935968968717
+ARS => 0.8603780442409262
+HS => 0.8843819909167776
+CS => 0.8536764548379735
+VM => 0.8687579920829827
+Precision: 0.8617747440273038, Recall: 0.9564393939393939, fitted: 0, true: 3
+Precision: 0.96, Recall: 0.9542743538767395, fitted: 1, true: 2
+Precision: 0.9979919678714859, Recall: 0.9136029411764706, fitted: 2, true: 1
+Precision: 0.9919517102615694, Recall: 0.9647749510763209, fitted: 3, true: 0
+Precision: 0.9744680851063829, Recall: 0.9642105263157895, fitted: 4, true: 4
+Precision: 0.9528907922912205, Recall: 0.9270833333333334, fitted: 5, true: 8
+Precision: 0.9912087912087912, Recall: 0.9001996007984032, fitted: 6, true: 9
+Precision: 0.9955947136563876, Recall: 0.9224489795918367, fitted: 7, true: 6
+Precision: 0.9927007299270073, Recall: 0.7891682785299806, fitted: 8, true: 7
+Precision: 0.9920212765957447, Recall: 0.8270509977827051, fitted: 9, true: 5
+Precision: 0.36713286713286714, Recall: 0.20309477756286268, fitted: 10, true: 7
+The current ACC is :0.9362857142857143
+The current epoch is epoch: 2
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1632.8 MiB | K   11 | loss  1.506600503e+00 |  
+    0.400/300 after      0 sec. |   1632.8 MiB | K   11 | loss  1.366211674e+00 |  
+    0.600/300 after      0 sec. |   1632.8 MiB | K   11 | loss  1.323808940e+00 |  
+    1.000/300 after      0 sec. |   1632.8 MiB | K   11 | loss  1.276767747e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      0 sec. |   1632.8 MiB | K   11 | loss  1.274850150e+00 | Ndiff   30.566 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      1 sec. |   1632.8 MiB | K   11 | loss  1.274614237e+00 | Ndiff    4.500 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      1 sec. |   1632.8 MiB | K   11 | loss  1.274513422e+00 | Ndiff    3.448 
+MERGE @ lap 5.00 : 0/25 accepted. Ndiff 0.00. 0 skipped.
+    5.000/300 after      2 sec. |   1632.8 MiB | K   11 | loss  1.274463455e+00 | Ndiff    1.186 
+MERGE @ lap 6.00 : 0/25 accepted. Ndiff 0.00. 0 skipped.
+    6.000/300 after      2 sec. |   1632.8 MiB | K   11 | loss  1.274437798e+00 | Ndiff    0.935 
+MERGE @ lap 7.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+    7.000/300 after      2 sec. |   1632.8 MiB | K   11 | loss  1.274424097e+00 | Ndiff    0.605 
+MERGE @ lap 8.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+    8.000/300 after      3 sec. |   1632.8 MiB | K   11 | loss  1.274416851e+00 | Ndiff    0.417 
+MERGE @ lap 9.00 : 0/2 accepted. Ndiff 0.00. 0 skipped.
+    9.000/300 after      3 sec. |   1632.8 MiB | K   11 | loss  1.274413499e+00 | Ndiff    0.233 
+MERGE @ lap 10.00: No promising candidates, so no attempts.
+   10.000/300 after      3 sec. |   1632.8 MiB | K   11 | loss  1.274411954e+00 | Ndiff    0.153 
+MERGE @ lap 11.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      4 sec. |   1632.8 MiB | K   11 | loss  1.274411269e+00 | Ndiff    0.131 
+MERGE @ lap 12.00 : 0/25 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      4 sec. |   1632.8 MiB | K   11 | loss  1.274410948e+00 | Ndiff    0.064 
+MERGE @ lap 13.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      5 sec. |   1632.8 MiB | K   13 | loss  1.273383645e+00 | Ndiff    0.041 
+MERGE @ lap 14.00 : 1/15 accepted. Ndiff 0.00. 4 skipped.
+   14.000/300 after      5 sec. |   1632.8 MiB | K   12 | loss  1.271830926e+00 | Ndiff    8.935 
+MERGE @ lap 15.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   15.000/300 after      6 sec. |   1632.8 MiB | K   12 | loss  1.271752226e+00 | Ndiff    1.931 
+MERGE @ lap 16.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   16.000/300 after      6 sec. |   1632.8 MiB | K   12 | loss  1.271718530e+00 | Ndiff    0.533 
+MERGE @ lap 17.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      6 sec. |   1632.8 MiB | K   12 | loss  1.271696776e+00 | Ndiff    0.441 
+MERGE @ lap 18.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      7 sec. |   1632.8 MiB | K   12 | loss  1.271677872e+00 | Ndiff    0.425 
+MERGE @ lap 19.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      7 sec. |   1632.8 MiB | K   12 | loss  1.271662056e+00 | Ndiff    0.282 
+MERGE @ lap 20.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   20.000/300 after      7 sec. |   1632.8 MiB | K   12 | loss  1.271635834e+00 | Ndiff    0.392 
+MERGE @ lap 21.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   21.000/300 after      7 sec. |   1632.8 MiB | K   12 | loss  1.271583282e+00 | Ndiff    0.841 
+MERGE @ lap 22.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   22.000/300 after      8 sec. |   1632.8 MiB | K   12 | loss  1.271554209e+00 | Ndiff    0.438 
+MERGE @ lap 23.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   23.000/300 after      8 sec. |   1632.8 MiB | K   12 | loss  1.271547108e+00 | Ndiff    0.396 
+MERGE @ lap 24.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   24.000/300 after      8 sec. |   1632.8 MiB | K   12 | loss  1.271542943e+00 | Ndiff    0.271 
+MERGE @ lap 25.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   25.000/300 after      9 sec. |   1632.8 MiB | K   12 | loss  1.271540665e+00 | Ndiff    0.349 
+MERGE @ lap 26.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   26.000/300 after      9 sec. |   1632.8 MiB | K   12 | loss  1.271539580e+00 | Ndiff    0.232 
+MERGE @ lap 27.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   27.000/300 after      9 sec. |   1632.8 MiB | K   12 | loss  1.271539002e+00 | Ndiff    0.215 
+MERGE @ lap 28.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   28.000/300 after      9 sec. |   1632.8 MiB | K   12 | loss  1.271538624e+00 | Ndiff    0.158 
+MERGE @ lap 29.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   29.000/300 after     10 sec. |   1632.8 MiB | K   12 | loss  1.271538363e+00 | Ndiff    0.126 
+MERGE @ lap 30.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   30.000/300 after     10 sec. |   1632.8 MiB | K   12 | loss  1.271538187e+00 | Ndiff    0.161 
+MERGE @ lap 31.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   31.000/300 after     10 sec. |   1632.8 MiB | K   12 | loss  1.271538057e+00 | Ndiff    0.103 
+MERGE @ lap 32.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   32.000/300 after     10 sec. |   1632.8 MiB | K   12 | loss  1.271537967e+00 | Ndiff    0.084 
+MERGE @ lap 33.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   33.000/300 after     10 sec. |   1632.8 MiB | K   12 | loss  1.271537903e+00 | Ndiff    0.075 
+MERGE @ lap 34.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   34.000/300 after     11 sec. |   1632.8 MiB | K   12 | loss  1.271537857e+00 | Ndiff    0.056 
+MERGE @ lap 35.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   35.000/300 after     11 sec. |   1632.8 MiB | K   12 | loss  1.271537824e+00 | Ndiff    0.060 
+MERGE @ lap 36.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   36.000/300 after     11 sec. |   1632.8 MiB | K   12 | loss  1.271537803e+00 | Ndiff    0.040 
+MERGE @ lap 37.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   37.000/300 after     12 sec. |   1632.8 MiB | K   12 | loss  1.271537786e+00 | Ndiff    0.028 
+MERGE @ lap 38.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   38.000/300 after     12 sec. |   1632.8 MiB | K   12 | loss  1.271537775e+00 | Ndiff    0.038 
+MERGE @ lap 39.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   39.000/300 after     12 sec. |   1632.8 MiB | K   12 | loss  1.271537768e+00 | Ndiff    0.019 
+MERGE @ lap 40.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   40.000/300 after     13 sec. |   1632.8 MiB | K   12 | loss  1.271537762e+00 | Ndiff    0.028 
+MERGE @ lap 41.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   41.000/300 after     13 sec. |   1632.8 MiB | K   12 | loss  1.271537758e+00 | Ndiff    0.016 
+MERGE @ lap 42.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   42.000/300 after     13 sec. |   1632.8 MiB | K   12 | loss  1.271537756e+00 | Ndiff    0.014 
+MERGE @ lap 43.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   43.000/300 after     13 sec. |   1632.8 MiB | K   12 | loss  1.271537754e+00 | Ndiff    0.016 
+MERGE @ lap 44.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   44.000/300 after     13 sec. |   1632.8 MiB | K   12 | loss  1.271537752e+00 | Ndiff    0.011 
+MERGE @ lap 45.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   45.000/300 after     14 sec. |   1632.8 MiB | K   12 | loss  1.271537751e+00 | Ndiff    0.009 
+MERGE @ lap 46.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   46.000/300 after     14 sec. |   1632.8 MiB | K   12 | loss  1.271537750e+00 | Ndiff    0.008 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.0988 0.1198 0.0996 0.098  0.0958 0.0906 0.1028 0.1016 0.092  0.101 ]
+The cluster evaluation result is 
+
+NMI => 0.8547594411166343
+ARS => 0.8212514980133754
+HS => 0.8846028578146582
+CS => 0.825922837263882
+VM => 0.8542563309982598
+Precision: 0.9227799227799228, Recall: 0.9598393574297188, fitted: 0, true: 2
+Precision: 0.905811623246493, Recall: 0.9224489795918367, fitted: 1, true: 3
+Precision: 0.9958071278825996, Recall: 0.9241245136186771, fitted: 2, true: 6
+Precision: 0.9851380042462845, Recall: 0.9686847599164927, fitted: 3, true: 4
+Precision: 0.9936974789915967, Recall: 0.9574898785425101, fitted: 4, true: 0
+Precision: 0.9893617021276596, Recall: 0.9207920792079208, fitted: 5, true: 9
+Precision: 0.9403973509933775, Recall: 0.9260869565217391, fitted: 6, true: 8
+Precision: 0.9949109414758269, Recall: 0.7696850393700787, fitted: 7, true: 7
+Precision: 0.9818652849740933, Recall: 0.8366445916114791, fitted: 8, true: 5
+Precision: 0.36065573770491804, Recall: 0.21653543307086615, fitted: 9, true: 7
+Precision: 1.0, Recall: 0.48580968280467446, fitted: 10, true: 1
+Precision: 0.9961685823754789, Recall: 0.4340567612687813, fitted: 11, true: 1
+The current ACC is :0.9356571428571429
+The current epoch is epoch: 3
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1633.0 MiB | K   12 | loss  1.516480311e+00 |  
+    0.400/300 after      0 sec. |   1633.0 MiB | K   12 | loss  1.372466044e+00 |  
+    0.600/300 after      0 sec. |   1633.0 MiB | K   12 | loss  1.318426092e+00 |  
+    1.000/300 after      0 sec. |   1633.0 MiB | K   12 | loss  1.274964710e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.272511445e+00 | Ndiff    8.929 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      1 sec. |   1633.1 MiB | K   12 | loss  1.272105848e+00 | Ndiff    1.754 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      1 sec. |   1633.1 MiB | K   12 | loss  1.271893489e+00 | Ndiff    1.091 
+MERGE @ lap 5.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+    5.000/300 after      1 sec. |   1633.1 MiB | K   12 | loss  1.271792855e+00 | Ndiff    0.935 
+MERGE @ lap 6.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+    6.000/300 after      2 sec. |   1633.1 MiB | K   12 | loss  1.271747063e+00 | Ndiff    0.645 
+MERGE @ lap 7.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+    7.000/300 after      2 sec. |   1633.1 MiB | K   12 | loss  1.271723005e+00 | Ndiff    0.570 
+MERGE @ lap 8.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+    8.000/300 after      2 sec. |   1633.1 MiB | K   12 | loss  1.271706346e+00 | Ndiff    0.453 
+MERGE @ lap 9.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+    9.000/300 after      3 sec. |   1633.1 MiB | K   12 | loss  1.271688841e+00 | Ndiff    0.782 
+MERGE @ lap 10.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   10.000/300 after      3 sec. |   1633.1 MiB | K   12 | loss  1.271655052e+00 | Ndiff    0.574 
+MERGE @ lap 11.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      3 sec. |   1633.1 MiB | K   12 | loss  1.271609486e+00 | Ndiff    0.826 
+MERGE @ lap 12.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      3 sec. |   1633.1 MiB | K   12 | loss  1.271540354e+00 | Ndiff    1.021 
+MERGE @ lap 13.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      4 sec. |   1633.1 MiB | K   12 | loss  1.271441007e+00 | Ndiff    1.732 
+MERGE @ lap 14.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   14.000/300 after      4 sec. |   1633.1 MiB | K   12 | loss  1.271375473e+00 | Ndiff    1.012 
+MERGE @ lap 15.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   15.000/300 after      4 sec. |   1633.1 MiB | K   12 | loss  1.271330414e+00 | Ndiff    1.050 
+MERGE @ lap 16.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   16.000/300 after      4 sec. |   1633.1 MiB | K   12 | loss  1.271305649e+00 | Ndiff    0.709 
+MERGE @ lap 17.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      5 sec. |   1633.1 MiB | K   12 | loss  1.271293413e+00 | Ndiff    0.586 
+MERGE @ lap 18.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      5 sec. |   1633.1 MiB | K   12 | loss  1.271285676e+00 | Ndiff    0.471 
+MERGE @ lap 19.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      5 sec. |   1633.1 MiB | K   12 | loss  1.271280023e+00 | Ndiff    0.304 
+MERGE @ lap 20.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   20.000/300 after      5 sec. |   1633.1 MiB | K   12 | loss  1.271275705e+00 | Ndiff    0.329 
+MERGE @ lap 21.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+   21.000/300 after      6 sec. |   1633.1 MiB | K   12 | loss  1.271272013e+00 | Ndiff    0.267 
+MERGE @ lap 22.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   22.000/300 after      6 sec. |   1633.1 MiB | K   12 | loss  1.271268473e+00 | Ndiff    0.330 
+MERGE @ lap 23.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   23.000/300 after      6 sec. |   1633.1 MiB | K   12 | loss  1.271265008e+00 | Ndiff    0.593 
+MERGE @ lap 24.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   24.000/300 after      7 sec. |   1633.1 MiB | K   12 | loss  1.271261513e+00 | Ndiff    0.242 
+MERGE @ lap 25.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+   25.000/300 after      7 sec. |   1633.1 MiB | K   12 | loss  1.271258019e+00 | Ndiff    0.316 
+MERGE @ lap 26.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   26.000/300 after      7 sec. |   1633.1 MiB | K   12 | loss  1.271254069e+00 | Ndiff    0.311 
+MERGE @ lap 27.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   27.000/300 after      7 sec. |   1633.1 MiB | K   12 | loss  1.271248905e+00 | Ndiff    0.394 
+MERGE @ lap 28.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   28.000/300 after      8 sec. |   1633.1 MiB | K   12 | loss  1.271241070e+00 | Ndiff    0.480 
+MERGE @ lap 29.00 : 0/24 accepted. Ndiff 0.00. 0 skipped.
+   29.000/300 after      8 sec. |   1633.1 MiB | K   12 | loss  1.271231384e+00 | Ndiff    0.504 
+MERGE @ lap 30.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   30.000/300 after      8 sec. |   1633.1 MiB | K   12 | loss  1.271224437e+00 | Ndiff    0.365 
+MERGE @ lap 31.00 : 0/12 accepted. Ndiff 0.00. 0 skipped.
+   31.000/300 after      8 sec. |   1633.1 MiB | K   12 | loss  1.271218724e+00 | Ndiff    0.638 
+MERGE @ lap 32.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   32.000/300 after      9 sec. |   1633.1 MiB | K   12 | loss  1.271213971e+00 | Ndiff    0.511 
+MERGE @ lap 33.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   33.000/300 after      9 sec. |   1633.1 MiB | K   12 | loss  1.271209358e+00 | Ndiff    0.411 
+MERGE @ lap 34.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   34.000/300 after      9 sec. |   1633.1 MiB | K   12 | loss  1.271204391e+00 | Ndiff    0.404 
+MERGE @ lap 35.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   35.000/300 after      9 sec. |   1633.1 MiB | K   12 | loss  1.271198610e+00 | Ndiff    0.374 
+MERGE @ lap 36.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   36.000/300 after     10 sec. |   1633.1 MiB | K   12 | loss  1.271193078e+00 | Ndiff    0.456 
+MERGE @ lap 37.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   37.000/300 after     10 sec. |   1633.1 MiB | K   12 | loss  1.271188904e+00 | Ndiff    0.327 
+MERGE @ lap 38.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   38.000/300 after     10 sec. |   1633.1 MiB | K   12 | loss  1.271186618e+00 | Ndiff    0.241 
+MERGE @ lap 39.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   39.000/300 after     10 sec. |   1633.1 MiB | K   12 | loss  1.271185314e+00 | Ndiff    0.176 
+MERGE @ lap 40.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   40.000/300 after     11 sec. |   1633.1 MiB | K   12 | loss  1.271184414e+00 | Ndiff    0.166 
+MERGE @ lap 41.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   41.000/300 after     11 sec. |   1633.1 MiB | K   12 | loss  1.271183643e+00 | Ndiff    0.126 
+MERGE @ lap 42.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   42.000/300 after     11 sec. |   1633.1 MiB | K   12 | loss  1.271182941e+00 | Ndiff    0.136 
+MERGE @ lap 43.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   43.000/300 after     11 sec. |   1633.1 MiB | K   12 | loss  1.271182216e+00 | Ndiff    0.100 
+MERGE @ lap 44.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   44.000/300 after     12 sec. |   1633.1 MiB | K   12 | loss  1.271181416e+00 | Ndiff    0.116 
+MERGE @ lap 45.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   45.000/300 after     12 sec. |   1633.1 MiB | K   12 | loss  1.271180494e+00 | Ndiff    0.078 
+MERGE @ lap 46.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   46.000/300 after     12 sec. |   1633.1 MiB | K   12 | loss  1.271179460e+00 | Ndiff    0.081 
+MERGE @ lap 47.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   47.000/300 after     13 sec. |   1633.1 MiB | K   12 | loss  1.271178337e+00 | Ndiff    0.078 
+MERGE @ lap 48.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   48.000/300 after     13 sec. |   1633.1 MiB | K   12 | loss  1.271177176e+00 | Ndiff    0.113 
+MERGE @ lap 49.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   49.000/300 after     13 sec. |   1633.1 MiB | K   12 | loss  1.271176002e+00 | Ndiff    0.087 
+MERGE @ lap 50.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   50.000/300 after     13 sec. |   1633.1 MiB | K   12 | loss  1.271174974e+00 | Ndiff    0.080 
+MERGE @ lap 51.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   51.000/300 after     14 sec. |   1633.1 MiB | K   12 | loss  1.271174203e+00 | Ndiff    0.104 
+MERGE @ lap 52.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   52.000/300 after     14 sec. |   1633.1 MiB | K   12 | loss  1.271173567e+00 | Ndiff    0.095 
+MERGE @ lap 53.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   53.000/300 after     14 sec. |   1633.1 MiB | K   12 | loss  1.271173030e+00 | Ndiff    0.098 
+MERGE @ lap 54.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   54.000/300 after     14 sec. |   1633.1 MiB | K   12 | loss  1.271172572e+00 | Ndiff    0.085 
+MERGE @ lap 55.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   55.000/300 after     15 sec. |   1633.1 MiB | K   12 | loss  1.271172106e+00 | Ndiff    0.113 
+MERGE @ lap 56.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   56.000/300 after     15 sec. |   1633.1 MiB | K   12 | loss  1.271171609e+00 | Ndiff    0.112 
+MERGE @ lap 57.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   57.000/300 after     15 sec. |   1633.1 MiB | K   12 | loss  1.271171069e+00 | Ndiff    0.144 
+MERGE @ lap 58.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   58.000/300 after     15 sec. |   1633.1 MiB | K   12 | loss  1.271170456e+00 | Ndiff    0.098 
+MERGE @ lap 59.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   59.000/300 after     16 sec. |   1633.1 MiB | K   12 | loss  1.271169749e+00 | Ndiff    0.178 
+MERGE @ lap 60.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   60.000/300 after     16 sec. |   1633.1 MiB | K   12 | loss  1.271168902e+00 | Ndiff    0.141 
+MERGE @ lap 61.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   61.000/300 after     16 sec. |   1633.1 MiB | K   12 | loss  1.271167837e+00 | Ndiff    0.156 
+MERGE @ lap 62.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   62.000/300 after     16 sec. |   1633.1 MiB | K   12 | loss  1.271166541e+00 | Ndiff    0.167 
+MERGE @ lap 63.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   63.000/300 after     17 sec. |   1633.1 MiB | K   12 | loss  1.271164821e+00 | Ndiff    0.265 
+MERGE @ lap 64.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   64.000/300 after     17 sec. |   1633.1 MiB | K   12 | loss  1.271162512e+00 | Ndiff    0.244 
+MERGE @ lap 65.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   65.000/300 after     17 sec. |   1633.1 MiB | K   12 | loss  1.271159343e+00 | Ndiff    0.359 
+MERGE @ lap 66.00 : 0/17 accepted. Ndiff 0.00. 0 skipped.
+   66.000/300 after     17 sec. |   1633.1 MiB | K   12 | loss  1.271155066e+00 | Ndiff    0.459 
+MERGE @ lap 67.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   67.000/300 after     18 sec. |   1633.1 MiB | K   12 | loss  1.271149738e+00 | Ndiff    0.506 
+MERGE @ lap 68.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   68.000/300 after     18 sec. |   1633.1 MiB | K   12 | loss  1.271142876e+00 | Ndiff    0.475 
+MERGE @ lap 69.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   69.000/300 after     18 sec. |   1633.1 MiB | K   12 | loss  1.271133875e+00 | Ndiff    0.484 
+MERGE @ lap 70.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   70.000/300 after     18 sec. |   1633.1 MiB | K   12 | loss  1.271123504e+00 | Ndiff    0.669 
+MERGE @ lap 71.00 : 0/25 accepted. Ndiff 0.00. 0 skipped.
+   71.000/300 after     18 sec. |   1633.1 MiB | K   12 | loss  1.271112264e+00 | Ndiff    0.498 
+MERGE @ lap 72.00 : 0/18 accepted. Ndiff 0.00. 0 skipped.
+   72.000/300 after     19 sec. |   1633.1 MiB | K   12 | loss  1.271101927e+00 | Ndiff    0.730 
+MERGE @ lap 73.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   73.000/300 after     19 sec. |   1633.1 MiB | K   12 | loss  1.271093457e+00 | Ndiff    0.501 
+MERGE @ lap 74.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   74.000/300 after     19 sec. |   1633.1 MiB | K   12 | loss  1.271086782e+00 | Ndiff    0.688 
+MERGE @ lap 75.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   75.000/300 after     20 sec. |   1633.1 MiB | K   12 | loss  1.271081142e+00 | Ndiff    0.500 
+MERGE @ lap 76.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   76.000/300 after     20 sec. |   1633.1 MiB | K   12 | loss  1.271075113e+00 | Ndiff    0.625 
+MERGE @ lap 77.00 : 0/25 accepted. Ndiff 0.00. 0 skipped.
+   77.000/300 after     20 sec. |   1633.1 MiB | K   12 | loss  1.271067991e+00 | Ndiff    0.618 
+MERGE @ lap 78.00 : 0/18 accepted. Ndiff 0.00. 0 skipped.
+   78.000/300 after     20 sec. |   1633.1 MiB | K   12 | loss  1.271061634e+00 | Ndiff    0.406 
+MERGE @ lap 79.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   79.000/300 after     20 sec. |   1633.1 MiB | K   12 | loss  1.271056624e+00 | Ndiff    0.446 
+MERGE @ lap 80.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   80.000/300 after     21 sec. |   1633.1 MiB | K   12 | loss  1.271052294e+00 | Ndiff    0.396 
+MERGE @ lap 81.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   81.000/300 after     21 sec. |   1633.1 MiB | K   12 | loss  1.271048329e+00 | Ndiff    0.519 
+MERGE @ lap 82.00 : 0/12 accepted. Ndiff 0.00. 0 skipped.
+   82.000/300 after     21 sec. |   1633.1 MiB | K   12 | loss  1.271043565e+00 | Ndiff    0.451 
+MERGE @ lap 83.00 : 0/22 accepted. Ndiff 0.00. 0 skipped.
+   83.000/300 after     21 sec. |   1633.1 MiB | K   12 | loss  1.271036454e+00 | Ndiff    0.364 
+MERGE @ lap 84.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   84.000/300 after     21 sec. |   1633.1 MiB | K   12 | loss  1.271024066e+00 | Ndiff    0.549 
+MERGE @ lap 85.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   85.000/300 after     22 sec. |   1633.1 MiB | K   12 | loss  1.271000388e+00 | Ndiff    0.864 
+MERGE @ lap 86.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   86.000/300 after     22 sec. |   1633.1 MiB | K   12 | loss  1.270969440e+00 | Ndiff    0.729 
+MERGE @ lap 87.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   87.000/300 after     22 sec. |   1633.1 MiB | K   12 | loss  1.270946460e+00 | Ndiff    0.701 
+MERGE @ lap 88.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   88.000/300 after     23 sec. |   1633.1 MiB | K   12 | loss  1.270930695e+00 | Ndiff    0.449 
+MERGE @ lap 89.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   89.000/300 after     23 sec. |   1633.1 MiB | K   12 | loss  1.270920504e+00 | Ndiff    0.477 
+MERGE @ lap 90.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   90.000/300 after     23 sec. |   1633.1 MiB | K   12 | loss  1.270910224e+00 | Ndiff    0.436 
+MERGE @ lap 91.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   91.000/300 after     23 sec. |   1633.1 MiB | K   12 | loss  1.270900151e+00 | Ndiff    0.414 
+MERGE @ lap 92.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   92.000/300 after     24 sec. |   1633.1 MiB | K   12 | loss  1.270895160e+00 | Ndiff    0.300 
+MERGE @ lap 93.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+   93.000/300 after     24 sec. |   1633.1 MiB | K   12 | loss  1.270893477e+00 | Ndiff    0.206 
+MERGE @ lap 94.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   94.000/300 after     24 sec. |   1633.1 MiB | K   12 | loss  1.270892784e+00 | Ndiff    0.162 
+MERGE @ lap 95.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   95.000/300 after     25 sec. |   1633.1 MiB | K   12 | loss  1.270892376e+00 | Ndiff    0.137 
+MERGE @ lap 96.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+   96.000/300 after     25 sec. |   1633.1 MiB | K   12 | loss  1.270892001e+00 | Ndiff    0.109 
+MERGE @ lap 97.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   97.000/300 after     25 sec. |   1633.1 MiB | K   12 | loss  1.270891502e+00 | Ndiff    0.089 
+MERGE @ lap 98.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   98.000/300 after     25 sec. |   1633.1 MiB | K   12 | loss  1.270890590e+00 | Ndiff    0.076 
+MERGE @ lap 99.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+   99.000/300 after     25 sec. |   1633.1 MiB | K   12 | loss  1.270888528e+00 | Ndiff    0.122 
+MERGE @ lap 100.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+  100.000/300 after     26 sec. |   1633.1 MiB | K   12 | loss  1.270884355e+00 | Ndiff    0.179 
+MERGE @ lap 101.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+  101.000/300 after     26 sec. |   1633.1 MiB | K   12 | loss  1.270880317e+00 | Ndiff    0.150 
+MERGE @ lap 102.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+  102.000/300 after     26 sec. |   1633.1 MiB | K   12 | loss  1.270879179e+00 | Ndiff    0.087 
+MERGE @ lap 103.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+  103.000/300 after     26 sec. |   1633.1 MiB | K   12 | loss  1.270878973e+00 | Ndiff    0.088 
+MERGE @ lap 104.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+  104.000/300 after     26 sec. |   1633.1 MiB | K   12 | loss  1.270878884e+00 | Ndiff    0.084 
+MERGE @ lap 105.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+  105.000/300 after     27 sec. |   1633.1 MiB | K   12 | loss  1.270878828e+00 | Ndiff    0.047 
+MERGE @ lap 106.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+  106.000/300 after     27 sec. |   1633.1 MiB | K   12 | loss  1.270878792e+00 | Ndiff    0.040 
+MERGE @ lap 107.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+  107.000/300 after     27 sec. |   1633.1 MiB | K   12 | loss  1.270878769e+00 | Ndiff    0.037 
+MERGE @ lap 108.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+  108.000/300 after     28 sec. |   1633.1 MiB | K   12 | loss  1.270878755e+00 | Ndiff    0.025 
+MERGE @ lap 109.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+  109.000/300 after     28 sec. |   1633.1 MiB | K   12 | loss  1.270878746e+00 | Ndiff    0.021 
+MERGE @ lap 110.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+  110.000/300 after     28 sec. |   1633.1 MiB | K   12 | loss  1.270878740e+00 | Ndiff    0.018 
+MERGE @ lap 111.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+  111.000/300 after     28 sec. |   1633.1 MiB | K   12 | loss  1.270878737e+00 | Ndiff    0.014 
+MERGE @ lap 112.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+  112.000/300 after     29 sec. |   1633.1 MiB | K   12 | loss  1.270878734e+00 | Ndiff    0.011 
+MERGE @ lap 113.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+  113.000/300 after     29 sec. |   1633.1 MiB | K   12 | loss  1.270878733e+00 | Ndiff    0.010 
+MERGE @ lap 114.00 : 0/13 accepted. Ndiff 0.00. 0 skipped.
+  114.000/300 after     29 sec. |   1633.1 MiB | K   12 | loss  1.270878732e+00 | Ndiff    0.006 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.095  0.1116 0.0982 0.1014 0.1052 0.0932 0.0934 0.1024 0.0976 0.102 ]
+The cluster evaluation result is 
+
+NMI => 0.861527411585427
+ARS => 0.8261139802671136
+HS => 0.8904881669259895
+CS => 0.833508527659946
+VM => 0.8610567331642736
+Precision: 0.9179389312977099, Recall: 0.9487179487179487, fitted: 0, true: 3
+Precision: 0.89738430583501, Recall: 0.9139344262295082, fitted: 1, true: 8
+Precision: 0.9711934156378601, Recall: 0.9613034623217923, fitted: 2, true: 2
+Precision: 0.9915433403805497, Recall: 0.8916349809885932, fitted: 3, true: 4
+Precision: 0.9978540772532188, Recall: 0.9789473684210527, fitted: 4, true: 0
+Precision: 0.9889867841409692, Recall: 0.8803921568627451, fitted: 5, true: 9
+Precision: 0.9955357142857143, Recall: 0.9550321199143469, fitted: 6, true: 6
+Precision: 1.0, Recall: 0.8046875, fitted: 7, true: 7
+Precision: 0.9974683544303797, Recall: 0.8454935622317596, fitted: 8, true: 5
+Precision: 0.29607250755287007, Recall: 0.19140625, fitted: 9, true: 7
+Precision: 1.0, Recall: 0.5770609318996416, fitted: 10, true: 1
+Precision: 1.0, Recall: 0.34408602150537637, fitted: 11, true: 1
+The current ACC is :0.9280714285714285
+The current epoch is epoch: 4
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.518758324e+00 |  
+    0.400/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.378391436e+00 |  
+    0.600/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.326130726e+00 |  
+    1.000/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.281042801e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.278150436e+00 | Ndiff   38.156 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      1 sec. |   1633.1 MiB | K   12 | loss  1.277811274e+00 | Ndiff    5.562 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      1 sec. |   1633.1 MiB | K   12 | loss  1.277635476e+00 | Ndiff    2.520 
+MERGE @ lap 5.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+    5.000/300 after      2 sec. |   1633.1 MiB | K   12 | loss  1.277549903e+00 | Ndiff    3.055 
+MERGE @ lap 6.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+    6.000/300 after      2 sec. |   1633.1 MiB | K   12 | loss  1.277490129e+00 | Ndiff    1.009 
+MERGE @ lap 7.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+    7.000/300 after      2 sec. |   1633.1 MiB | K   12 | loss  1.277433464e+00 | Ndiff    0.866 
+MERGE @ lap 8.00 : 0/12 accepted. Ndiff 0.00. 0 skipped.
+    8.000/300 after      2 sec. |   1633.1 MiB | K   12 | loss  1.277359957e+00 | Ndiff    1.212 
+MERGE @ lap 9.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+    9.000/300 after      3 sec. |   1633.1 MiB | K   12 | loss  1.277270079e+00 | Ndiff    2.942 
+MERGE @ lap 10.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   10.000/300 after      3 sec. |   1633.1 MiB | K   12 | loss  1.277182497e+00 | Ndiff    1.855 
+MERGE @ lap 11.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      3 sec. |   1633.1 MiB | K   12 | loss  1.277094462e+00 | Ndiff    1.619 
+MERGE @ lap 12.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      4 sec. |   1633.1 MiB | K   12 | loss  1.277020919e+00 | Ndiff    2.606 
+MERGE @ lap 13.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      4 sec. |   1633.1 MiB | K   12 | loss  1.276945878e+00 | Ndiff    2.048 
+MERGE @ lap 14.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   14.000/300 after      4 sec. |   1633.1 MiB | K   12 | loss  1.276865155e+00 | Ndiff    2.213 
+MERGE @ lap 15.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   15.000/300 after      5 sec. |   1633.1 MiB | K   12 | loss  1.276809950e+00 | Ndiff    1.503 
+MERGE @ lap 16.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   16.000/300 after      5 sec. |   1633.1 MiB | K   12 | loss  1.276750319e+00 | Ndiff    2.062 
+MERGE @ lap 17.00 : 0/27 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      5 sec. |   1633.1 MiB | K   12 | loss  1.276691215e+00 | Ndiff    1.625 
+MERGE @ lap 18.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      5 sec. |   1633.1 MiB | K   12 | loss  1.276629122e+00 | Ndiff    1.530 
+MERGE @ lap 19.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      6 sec. |   1633.1 MiB | K   12 | loss  1.276581525e+00 | Ndiff    4.711 
+MERGE @ lap 20.00 : 0/15 accepted. Ndiff 0.00. 0 skipped.
+   20.000/300 after      6 sec. |   1633.1 MiB | K   12 | loss  1.276564202e+00 | Ndiff    0.959 
+MERGE @ lap 21.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   21.000/300 after      6 sec. |   1633.1 MiB | K   12 | loss  1.276555863e+00 | Ndiff    0.837 
+MERGE @ lap 22.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   22.000/300 after      7 sec. |   1633.1 MiB | K   12 | loss  1.276549050e+00 | Ndiff    0.629 
+MERGE @ lap 23.00 : 0/18 accepted. Ndiff 0.00. 0 skipped.
+   23.000/300 after      7 sec. |   1633.1 MiB | K   12 | loss  1.276542162e+00 | Ndiff    0.776 
+MERGE @ lap 24.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   24.000/300 after      7 sec. |   1633.1 MiB | K   12 | loss  1.276534054e+00 | Ndiff    0.641 
+MERGE @ lap 25.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   25.000/300 after      8 sec. |   1633.1 MiB | K   12 | loss  1.276524862e+00 | Ndiff    0.631 
+MERGE @ lap 26.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   26.000/300 after      8 sec. |   1633.1 MiB | K   12 | loss  1.276515242e+00 | Ndiff    0.550 
+MERGE @ lap 27.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   27.000/300 after      8 sec. |   1633.1 MiB | K   12 | loss  1.276506259e+00 | Ndiff    0.865 
+MERGE @ lap 28.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   28.000/300 after      9 sec. |   1633.1 MiB | K   12 | loss  1.276497798e+00 | Ndiff    0.779 
+MERGE @ lap 29.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   29.000/300 after      9 sec. |   1633.1 MiB | K   12 | loss  1.276489915e+00 | Ndiff    0.481 
+MERGE @ lap 30.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   30.000/300 after      9 sec. |   1633.1 MiB | K   12 | loss  1.276482439e+00 | Ndiff    0.534 
+MERGE @ lap 31.00 : 0/16 accepted. Ndiff 0.00. 0 skipped.
+   31.000/300 after     10 sec. |   1633.1 MiB | K   12 | loss  1.276473805e+00 | Ndiff    0.684 
+MERGE @ lap 32.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   32.000/300 after     10 sec. |   1633.1 MiB | K   12 | loss  1.276463328e+00 | Ndiff    0.474 
+MERGE @ lap 33.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   33.000/300 after     10 sec. |   1633.1 MiB | K   12 | loss  1.276450573e+00 | Ndiff    0.473 
+MERGE @ lap 34.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   34.000/300 after     10 sec. |   1633.1 MiB | K   12 | loss  1.276437981e+00 | Ndiff    0.476 
+MERGE @ lap 35.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   35.000/300 after     11 sec. |   1633.1 MiB | K   12 | loss  1.276421494e+00 | Ndiff    0.457 
+MERGE @ lap 36.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   36.000/300 after     11 sec. |   1633.1 MiB | K   12 | loss  1.276397676e+00 | Ndiff    0.536 
+MERGE @ lap 37.00 : 0/17 accepted. Ndiff 0.00. 0 skipped.
+   37.000/300 after     11 sec. |   1633.1 MiB | K   12 | loss  1.276379520e+00 | Ndiff    0.422 
+MERGE @ lap 38.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   38.000/300 after     11 sec. |   1633.1 MiB | K   12 | loss  1.276366547e+00 | Ndiff    0.481 
+MERGE @ lap 39.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   39.000/300 after     12 sec. |   1633.1 MiB | K   12 | loss  1.276357531e+00 | Ndiff    0.612 
+MERGE @ lap 40.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   40.000/300 after     12 sec. |   1633.1 MiB | K   12 | loss  1.276352248e+00 | Ndiff    0.272 
+MERGE @ lap 41.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   41.000/300 after     12 sec. |   1633.1 MiB | K   12 | loss  1.276349292e+00 | Ndiff    0.167 
+MERGE @ lap 42.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   42.000/300 after     13 sec. |   1633.1 MiB | K   12 | loss  1.276347636e+00 | Ndiff    0.205 
+MERGE @ lap 43.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   43.000/300 after     13 sec. |   1633.1 MiB | K   12 | loss  1.276346634e+00 | Ndiff    0.109 
+MERGE @ lap 44.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   44.000/300 after     13 sec. |   1633.1 MiB | K   12 | loss  1.276345993e+00 | Ndiff    0.129 
+MERGE @ lap 45.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   45.000/300 after     13 sec. |   1633.1 MiB | K   12 | loss  1.276345541e+00 | Ndiff    0.079 
+MERGE @ lap 46.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   46.000/300 after     14 sec. |   1633.1 MiB | K   12 | loss  1.276345233e+00 | Ndiff    0.054 
+MERGE @ lap 47.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   47.000/300 after     14 sec. |   1633.1 MiB | K   12 | loss  1.276345010e+00 | Ndiff    0.053 
+MERGE @ lap 48.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   48.000/300 after     14 sec. |   1633.1 MiB | K   12 | loss  1.276344854e+00 | Ndiff    0.046 
+MERGE @ lap 49.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   49.000/300 after     15 sec. |   1633.1 MiB | K   12 | loss  1.276344742e+00 | Ndiff    0.033 
+MERGE @ lap 50.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   50.000/300 after     15 sec. |   1633.1 MiB | K   12 | loss  1.276344662e+00 | Ndiff    0.033 
+MERGE @ lap 51.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   51.000/300 after     15 sec. |   1633.1 MiB | K   12 | loss  1.276344609e+00 | Ndiff    0.038 
+MERGE @ lap 52.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   52.000/300 after     16 sec. |   1633.1 MiB | K   12 | loss  1.276344571e+00 | Ndiff    0.027 
+MERGE @ lap 53.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   53.000/300 after     16 sec. |   1633.1 MiB | K   12 | loss  1.276344544e+00 | Ndiff    0.022 
+MERGE @ lap 54.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   54.000/300 after     16 sec. |   1633.1 MiB | K   12 | loss  1.276344527e+00 | Ndiff    0.015 
+MERGE @ lap 55.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   55.000/300 after     17 sec. |   1633.1 MiB | K   12 | loss  1.276344515e+00 | Ndiff    0.018 
+MERGE @ lap 56.00 : 0/8 accepted. Ndiff 0.00. 0 skipped.
+   56.000/300 after     17 sec. |   1633.1 MiB | K   12 | loss  1.276344507e+00 | Ndiff    0.014 
+MERGE @ lap 57.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   57.000/300 after     17 sec. |   1633.1 MiB | K   12 | loss  1.276344501e+00 | Ndiff    0.009 
+MERGE @ lap 58.00 : 0/1 accepted. Ndiff 0.00. 0 skipped.
+   58.000/300 after     18 sec. |   1633.1 MiB | K   12 | loss  1.276344497e+00 | Ndiff    0.008 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1044 0.1134 0.0976 0.1094 0.0948 0.0858 0.096  0.1002 0.099  0.0994]
+The cluster evaluation result is 
+
+NMI => 0.8599717754817968
+ARS => 0.8325709381649017
+HS => 0.8885883211347501
+CS => 0.8322768114720299
+VM => 0.8595112314293166
+Precision: 0.911660777385159, Recall: 0.943327239488117, fitted: 0, true: 3
+Precision: 0.926, Recall: 0.9487704918032787, fitted: 1, true: 2
+Precision: 1.0, Recall: 0.9501915708812261, fitted: 2, true: 0
+Precision: 0.9767932489451476, Recall: 0.9767932489451476, fitted: 3, true: 4
+Precision: 0.9642105263157895, Recall: 0.9252525252525252, fitted: 4, true: 8
+Precision: 0.9934354485776805, Recall: 0.9458333333333333, fitted: 5, true: 6
+Precision: 0.9909502262443439, Recall: 0.8812877263581489, fitted: 6, true: 9
+Precision: 0.9901477832512315, Recall: 0.8023952095808383, fitted: 7, true: 7
+Precision: 0.991869918699187, Recall: 0.8531468531468531, fitted: 8, true: 5
+Precision: 0.310580204778157, Recall: 0.18163672654690619, fitted: 9, true: 7
+Precision: 0.9967105263157895, Recall: 0.5343915343915344, fitted: 10, true: 1
+Precision: 0.9954128440366973, Recall: 0.38271604938271603, fitted: 11, true: 1
+The current ACC is :0.9344
+The current epoch is epoch: 5
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.511536253e+00 |  
+    0.400/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.365913671e+00 |  
+    0.600/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.317934717e+00 |  
+    1.000/300 after      0 sec. |   1633.1 MiB | K   12 | loss  1.272219919e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.270309004e+00 | Ndiff   10.689 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.270133032e+00 | Ndiff    3.017 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.270096179e+00 | Ndiff    0.991 
+MERGE @ lap 5.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+    5.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.270084099e+00 | Ndiff    0.467 
+MERGE @ lap 6.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+    6.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.270078900e+00 | Ndiff    0.499 
+MERGE @ lap 7.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+    7.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.270076159e+00 | Ndiff    0.234 
+MERGE @ lap 8.00: No promising candidates, so no attempts.
+    8.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.270074377e+00 | Ndiff    0.147 
+MERGE @ lap 9.00: No promising candidates, so no attempts.
+    9.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.270073180e+00 | Ndiff    0.131 
+MERGE @ lap 10.00: No promising candidates, so no attempts.
+   10.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.270072344e+00 | Ndiff    0.117 
+MERGE @ lap 11.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.270071837e+00 | Ndiff    0.084 
+MERGE @ lap 12.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.270071528e+00 | Ndiff    0.060 
+MERGE @ lap 13.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.270071359e+00 | Ndiff    0.075 
+MERGE @ lap 14.00: No promising candidates, so no attempts.
+   14.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.270071266e+00 | Ndiff    0.031 
+MERGE @ lap 15.00: No promising candidates, so no attempts.
+   15.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.270071213e+00 | Ndiff    0.030 
+MERGE @ lap 16.00: No promising candidates, so no attempts.
+   16.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.270071184e+00 | Ndiff    0.018 
+MERGE @ lap 17.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.270071169e+00 | Ndiff    0.016 
+MERGE @ lap 18.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.270071160e+00 | Ndiff    0.011 
+MERGE @ lap 19.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.270071155e+00 | Ndiff    0.007 
+MERGE @ lap 20.00: No promising candidates, so no attempts.
+   20.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.270071152e+00 | Ndiff    0.007 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.0942 0.117  0.0986 0.1066 0.089  0.0954 0.0968 0.1022 0.0924 0.1078]
+The cluster evaluation result is 
+
+NMI => 0.8546278530774878
+ARS => 0.8175801826745628
+HS => 0.8836394152158353
+CS => 0.8265687956862283
+VM => 0.8541518659538962
+Precision: 0.8946428571428572, Recall: 0.9399624765478424, fitted: 0, true: 3
+Precision: 0.8977272727272727, Recall: 0.9614604462474645, fitted: 1, true: 2
+Precision: 0.9920159680638723, Recall: 0.922077922077922, fitted: 2, true: 9
+Precision: 0.9426048565121413, Recall: 0.9242424242424242, fitted: 3, true: 8
+Precision: 0.9955947136563876, Recall: 0.9338842975206612, fitted: 4, true: 6
+Precision: 0.995575221238938, Recall: 0.9554140127388535, fitted: 5, true: 0
+Precision: 0.9772727272727273, Recall: 0.9662921348314607, fitted: 6, true: 4
+Precision: 0.9949367088607595, Recall: 0.8238993710691824, fitted: 7, true: 5
+Precision: 1.0, Recall: 0.7436399217221135, fitted: 8, true: 7
+Precision: 0.4337748344370861, Recall: 0.2563600782778865, fitted: 9, true: 7
+Precision: 1.0, Recall: 0.5094017094017094, fitted: 10, true: 1
+Precision: 1.0, Recall: 0.40512820512820513, fitted: 11, true: 1
+The current ACC is :0.9355
+The current epoch is epoch: 6
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.526028252e+00 |  
+    0.400/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.375592747e+00 |  
+    0.600/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.319583909e+00 |  
+    1.000/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.272360922e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.269585534e+00 | Ndiff   14.737 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.269179475e+00 | Ndiff    2.635 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.268963467e+00 | Ndiff    1.280 
+MERGE @ lap 5.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+    5.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.268897632e+00 | Ndiff    1.075 
+MERGE @ lap 6.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+    6.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.268865241e+00 | Ndiff    1.195 
+MERGE @ lap 7.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+    7.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.268841798e+00 | Ndiff    0.906 
+MERGE @ lap 8.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+    8.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.268820715e+00 | Ndiff    0.925 
+MERGE @ lap 9.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+    9.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.268803839e+00 | Ndiff    0.927 
+MERGE @ lap 10.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   10.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.268791967e+00 | Ndiff    0.919 
+MERGE @ lap 11.00 : 0/22 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.268784989e+00 | Ndiff    0.744 
+MERGE @ lap 12.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.268780681e+00 | Ndiff    0.591 
+MERGE @ lap 13.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.268778204e+00 | Ndiff    0.512 
+MERGE @ lap 14.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   14.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.268776847e+00 | Ndiff    0.305 
+MERGE @ lap 15.00: No promising candidates, so no attempts.
+   15.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.268776096e+00 | Ndiff    0.237 
+MERGE @ lap 16.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   16.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.268775718e+00 | Ndiff    0.141 
+MERGE @ lap 17.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.268775535e+00 | Ndiff    0.126 
+MERGE @ lap 18.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.268775433e+00 | Ndiff    0.061 
+MERGE @ lap 19.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.268775370e+00 | Ndiff    0.050 
+MERGE @ lap 20.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   20.000/300 after      7 sec. |   1633.3 MiB | K   12 | loss  1.268775330e+00 | Ndiff    0.030 
+MERGE @ lap 21.00: No promising candidates, so no attempts.
+   21.000/300 after      7 sec. |   1633.3 MiB | K   12 | loss  1.268775301e+00 | Ndiff    0.043 
+MERGE @ lap 22.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   22.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.268775280e+00 | Ndiff    0.021 
+MERGE @ lap 23.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   23.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.268775264e+00 | Ndiff    0.033 
+MERGE @ lap 24.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   24.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.268775251e+00 | Ndiff    0.022 
+MERGE @ lap 25.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   25.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.268775242e+00 | Ndiff    0.020 
+MERGE @ lap 26.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   26.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.268775234e+00 | Ndiff    0.013 
+MERGE @ lap 27.00: No promising candidates, so no attempts.
+   27.000/300 after     10 sec. |   1633.3 MiB | K   12 | loss  1.268775229e+00 | Ndiff    0.019 
+MERGE @ lap 28.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   28.000/300 after     10 sec. |   1633.3 MiB | K   12 | loss  1.268775224e+00 | Ndiff    0.016 
+MERGE @ lap 29.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   29.000/300 after     11 sec. |   1633.3 MiB | K   12 | loss  1.268775221e+00 | Ndiff    0.010 
+MERGE @ lap 30.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   30.000/300 after     11 sec. |   1633.3 MiB | K   12 | loss  1.268775218e+00 | Ndiff    0.010 
+MERGE @ lap 31.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   31.000/300 after     11 sec. |   1633.3 MiB | K   12 | loss  1.268775216e+00 | Ndiff    0.012 
+MERGE @ lap 32.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   32.000/300 after     12 sec. |   1633.3 MiB | K   12 | loss  1.268775215e+00 | Ndiff    0.007 
+MERGE @ lap 33.00: No promising candidates, so no attempts.
+   33.000/300 after     12 sec. |   1633.3 MiB | K   12 | loss  1.268775214e+00 | Ndiff    0.007 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1028 0.1158 0.0936 0.103  0.1018 0.091  0.1006 0.105  0.0964 0.09  ]
+The cluster evaluation result is 
+
+NMI => 0.8574656640249532
+ARS => 0.8183646208521255
+HS => 0.8876031254471126
+CS => 0.8283514826644932
+VM => 0.8569543291018492
+Precision: 0.9179389312977099, Recall: 0.9339805825242719, fitted: 0, true: 3
+Precision: 0.9795918367346939, Recall: 0.9430255402750491, fitted: 1, true: 4
+Precision: 0.997946611909651, Recall: 0.9455252918287937, fitted: 2, true: 0
+Precision: 0.9375, Recall: 0.9615384615384616, fitted: 3, true: 2
+Precision: 1.0, Recall: 0.9264413518886679, fitted: 4, true: 6
+Precision: 0.9357601713062098, Recall: 0.9066390041493776, fitted: 5, true: 8
+Precision: 0.9856801909307876, Recall: 0.9177777777777778, fitted: 6, true: 9
+Precision: 0.9974358974358974, Recall: 0.7409523809523809, fitted: 7, true: 7
+Precision: 0.9948979591836735, Recall: 0.8571428571428571, fitted: 8, true: 5
+Precision: 0.391304347826087, Recall: 0.2571428571428571, fitted: 9, true: 7
+Precision: 1.0, Recall: 0.4749568221070812, fitted: 10, true: 1
+Precision: 1.0, Recall: 0.45768566493955093, fitted: 11, true: 1
+The current ACC is :0.9310857142857143
+The current epoch is epoch: 7
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.482019675e+00 |  
+    0.400/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.359601940e+00 |  
+    0.600/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.311818196e+00 |  
+    1.000/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.265238511e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.262860964e+00 | Ndiff    7.740 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.262623199e+00 | Ndiff    2.603 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.262555990e+00 | Ndiff    1.220 
+MERGE @ lap 5.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+    5.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.262523805e+00 | Ndiff    1.071 
+MERGE @ lap 6.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+    6.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.262494140e+00 | Ndiff    0.745 
+MERGE @ lap 7.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+    7.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.262461664e+00 | Ndiff    0.883 
+MERGE @ lap 8.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+    8.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.262445243e+00 | Ndiff    0.489 
+MERGE @ lap 9.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+    9.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.262438799e+00 | Ndiff    0.458 
+MERGE @ lap 10.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   10.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.262434707e+00 | Ndiff    0.431 
+MERGE @ lap 11.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.262431911e+00 | Ndiff    0.363 
+MERGE @ lap 12.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.262429816e+00 | Ndiff    0.316 
+MERGE @ lap 13.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.262428230e+00 | Ndiff    0.288 
+MERGE @ lap 14.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   14.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.262426897e+00 | Ndiff    0.209 
+MERGE @ lap 15.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+   15.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.262425503e+00 | Ndiff    0.152 
+MERGE @ lap 16.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   16.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.262423848e+00 | Ndiff    0.173 
+MERGE @ lap 17.00 : 0/18 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.262421886e+00 | Ndiff    0.182 
+MERGE @ lap 18.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      7 sec. |   1633.3 MiB | K   12 | loss  1.262419971e+00 | Ndiff    0.207 
+MERGE @ lap 19.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      7 sec. |   1633.3 MiB | K   12 | loss  1.262418660e+00 | Ndiff    0.147 
+MERGE @ lap 20.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   20.000/300 after      7 sec. |   1633.3 MiB | K   12 | loss  1.262417968e+00 | Ndiff    0.112 
+MERGE @ lap 21.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+   21.000/300 after      7 sec. |   1633.3 MiB | K   12 | loss  1.262417619e+00 | Ndiff    0.097 
+MERGE @ lap 22.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   22.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.262417422e+00 | Ndiff    0.070 
+MERGE @ lap 23.00 : 0/18 accepted. Ndiff 0.00. 0 skipped.
+   23.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.262417301e+00 | Ndiff    0.066 
+MERGE @ lap 24.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   24.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.262417223e+00 | Ndiff    0.041 
+MERGE @ lap 25.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   25.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.262417174e+00 | Ndiff    0.037 
+MERGE @ lap 26.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   26.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.262417144e+00 | Ndiff    0.024 
+MERGE @ lap 27.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+   27.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.262417124e+00 | Ndiff    0.027 
+MERGE @ lap 28.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   28.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.262417111e+00 | Ndiff    0.019 
+MERGE @ lap 29.00 : 0/18 accepted. Ndiff 0.00. 0 skipped.
+   29.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.262417103e+00 | Ndiff    0.012 
+MERGE @ lap 30.00 : 0/20 accepted. Ndiff 0.00. 0 skipped.
+   30.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.262417098e+00 | Ndiff    0.010 
+MERGE @ lap 31.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   31.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.262417094e+00 | Ndiff    0.011 
+MERGE @ lap 32.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   32.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.262417092e+00 | Ndiff    0.006 
+MERGE @ lap 33.00 : 0/4 accepted. Ndiff 0.00. 0 skipped.
+   33.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.262417090e+00 | Ndiff    0.006 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1004 0.1166 0.1024 0.1004 0.097  0.0878 0.0918 0.1052 0.1038 0.0946]
+The cluster evaluation result is 
+
+NMI => 0.8724665538407994
+ARS => 0.8410800594239531
+HS => 0.9025824188354532
+CS => 0.8433555448077168
+VM => 0.871964415027076
+Precision: 0.9385796545105566, Recall: 0.9421965317919075, fitted: 0, true: 8
+Precision: 0.9564356435643564, Recall: 0.943359375, fitted: 1, true: 2
+Precision: 0.9478957915831663, Recall: 0.9422310756972112, fitted: 2, true: 3
+Precision: 0.985200845665962, Recall: 0.9608247422680413, fitted: 3, true: 4
+Precision: 1.0, Recall: 0.9442231075697212, fitted: 4, true: 0
+Precision: 0.995475113122172, Recall: 0.9302325581395349, fitted: 5, true: 9
+Precision: 0.9976958525345622, Recall: 0.9433551198257081, fitted: 6, true: 6
+Precision: 1.0, Recall: 0.7870722433460076, fitted: 7, true: 7
+Precision: 0.989821882951654, Recall: 0.8861047835990888, fitted: 8, true: 5
+Precision: 0.35081967213114756, Recall: 0.20342205323193915, fitted: 9, true: 7
+Precision: 1.0, Recall: 0.5265866209262435, fitted: 10, true: 1
+Precision: 1.0, Recall: 0.3996569468267582, fitted: 11, true: 1
+The current ACC is :0.934
+The current epoch is epoch: 8
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.507496517e+00 |  
+    0.400/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.377810506e+00 |  
+    0.600/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.323798145e+00 |  
+    1.000/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.275085196e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.272327697e+00 | Ndiff   16.964 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.271997134e+00 | Ndiff   10.465 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.271908363e+00 | Ndiff    1.638 
+MERGE @ lap 5.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+    5.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.271845466e+00 | Ndiff    1.446 
+MERGE @ lap 6.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+    6.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.271781920e+00 | Ndiff    1.170 
+MERGE @ lap 7.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+    7.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.271750388e+00 | Ndiff    0.945 
+MERGE @ lap 8.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+    8.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.271730929e+00 | Ndiff    1.573 
+MERGE @ lap 9.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+    9.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.271716974e+00 | Ndiff    0.574 
+MERGE @ lap 10.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   10.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.271706720e+00 | Ndiff    0.442 
+MERGE @ lap 11.00 : 0/28 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.271699455e+00 | Ndiff    0.407 
+MERGE @ lap 12.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.271693742e+00 | Ndiff    0.279 
+MERGE @ lap 13.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.271689716e+00 | Ndiff    0.312 
+MERGE @ lap 14.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   14.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.271686968e+00 | Ndiff    0.202 
+MERGE @ lap 15.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   15.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.271685093e+00 | Ndiff    0.177 
+MERGE @ lap 16.00: No promising candidates, so no attempts.
+   16.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.271683906e+00 | Ndiff    0.129 
+MERGE @ lap 17.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.271683213e+00 | Ndiff    0.143 
+MERGE @ lap 18.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.271682765e+00 | Ndiff    0.102 
+MERGE @ lap 19.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.271682474e+00 | Ndiff    0.081 
+MERGE @ lap 20.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   20.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.271682285e+00 | Ndiff    0.076 
+MERGE @ lap 21.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   21.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.271682159e+00 | Ndiff    0.074 
+MERGE @ lap 22.00: No promising candidates, so no attempts.
+   22.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.271682066e+00 | Ndiff    0.069 
+MERGE @ lap 23.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   23.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.271681996e+00 | Ndiff    0.052 
+MERGE @ lap 24.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   24.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.271681938e+00 | Ndiff    0.053 
+MERGE @ lap 25.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   25.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.271681892e+00 | Ndiff    0.046 
+MERGE @ lap 26.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   26.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.271681855e+00 | Ndiff    0.046 
+MERGE @ lap 27.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   27.000/300 after      7 sec. |   1633.3 MiB | K   12 | loss  1.271681824e+00 | Ndiff    0.038 
+MERGE @ lap 28.00: No promising candidates, so no attempts.
+   28.000/300 after      7 sec. |   1633.3 MiB | K   12 | loss  1.271681797e+00 | Ndiff    0.035 
+MERGE @ lap 29.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   29.000/300 after      7 sec. |   1633.3 MiB | K   12 | loss  1.271681774e+00 | Ndiff    0.043 
+MERGE @ lap 30.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   30.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.271681755e+00 | Ndiff    0.033 
+MERGE @ lap 31.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   31.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.271681736e+00 | Ndiff    0.024 
+MERGE @ lap 32.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   32.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.271681721e+00 | Ndiff    0.030 
+MERGE @ lap 33.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   33.000/300 after      8 sec. |   1633.3 MiB | K   12 | loss  1.271681707e+00 | Ndiff    0.027 
+MERGE @ lap 34.00: No promising candidates, so no attempts.
+   34.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.271681693e+00 | Ndiff    0.025 
+MERGE @ lap 35.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   35.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.271681681e+00 | Ndiff    0.021 
+MERGE @ lap 36.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   36.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.271681670e+00 | Ndiff    0.027 
+MERGE @ lap 37.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   37.000/300 after      9 sec. |   1633.3 MiB | K   12 | loss  1.271681660e+00 | Ndiff    0.024 
+MERGE @ lap 38.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   38.000/300 after     10 sec. |   1633.3 MiB | K   12 | loss  1.271681651e+00 | Ndiff    0.022 
+MERGE @ lap 39.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   39.000/300 after     10 sec. |   1633.3 MiB | K   12 | loss  1.271681642e+00 | Ndiff    0.024 
+MERGE @ lap 40.00: No promising candidates, so no attempts.
+   40.000/300 after     10 sec. |   1633.3 MiB | K   12 | loss  1.271681634e+00 | Ndiff    0.020 
+MERGE @ lap 41.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   41.000/300 after     11 sec. |   1633.3 MiB | K   12 | loss  1.271681625e+00 | Ndiff    0.019 
+MERGE @ lap 42.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   42.000/300 after     11 sec. |   1633.3 MiB | K   12 | loss  1.271681618e+00 | Ndiff    0.022 
+MERGE @ lap 43.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   43.000/300 after     11 sec. |   1633.3 MiB | K   12 | loss  1.271681611e+00 | Ndiff    0.018 
+MERGE @ lap 44.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   44.000/300 after     11 sec. |   1633.3 MiB | K   12 | loss  1.271681604e+00 | Ndiff    0.014 
+MERGE @ lap 45.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   45.000/300 after     12 sec. |   1633.3 MiB | K   12 | loss  1.271681596e+00 | Ndiff    0.017 
+MERGE @ lap 46.00: No promising candidates, so no attempts.
+   46.000/300 after     12 sec. |   1633.3 MiB | K   12 | loss  1.271681590e+00 | Ndiff    0.022 
+MERGE @ lap 47.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   47.000/300 after     12 sec. |   1633.3 MiB | K   12 | loss  1.271681583e+00 | Ndiff    0.016 
+MERGE @ lap 48.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   48.000/300 after     13 sec. |   1633.3 MiB | K   12 | loss  1.271681576e+00 | Ndiff    0.015 
+MERGE @ lap 49.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   49.000/300 after     13 sec. |   1633.3 MiB | K   12 | loss  1.271681570e+00 | Ndiff    0.020 
+MERGE @ lap 50.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   50.000/300 after     13 sec. |   1633.3 MiB | K   12 | loss  1.271681563e+00 | Ndiff    0.017 
+MERGE @ lap 51.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   51.000/300 after     13 sec. |   1633.3 MiB | K   12 | loss  1.271681557e+00 | Ndiff    0.019 
+MERGE @ lap 52.00: No promising candidates, so no attempts.
+   52.000/300 after     14 sec. |   1633.3 MiB | K   12 | loss  1.271681550e+00 | Ndiff    0.015 
+MERGE @ lap 53.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   53.000/300 after     14 sec. |   1633.3 MiB | K   12 | loss  1.271681542e+00 | Ndiff    0.014 
+MERGE @ lap 54.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   54.000/300 after     14 sec. |   1633.3 MiB | K   12 | loss  1.271681536e+00 | Ndiff    0.018 
+MERGE @ lap 55.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   55.000/300 after     15 sec. |   1633.3 MiB | K   12 | loss  1.271681529e+00 | Ndiff    0.021 
+MERGE @ lap 56.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   56.000/300 after     15 sec. |   1633.3 MiB | K   12 | loss  1.271681521e+00 | Ndiff    0.017 
+MERGE @ lap 57.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   57.000/300 after     15 sec. |   1633.3 MiB | K   12 | loss  1.271681514e+00 | Ndiff    0.014 
+MERGE @ lap 58.00: No promising candidates, so no attempts.
+   58.000/300 after     15 sec. |   1633.3 MiB | K   12 | loss  1.271681506e+00 | Ndiff    0.017 
+MERGE @ lap 59.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   59.000/300 after     16 sec. |   1633.3 MiB | K   12 | loss  1.271681498e+00 | Ndiff    0.021 
+MERGE @ lap 60.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   60.000/300 after     16 sec. |   1633.3 MiB | K   12 | loss  1.271681489e+00 | Ndiff    0.020 
+MERGE @ lap 61.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   61.000/300 after     16 sec. |   1633.3 MiB | K   12 | loss  1.271681481e+00 | Ndiff    0.021 
+MERGE @ lap 62.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   62.000/300 after     17 sec. |   1633.3 MiB | K   12 | loss  1.271681471e+00 | Ndiff    0.019 
+MERGE @ lap 63.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   63.000/300 after     17 sec. |   1633.3 MiB | K   12 | loss  1.271681461e+00 | Ndiff    0.025 
+MERGE @ lap 64.00: No promising candidates, so no attempts.
+   64.000/300 after     17 sec. |   1633.3 MiB | K   12 | loss  1.271681451e+00 | Ndiff    0.020 
+MERGE @ lap 65.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   65.000/300 after     17 sec. |   1633.3 MiB | K   12 | loss  1.271681439e+00 | Ndiff    0.023 
+MERGE @ lap 66.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   66.000/300 after     18 sec. |   1633.3 MiB | K   12 | loss  1.271681426e+00 | Ndiff    0.018 
+MERGE @ lap 67.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   67.000/300 after     18 sec. |   1633.3 MiB | K   12 | loss  1.271681411e+00 | Ndiff    0.028 
+MERGE @ lap 68.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   68.000/300 after     18 sec. |   1633.3 MiB | K   12 | loss  1.271681395e+00 | Ndiff    0.026 
+MERGE @ lap 69.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   69.000/300 after     19 sec. |   1633.3 MiB | K   12 | loss  1.271681377e+00 | Ndiff    0.025 
+MERGE @ lap 70.00: No promising candidates, so no attempts.
+   70.000/300 after     19 sec. |   1633.3 MiB | K   12 | loss  1.271681356e+00 | Ndiff    0.031 
+MERGE @ lap 71.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   71.000/300 after     19 sec. |   1633.3 MiB | K   12 | loss  1.271681332e+00 | Ndiff    0.031 
+MERGE @ lap 72.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   72.000/300 after     19 sec. |   1633.3 MiB | K   12 | loss  1.271681305e+00 | Ndiff    0.027 
+MERGE @ lap 73.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   73.000/300 after     20 sec. |   1633.3 MiB | K   12 | loss  1.271681271e+00 | Ndiff    0.036 
+MERGE @ lap 74.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   74.000/300 after     20 sec. |   1633.3 MiB | K   12 | loss  1.271681232e+00 | Ndiff    0.034 
+MERGE @ lap 75.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   75.000/300 after     20 sec. |   1633.3 MiB | K   12 | loss  1.271681185e+00 | Ndiff    0.052 
+MERGE @ lap 76.00: No promising candidates, so no attempts.
+   76.000/300 after     21 sec. |   1633.3 MiB | K   12 | loss  1.271681129e+00 | Ndiff    0.034 
+MERGE @ lap 77.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   77.000/300 after     21 sec. |   1633.3 MiB | K   12 | loss  1.271681053e+00 | Ndiff    0.056 
+MERGE @ lap 78.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   78.000/300 after     21 sec. |   1633.3 MiB | K   12 | loss  1.271680955e+00 | Ndiff    0.066 
+MERGE @ lap 79.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   79.000/300 after     21 sec. |   1633.3 MiB | K   12 | loss  1.271680817e+00 | Ndiff    0.061 
+MERGE @ lap 80.00 : 0/6 accepted. Ndiff 0.00. 0 skipped.
+   80.000/300 after     22 sec. |   1633.3 MiB | K   12 | loss  1.271680616e+00 | Ndiff    0.075 
+MERGE @ lap 81.00 : 0/11 accepted. Ndiff 0.00. 0 skipped.
+   81.000/300 after     22 sec. |   1633.3 MiB | K   12 | loss  1.271680322e+00 | Ndiff    0.130 
+MERGE @ lap 82.00: No promising candidates, so no attempts.
+   82.000/300 after     22 sec. |   1633.3 MiB | K   12 | loss  1.271679838e+00 | Ndiff    0.138 
+MERGE @ lap 83.00 : 0/19 accepted. Ndiff 0.00. 0 skipped.
+   83.000/300 after     23 sec. |   1633.3 MiB | K   12 | loss  1.271678995e+00 | Ndiff    0.150 
+MERGE @ lap 84.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   84.000/300 after     23 sec. |   1633.3 MiB | K   12 | loss  1.271677132e+00 | Ndiff    0.188 
+MERGE @ lap 85.00 : 0/9 accepted. Ndiff 0.00. 0 skipped.
+   85.000/300 after     23 sec. |   1633.3 MiB | K   12 | loss  1.271671920e+00 | Ndiff    0.312 
+MERGE @ lap 86.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   86.000/300 after     23 sec. |   1633.3 MiB | K   12 | loss  1.271649674e+00 | Ndiff    0.547 
+MERGE @ lap 87.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   87.000/300 after     24 sec. |   1633.3 MiB | K   12 | loss  1.271574514e+00 | Ndiff    0.963 
+MERGE @ lap 88.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+   88.000/300 after     24 sec. |   1633.3 MiB | K   12 | loss  1.271513259e+00 | Ndiff    0.838 
+MERGE @ lap 89.00 : 0/28 accepted. Ndiff 0.00. 0 skipped.
+   89.000/300 after     24 sec. |   1633.3 MiB | K   12 | loss  1.271489869e+00 | Ndiff    0.856 
+MERGE @ lap 90.00 : 0/22 accepted. Ndiff 0.00. 0 skipped.
+   90.000/300 after     24 sec. |   1633.3 MiB | K   12 | loss  1.271485336e+00 | Ndiff    0.470 
+MERGE @ lap 91.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   91.000/300 after     25 sec. |   1633.3 MiB | K   12 | loss  1.271484247e+00 | Ndiff    0.244 
+MERGE @ lap 92.00: No promising candidates, so no attempts.
+   92.000/300 after     25 sec. |   1633.3 MiB | K   12 | loss  1.271483751e+00 | Ndiff    0.153 
+MERGE @ lap 93.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   93.000/300 after     25 sec. |   1633.3 MiB | K   12 | loss  1.271483419e+00 | Ndiff    0.109 
+MERGE @ lap 94.00: No promising candidates, so no attempts.
+   94.000/300 after     26 sec. |   1633.3 MiB | K   12 | loss  1.271483102e+00 | Ndiff    0.076 
+MERGE @ lap 95.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+   95.000/300 after     26 sec. |   1633.3 MiB | K   12 | loss  1.271482726e+00 | Ndiff    0.088 
+MERGE @ lap 96.00 : 0/22 accepted. Ndiff 0.00. 0 skipped.
+   96.000/300 after     26 sec. |   1633.3 MiB | K   12 | loss  1.271482222e+00 | Ndiff    0.092 
+MERGE @ lap 97.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   97.000/300 after     26 sec. |   1633.3 MiB | K   12 | loss  1.271481529e+00 | Ndiff    0.111 
+MERGE @ lap 98.00: No promising candidates, so no attempts.
+   98.000/300 after     27 sec. |   1633.3 MiB | K   12 | loss  1.271480700e+00 | Ndiff    0.107 
+MERGE @ lap 99.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+   99.000/300 after     27 sec. |   1633.3 MiB | K   12 | loss  1.271479930e+00 | Ndiff    0.098 
+MERGE @ lap 100.00: No promising candidates, so no attempts.
+  100.000/300 after     27 sec. |   1633.3 MiB | K   12 | loss  1.271479458e+00 | Ndiff    0.094 
+MERGE @ lap 101.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+  101.000/300 after     28 sec. |   1633.3 MiB | K   12 | loss  1.271479260e+00 | Ndiff    0.042 
+MERGE @ lap 102.00 : 0/22 accepted. Ndiff 0.00. 0 skipped.
+  102.000/300 after     28 sec. |   1633.3 MiB | K   12 | loss  1.271479195e+00 | Ndiff    0.043 
+MERGE @ lap 103.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+  103.000/300 after     28 sec. |   1633.3 MiB | K   12 | loss  1.271479175e+00 | Ndiff    0.026 
+MERGE @ lap 104.00: No promising candidates, so no attempts.
+  104.000/300 after     28 sec. |   1633.3 MiB | K   12 | loss  1.271479168e+00 | Ndiff    0.017 
+MERGE @ lap 105.00 : 0/7 accepted. Ndiff 0.00. 0 skipped.
+  105.000/300 after     29 sec. |   1633.3 MiB | K   12 | loss  1.271479165e+00 | Ndiff    0.011 
+MERGE @ lap 106.00: No promising candidates, so no attempts.
+  106.000/300 after     29 sec. |   1633.3 MiB | K   12 | loss  1.271479163e+00 | Ndiff    0.009 
+MERGE @ lap 107.00 : 0/23 accepted. Ndiff 0.00. 0 skipped.
+  107.000/300 after     30 sec. |   1633.3 MiB | K   12 | loss  1.271479163e+00 | Ndiff    0.006 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1008 0.1076 0.0982 0.112  0.0996 0.082  0.105  0.0998 0.0958 0.0992]
+The cluster evaluation result is 
+
+NMI => 0.8598462738097433
+ARS => 0.8283018730232431
+HS => 0.8876804172980197
+CS => 0.8328848988636459
+VM => 0.8594101108975646
+Precision: 0.9078498293515358, Recall: 0.95, fitted: 0, true: 3
+Precision: 0.9096267190569745, Recall: 0.9429735234215886, fitted: 1, true: 2
+Precision: 0.9760956175298805, Recall: 0.9839357429718876, fitted: 2, true: 4
+Precision: 0.9938775510204082, Recall: 0.9276190476190476, fitted: 3, true: 6
+Precision: 0.997907949790795, Recall: 0.9464285714285714, fitted: 4, true: 0
+Precision: 0.9956521739130435, Recall: 0.9233870967741935, fitted: 5, true: 9
+Precision: 0.9709821428571429, Recall: 0.9081419624217119, fitted: 6, true: 8
+Precision: 0.9947089947089947, Recall: 0.7535070140280561, fitted: 7, true: 7
+Precision: 0.3695652173913043, Recall: 0.23847695390781562, fitted: 8, true: 7
+Precision: 0.9969879518072289, Recall: 0.8073170731707318, fitted: 9, true: 5
+Precision: 0.99644128113879, Recall: 0.5204460966542751, fitted: 10, true: 1
+Precision: 0.9953271028037384, Recall: 0.395910780669145, fitted: 11, true: 1
+The current ACC is :0.9302285714285714
+The current epoch is epoch: 9
+WARNING: Found unrecognized keyword args. These are ignored.
+  --gamma1
+Dataset Summary:
+X Data
+  total size: 5000 units
+  batch size: 1000 units
+  num. batches: 5
+Allocation Model:  DP mixture with K=0. Concentration gamma0= 5.00
+Obs. Data  Model:  Gaussian with full covariance.
+Obs. Data  Prior:  Gauss-Wishart on mean and covar of each cluster
+  E[  mean[k] ] = 
+   [0. 0.]  ...
+  E[ covar[k] ] = 
+  [[0.1 0. ]
+   [0.  0.1]] ...
+Initialization:
+  initname = /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+  K = 1 (number of clusters)
+  seed = 1607680
+  elapsed_time: 0.0 sec
+Learn Alg: memoVB | task  1/1 | alg. seed: 1607680 | data order seed: 8541952
+task_output_path: /home/zifeng/Research/DPVAE/mnist_results_new_recon2/Kmax50mnistepoch10batch_iter3scale0.05bs5000rep5sf0.1/1
+MERGE @ lap 1.00: Disabled. Cannot plan merge on first lap. Need valid SS that represent whole dataset.
+    0.200/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.507823012e+00 |  
+    0.400/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.364904796e+00 |  
+    0.600/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.307705114e+00 |  
+    1.000/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.265373784e+00 |  
+MERGE @ lap 2.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    2.000/300 after      0 sec. |   1633.3 MiB | K   12 | loss  1.262909107e+00 | Ndiff   34.296 
+MERGE @ lap 3.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    3.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.262604330e+00 | Ndiff    3.902 
+MERGE @ lap 4.00: Disabled. Waiting for lap >= 5 (--m_startLap).
+    4.000/300 after      1 sec. |   1633.3 MiB | K   12 | loss  1.262515807e+00 | Ndiff    1.128 
+MERGE @ lap 5.00 : 0/30 accepted. Ndiff 0.00. 0 skipped.
+    5.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.262463969e+00 | Ndiff    1.281 
+MERGE @ lap 6.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+    6.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.262435422e+00 | Ndiff    0.970 
+MERGE @ lap 7.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+    7.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.262418041e+00 | Ndiff    1.044 
+MERGE @ lap 8.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+    8.000/300 after      2 sec. |   1633.3 MiB | K   12 | loss  1.262406830e+00 | Ndiff    0.660 
+MERGE @ lap 9.00 : 0/10 accepted. Ndiff 0.00. 0 skipped.
+    9.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.262400815e+00 | Ndiff    0.661 
+MERGE @ lap 10.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   10.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.262397646e+00 | Ndiff    0.318 
+MERGE @ lap 11.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   11.000/300 after      3 sec. |   1633.3 MiB | K   12 | loss  1.262396165e+00 | Ndiff    0.303 
+MERGE @ lap 12.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   12.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.262395417e+00 | Ndiff    0.190 
+MERGE @ lap 13.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   13.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.262395063e+00 | Ndiff    0.160 
+MERGE @ lap 14.00: No promising candidates, so no attempts.
+   14.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.262394892e+00 | Ndiff    0.084 
+MERGE @ lap 15.00: No promising candidates, so no attempts.
+   15.000/300 after      4 sec. |   1633.3 MiB | K   12 | loss  1.262394805e+00 | Ndiff    0.052 
+MERGE @ lap 16.00 : 0/5 accepted. Ndiff 0.00. 0 skipped.
+   16.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.262394762e+00 | Ndiff    0.039 
+MERGE @ lap 17.00 : 0/26 accepted. Ndiff 0.00. 0 skipped.
+   17.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.262394743e+00 | Ndiff    0.030 
+MERGE @ lap 18.00 : 0/21 accepted. Ndiff 0.00. 0 skipped.
+   18.000/300 after      5 sec. |   1633.3 MiB | K   12 | loss  1.262394733e+00 | Ndiff    0.017 
+MERGE @ lap 19.00 : 0/14 accepted. Ndiff 0.00. 0 skipped.
+   19.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.262394729e+00 | Ndiff    0.009 
+MERGE @ lap 20.00: No promising candidates, so no attempts.
+   20.000/300 after      6 sec. |   1633.3 MiB | K   12 | loss  1.262394726e+00 | Ndiff    0.008 
+... done. converged.
+The true number of cluster is 10
+The proportion of image with true cluster in the batch: 
+
+[0.1052 0.1138 0.096  0.105  0.0928 0.0928 0.0952 0.1022 0.0976 0.0994]
+The cluster evaluation result is 
+
+NMI => 0.8527681637094219
+ARS => 0.818271336900439
+HS => 0.8815492541855324
+CS => 0.8249267271041087
+VM => 0.8522985954795093
+Precision: 0.8992673992673993, Recall: 0.9352380952380952, fitted: 0, true: 3
+Precision: 0.9920792079207921, Recall: 0.9524714828897338, fitted: 1, true: 0
+Precision: 0.9400826446280992, Recall: 0.9479166666666666, fitted: 2, true: 2
+Precision: 0.9397089397089398, Recall: 0.9262295081967213, fitted: 3, true: 8
+Precision: 0.9595744680851064, Recall: 0.9719827586206896, fitted: 4, true: 4
+Precision: 0.9911699779249448, Recall: 0.903420523138833, fitted: 5, true: 9
+Precision: 0.9932126696832579, Recall: 0.9222689075630253, fitted: 6, true: 6
+Precision: 0.9876237623762376, Recall: 0.8599137931034483, fitted: 7, true: 5
+Precision: 1.0, Recall: 0.7632093933463796, fitted: 8, true: 7
+Precision: 0.3644859813084112, Recall: 0.22896281800391388, fitted: 9, true: 7
+Precision: 1.0, Recall: 0.46045694200351495, fitted: 10, true: 1
+Precision: 1.0, Recall: 0.4253075571177504, fitted: 11, true: 1
+The current ACC is :0.9341142857142857
+The cluster evaluation result is 
+
+NMI => 0.8574304567935599
+ARS => 0.8265900140883965
+HS => 0.8864143342832372
+CS => 0.829394290912152
+VM => 0.8569568627194571
+The overall recall across all samples: 0.9341142857142857
+Precision: 0.9057549085985105, Recall: 0.9367035429211595, fitted: 0, true: 3
+Precision: 0.9951588502269288, Recall: 0.9529190207156308, fitted: 1, true: 0
+Precision: 0.9451452870304748, Recall: 0.9539341917024321, fitted: 2, true: 2
+Precision: 0.9495698605754969, Recall: 0.9380219780219781, fitted: 3, true: 8
+Precision: 0.9719612448620082, Recall: 0.9702520515826495, fitted: 4, true: 4
+Precision: 0.9924717691342535, Recall: 0.9094567404426559, fitted: 5, true: 9
+Precision: 0.9949042618900555, Recall: 0.9370273414776032, fitted: 6, true: 6
+Precision: 0.9936673495995529, Recall: 0.8450815776968161, fitted: 7, true: 5
+Precision: 0.9956733369388859, Recall: 0.7573015220074044, fitted: 8, true: 7
+Precision: 0.3766548984995587, Recall: 0.23406005758946935, fitted: 9, true: 7
+Precision: 0.9997147746719909, Recall: 0.4449663577504126, fitted: 10, true: 1
+Precision: 0.9997214484679666, Recall: 0.4556303161101942, fitted: 11, true: 1

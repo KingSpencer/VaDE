@@ -167,8 +167,8 @@ if __name__ == "__main__":
         #encoder.summary()
         #decoder.summary()
         # encoder, decoder = load_pretrain_weights(encoder, decoder)
-        #vade_temp.load_weights("/home/zifeng/Research/DPVAE/best_mnist_results/Kmax50mnistepoch10batch_iter3scale0.005bs5000rep4sf0.1/vade_DP_weights.h5")
-        vade_temp.load_weights("/home/zifeng/Research/DPVAE/results/vade_DP_weights.h5")
+        vade_temp.load_weights("/home/zifeng/Research/DPVAE/best_mnist_results/vade_DP_weights.h5")
+        #vade_temp.load_weights("/home/zifeng/Research/DPVAE/results/vade_DP_weights.h5")
         print("************* weights loaded successfully! **************")
         encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade_temp)
     elif model_flag == 'cnn':
@@ -184,8 +184,8 @@ if __name__ == "__main__":
     # with open('./results/W.pkl', 'rb') as f:
     #    W = joblib.load(f)
     if model_flag == 'dense':
-        #with open('./best_mnist_results/Kmax50mnistepoch10batch_iter3scale0.005bs5000rep4sf0.1/DPParam.pkl', 'rb') as f:
-        with open('./results/DPParam.pkl', 'rb') as f:
+        with open('./best_mnist_results/DPParam.pkl', 'rb') as f:
+        #with open('./results/DPParam.pkl', 'rb') as f:
             DPParam = joblib.load(f)
     elif model_flag == 'cnn':
         with open('./best_cnn_results/DPParam.pkl', 'rb') as f:
