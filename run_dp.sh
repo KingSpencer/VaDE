@@ -8,7 +8,7 @@ do
         -epoch 10 \
         -Kmax 50 \
         -dataset mnist \
-        -scale 0.005 \
+        -scale 0.05 \
         -batch_iter 3 \
         -logFile \
         -useLocal \
