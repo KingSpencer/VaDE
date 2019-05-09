@@ -69,7 +69,7 @@ def get_ae_supervised(dataset='reuters', original_dim=2000, latent_dim=10, inter
     ae.summary()
 
     if dataset=='mnist':
-        root_path = '/home/zifeng/Research/DPVAE'
+        root_path = '../'
         path = os.path.join(root_path, 'pretrain_weights')
         filename = 'ae_' + dataset + '.json'
         fullFileName = os.path.join(path, filename)
