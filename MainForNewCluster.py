@@ -166,7 +166,7 @@ def load_data(dataset, datasetPath):
         with open(YTrainPath, 'rb') as f:
             Y = pickle.load(f)
     if dataset == 'secondBatch':
-        XTrainPath = os.path.join(datasetPath, 'XFirstBatch.pkl')
+        XTrainPath = os.path.join(datasetPath, 'XSecondBatch.pkl')
         with open(XTrainPath, 'rb') as f:
             X = pickle.load(f)
         YTrainPath = os.path.join(datasetPath, 'YSecondBatch.pkl')
