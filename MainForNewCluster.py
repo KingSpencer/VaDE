@@ -573,7 +573,8 @@ for epoch in range(num_of_epoch):
 #%%
 ################################################
 ## get z_fit from the encoder and fit with DP model to get all the labels for all training data
-z_fit = sample_output.predict(X, batch_size=batch_size)        
+z_fit = sample_output.predict(X, batch_size=batch_size)   
+joblib.dump(z_fit, os.path.join(fullOutputPath, 'initialZ.pkl'))      
 fittedY = obtainFittedYFromDP(DPParam, z_fit)
 ####################################
 ## Obtain the relationship between fittec class lable and true label, stored in a dictionary
