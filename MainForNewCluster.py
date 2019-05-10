@@ -74,6 +74,8 @@ parser.add_argument('-useNewPretrained', action='store_true',  dest='useNewPretr
 parser.add_argument('-taskID', action='store', type=int, dest = 'taskID', default=1, help='use taskID to random seed for bnpy') 
 parser.add_argument('-learningRate', action='store', type=float, dest='lr', default=0.01, help='the learning rate in adam_nn')
 parser.add_argument('-datasetPath', action='store', type=str, dest='datasetPath', help='the path for new cluster dataset')
+parser.add_argument('-initModelPath', action='store', type=str, help='the path for the initial model of DP')
+
 
 results = parser.parse_args()
 if results.useLocal:
@@ -461,6 +463,8 @@ gamma1 = 1.0
 gamma0 = 5.0
 stopProgram = False
 
+tSNEMtx = np.zeros((1, 10))
+
 for epoch in range(num_of_epoch):    
     id_list = np.arange(num_of_exp)
     np.random.shuffle(id_list)
@@ -486,22 +490,26 @@ for epoch in range(num_of_epoch):
         # v: 'nu' (# of cluster) 
         
         # DPParam = DPObj.fit(z_batch)
-        
-        if epoch ==0 and iteration == 0:
-            newinitname = 'randexamples'
-            if dataset == 'reuters10k':
-                DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax, sf=sf, nBatch = nBatch, taskID=taskID)
-            else:
-                DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, sf=sf, nBatch = nBatch,taskID=taskID)
-            DPParam, newinitname = DPObj.fit(z_batch)
+        if dataset == 'firstBatch' or dataset =='secondBatch':
+            newinitname = results.initModelPath
+            DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, sf=sf, nBatch = nBatch,taskID=taskID)
+            DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         else:
-            # if iteration == (num_of_iteration-1) and epoch !=0:
-            if epoch != 0:
+            if epoch ==0 and iteration == 0:
+                newinitname = 'randexamples'
                 if dataset == 'reuters10k':
-                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax,sf=sf, nBatch = nBatch,taskID=taskID)
-                else:    
-                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0,sf=sf, nBatch = nBatch, taskID=taskID)
-                DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
+                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax, sf=sf, nBatch = nBatch, taskID=taskID)
+                else:
+                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, sf=sf, nBatch = nBatch,taskID=taskID)
+                DPParam, newinitname = DPObj.fit(z_batch)
+            else:
+                # if iteration == (num_of_iteration-1) and epoch !=0:
+                if epoch != 0:
+                    if dataset == 'reuters10k':
+                        DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax,sf=sf, nBatch = nBatch,taskID=taskID)
+                    else:    
+                        DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0,sf=sf, nBatch = nBatch, taskID=taskID)
+                    DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
         # if iteration == (num_of_iteration-1):
         trueY = Y[indices]    
@@ -525,7 +533,8 @@ for epoch in range(num_of_epoch):
             trueC =  dictFitted2True[key]['trueCluster']
             print("Precision: {}, Recall: {}, fitted: {}, true: {}".format(prec, recall, key, trueC))
         
-        z_fit = sample_output.predict(X, batch_size=batch_size)        
+        z_fit = sample_output.predict(X, batch_size=batch_size)  
+        tSNEMtx = np.vstack((tSNEMtx, z_fit))
         fittedY = obtainFittedYFromDP(DPParam, z_fit)
         accResult = clusterAccuracyUpdated(Y, fittedY)
         # this is the overall accuracy
@@ -604,10 +613,12 @@ dp_model_path = os.path.join(fullOutputPath, 'dp_model.pkl')
 dp_model_param = os.path.join(fullOutputPath, 'DPParam.pkl')
 accResult_path = os.path.join(fullOutputPath, 'acc_result.pkl')
 fittedY_path = os.path.join(fullOutputPath, 'fittedY.pkl')
+tsnePath = os.path.join()
 joblib.dump(DPParam['model'], dp_model_path) 
 joblib.dump(DPParam, dp_model_param) 
 joblib.dump(accResult, accResult_path)
 joblib.dump(fittedY, fittedY_path)
+joblib.dump( tSNEMtx, os.path.join(fullOutputPath, 'tsneZ.pkl'))
 # m : 'm' (# of cluster, latent_dim)
 # W : 'B' (# of cluster, latent_dim, latent_dim)
 m = os.path.join(outputPath, 'm.pkl')
