@@ -14,11 +14,14 @@ from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
-import time 
+
+import time
+import numpy as np
+
 ## the first row is always zero and should be discarded
-firstBatchZ = joblib.load( open('/Users/crystal/Documents/newCluster/firstBatch/output/Kmax30firstBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/tsneZ.pkl', 'rb'))
-secondBatchZ = joblib.load(open('/Users/crystal/Documents/newCluster/secondBatch/output/Kmax30secondBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/tsneZ.pkl', 'rb'))
-fittedY = joblib.load(open('/Users/crystal/Documents/newCluster/firstBatch/output/Kmax30firstBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/fittedY.pkl', 'rb'))
+firstBatchZ = joblib.load( open('/home/tingting/Documents/newCluster/firstBatch/output/Kmax30firstBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/tsneZ.pkl', 'rb'))
+secondBatchZ = joblib.load(open('/home/tingting/Documents/newCluster/secondBatch/output/Kmax30secondBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/tsneZ.pkl', 'rb'))
+fittedY = joblib.load(open('/home/tingting/Documents/newCluster/firstBatch/output/Kmax30firstBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/fittedY.pkl', 'rb'))
 
 ## get the original data size of Z
 ## in the firstBatch each Z should be of dimension 14674 * 10
@@ -40,6 +43,27 @@ result['tsne-2d-one'] = tsne_results[:,0]
 result['tsne-2d-two'] = tsne_results[:,1]
 totalY = len(fittedY)
 result['fittedy'] = fittedY[ (totalY-14674+1):totalY]
+
+## map fittedY to true Y as legend
+acc_result = joblib.load(open("/home/tingting/Documents/newCluster/firstBatch/output/Kmax30firstBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/acc_result.pkl", 'rb'))
+trueToFitted = acc_result['match']
+fittedToTrue = dict()
+## from Fitted Values to true values
+keys = trueToFitted.keys()
+for key in keys:
+    values = trueToFitted[key]
+    for value in values:
+        fittedToTrue[value] = key
+## fitted cluster 6 is the mixture cluster in our fit
+import matplotlib.pyplot as plt
+
+result['y'] = [None]*len(result['fittedy'])
+for i in range(len(result['y'])):
+    if result['fittedy'][i] == 6:
+        result['y'][i] = 'mixture'
+    else:
+        result['y'][i] = fittedToTrue[result['fittedy'][i]]
+
 
 
 ## map fittedY to true Y as legend
@@ -63,7 +87,7 @@ for i in range(len(result['fittedy'])):
         result['y'][i] = fittedToTrue[result['fittedy'][i]]
     
 plt.figure(figsize=(16,10))
-sns.scatterplot(
+ax1 = sns.scatterplot(
     x="tsne-2d-one", y="tsne-2d-two",
     hue="y",
     palette=sns.color_palette("Paired", 10),
@@ -71,7 +95,10 @@ sns.scatterplot(
     legend="full",
     alpha=1.0
 )
-
+ax1.legend(fancybox=True, framealpha=0.1)
+plt.setp(ax1.get_legend().get_texts(), fontsize='36') # for legend text
+plt.setp(ax1.get_legend().get_title(), fontsize='36')
+plt.show()
 ########################################################
 ## draw tsne for second batch
 time_start = time.time()
@@ -79,26 +106,51 @@ tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
 tsne_results = tsne.fit_transform(lastSecondZ)
 print('t-SNE done! Time elapsed: {} seconds'.format(time.time()-time_start))
 
-fittedY = joblib.load(open('/Users/crystal/Documents/newCluster/secondBatch/output/Kmax30secondBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/fittedY.pkl', 'rb'))
+fittedY = joblib.load(open('/home/tingting/Documents/newCluster/secondBatch/output/Kmax30secondBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/fittedY.pkl', 'rb'))
 
 
 
 
 
+acc_result = joblib.load(open("/home/tingting/Documents/newCluster/secondBatch/output/Kmax30secondBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/acc_result.pkl", 'rb'))
+trueToFitted = acc_result['match']
+fittedToTrue = dict()
+## from Fitted Values to true values
+keys = trueToFitted.keys()
+for key in keys:
+    values = trueToFitted[key]
+    for value in values:
+        fittedToTrue[value] = key
+## fitted cluster 6 is the mixture cluster in our fit
 result = dict()
 result['tsne-2d-one'] = tsne_results[:,0]
 result['tsne-2d-two'] = tsne_results[:,1]
 totalY = len(fittedY)
-result['y'] = fittedY[ (totalY-18167+1):totalY]
+result['fittedy'] = fittedY[ (totalY-18167+1):totalY]        
+        
+
+result['y'] = [None]*len(result['fittedy'])
+for i in range(len(result['y'])):
+    if result['fittedy'][i] == 9:
+        result['y'][i] = 'mixture'
+    else:
+        result['y'][i] = fittedToTrue[result['fittedy'][i]]
+
+
+
+
 
 plt.figure(figsize=(16,10))
-sns.scatterplot(
+ax2 = sns.scatterplot(
     x="tsne-2d-one", y="tsne-2d-two",
     hue="y",
-    palette=sns.color_palette("hls", 11),
+    palette=sns.color_palette("Paired", 11),
     data=result,
     legend="full",
-    alpha=0.3
+    alpha=1.0
 )
-
+ax2.legend(fancybox=True, framealpha=0.1)
+plt.setp(ax2.get_legend().get_texts(), fontsize='36') # for legend text
+plt.setp(ax2.get_legend().get_title(), fontsize='36')
+plt.show()
 
