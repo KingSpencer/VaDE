@@ -11,7 +11,7 @@ reuters_results/
 *.ipynb
 __pycache__
 conv_vae_pre_weights
-*.png
+#*.png
 #*.pkl
 # Windows image file caches
 Thumbs.db
