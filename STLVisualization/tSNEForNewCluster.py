@@ -14,6 +14,7 @@ from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
+
 import time
 import numpy as np
 
@@ -64,6 +65,27 @@ for i in range(len(result['y'])):
         result['y'][i] = fittedToTrue[result['fittedy'][i]]
 
 
+
+## map fittedY to true Y as legend
+acc_result = joblib.load(open("/Users/crystal/Documents/newCluster/firstBatch/output/Kmax30firstBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/acc_result.pkl", 'rb'))
+trueToFitted = acc_result['match']
+fittedToTrue = dict()
+## from Fitted Values to true values
+keys = trueToFitted.keys()
+for key in keys:
+    values = trueToFitted[key]
+    for value in values:
+        fittedToTrue[value] = key
+## fitted cluster 6 is the mixture cluster in our fit
+import matplotlib.pyplot as plt
+
+result['y'] = [None]*len(result['fittedy'])
+for i in range(len(result['fittedy'])):
+    if result['fittedy'][i] == 6:
+        result['y'][i] = 'mixture'
+    else:
+        result['y'][i] = fittedToTrue[result['fittedy'][i]]
+    
 plt.figure(figsize=(16,10))
 ax1 = sns.scatterplot(
     x="tsne-2d-one", y="tsne-2d-two",
@@ -85,6 +107,10 @@ tsne_results = tsne.fit_transform(lastSecondZ)
 print('t-SNE done! Time elapsed: {} seconds'.format(time.time()-time_start))
 
 fittedY = joblib.load(open('/home/tingting/Documents/newCluster/secondBatch/output/Kmax30secondBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/fittedY.pkl', 'rb'))
+
+
+
+
 
 acc_result = joblib.load(open("/home/tingting/Documents/newCluster/secondBatch/output/Kmax30secondBatchepoch15batch_iter3scale0.05bs2104rep1sf0.1/acc_result.pkl", 'rb'))
 trueToFitted = acc_result['match']

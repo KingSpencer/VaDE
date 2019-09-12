@@ -84,7 +84,7 @@ def get_vae(original_dim=784, latent_dim=10, intermediate_dim=[500,500,2000]):
 
 
     ae = Model(x, x_decoded)
-    adam = optimizers.Adam(lr=0.0005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0, amsgrad=False)
+    adam = optimizers.Adam(lr=0.0002, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0, amsgrad=False)
     ae.compile(optimizer=adam, loss='mse')
     ae.summary()
     return ae
@@ -141,7 +141,7 @@ if __name__ == '__main__':
         ae = get_vae()
 
 
-    ae.fit(x_major, x_major, epochs=5, batch_size=batch_size, validation_data=(x_minor, x_minor), shuffle=True)
+    ae.fit(x_major, x_major, epochs=30, batch_size=batch_size, validation_data=(x_minor, x_minor), shuffle=True)
     
     # ae.fit(X, [X, dummy_y], epochs=2, batch_size=batch_size)
     
@@ -155,9 +155,36 @@ if __name__ == '__main__':
     img_sample *= 255
     x_sample *= 255
     #img_sampe = img_sample.astype(np.uint8)
-    for i in range(20):
+    # save original
+    original = []
+    for i in range(10):
+        img_original = (x_sample[i]).reshape(28,28).astype(np.uint8)
+        original.append(img_original)
+    long_original = np.hstack(original)
+    imsave('original_0.png', long_original)
+    original = []
+    for i in range(10,20):
+        img_original = (x_sample[i]).reshape(28,28).astype(np.uint8)
+        original.append(img_original)
+    long_original = np.hstack(original)
+    imsave('original_2.png', long_original)
+    recon = []
+    for i in range(10):
+        recon_img = img_sample[i].reshape(28,28)
+        recon.append(recon_img)
+    long_recon = np.hstack(recon)
+    imsave('recon_0.png', long_recon)
+    recon = []
+    for i in range(10,20):
+        recon_img = img_sample[i].reshape(28,28)
+        recon.append(recon_img)
+    long_recon = np.hstack(recon)
+    imsave('recon_2.png', long_recon)
+
+
+    '''for i in range(5):
         img_original = (x_sample[i]).reshape(28,28).astype(np.uint8)
         imsave('sample_original_%d.png' % i, img_original)
-        imsave('sample_recon_%d.png' % i, img_sample[i].reshape(28,28))
+        imsave('sample_recon_%d.png' % i, img_sample[i].reshape(28,28))'''
 
 
