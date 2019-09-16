@@ -67,6 +67,7 @@ parser.add_argument('-learningRate', action='store', type=float, dest='lr', defa
 
 
 results = parser.parse_args()
+# results.useLocal = True
 if results.useLocal:
     rep = results.rep
 else:
