@@ -44,6 +44,7 @@ parser.add_argument('-initModelPath', action='store', type=str, help='the path f
 
 
 results = parser.parse_args()
+# results.useLocal=True
 if results.useLocal:
     rep = results.rep
 else:
