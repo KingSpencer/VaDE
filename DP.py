@@ -21,7 +21,7 @@ parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', de
 parser.add_argument('-conv', action='store_true', \
                     help='using convolutional autoencoder or not')
 parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=10, help='the maximum number of clusters in DPMM')
-parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
+parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'reuters10k', help='the options can be mnist,reuters10k and har')
 parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
 parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
 parser.add_argument('-scale', action='store', type = float, dest='scale', default = 0.005, help='the scale parameter in the loss function')
@@ -44,6 +44,7 @@ parser.add_argument('-initModelPath', action='store', type=str, help='the path f
 
 
 results = parser.parse_args()
+
 # results.useLocal=True
 if results.useLocal:
     rep = results.rep
@@ -92,15 +93,25 @@ class DP:
     
     
     def run(self, data, mixModel='DPMixtureModel', obsModel='Gauss', alg='memoVB'):
-        dp_model, dp_info_dict=bnpy.run(data, mixModel, obsModel, alg, K = self.K, output_path=self.output_path,
+        dp_model, dp_info_dict =bnpy.run(data, mixModel, obsModel, alg, K = self.K, output_path=self.output_path,
                                         nLap = self.nLap, nTask=self.nTask, nBatch=self.nBatch, sF=self.sF,
                                         ECovMat=self.ECovMat, m_startLap=self.m_startLap, initname=self.initname,
                                         moves=self.moves, b_startLap=self.b_startLap, b_Kfresh=self.b_Kfresh, 
                                         doSaveToDisk=self.doSaveToDisk, gamma1=self.gamma1, gamma0 = self.gamma0,
                                         Kmax = self.Kmax, taskID = self.taskID)
         return dp_model, dp_info_dict
-                
-    
+
+
+    def initialFit(self, z_batch):
+        if isinstance(z_batch, XData):
+            data = z_batch
+        else:
+            data = XData(z_batch, dtype='auto')
+        dp_model, dp_info_dict = self.run(data)
+        DPParam = self.extractDPParam(dp_model, data)
+        return dp_model, dp_info_dict, DPParam
+
+
     def fit(self, z_batch):
         if isinstance(z_batch, XData):
             data = z_batch
@@ -109,6 +120,29 @@ class DP:
         dp_model, dp_info_dict = self.run(data)
         DPParam = self.extractDPParam(dp_model, data)
         return DPParam, dp_info_dict['task_output_path']
+
+    def fitWithPrevModel(self, z_batch, initname, dp_model, dict_info):
+        if isinstance(z_batch, XData):
+            data = z_batch
+        else:
+            data = XData(z_batch, dtype='auto')
+        dp_model, dp_info_dict = bnpy.runWithInit(dataName=data, allocModelName='DPMixtureModel', obsModelName='Gauss', algName='memoVB',
+                                                  K=self.K, output_path=self.output_path,
+                                                  nLap=self.nLap, nTask=self.nTask, nBatch=self.nBatch, sF=self.sF,
+                                                  ECovMat=self.ECovMat, m_startLap=self.m_startLap,
+                                                  initname=initname,
+                                                  moves=self.moves, b_startLap=self.b_startLap, b_Kfresh=self.b_Kfresh,
+                                                  doSaveToDisk=self.doSaveToDisk, gamma1=self.gamma1,
+                                                  gamma0=self.gamma0,
+                                                  Kmax=self.Kmax, taskID=self.taskID,
+                                                  hmodel=dp_model, dict_info=dict_info)
+
+        DPParam = self.extractDPParam(dp_model, data)
+        # DPParam, dp_info_dict['task_output_path']
+        return dp_model, dp_info_dict, DPParam
+
+
+
     
     def fitWithWarmStart(self, z_batch, initname):
         if isinstance(z_batch, XData):
@@ -117,6 +151,7 @@ class DP:
             data = XData(z_batch, dtype='auto')
         self.initname = initname    
         dp_model, dp_info_dict = self.run(data)
+
         DPParam = self.extractDPParam(dp_model, data)
         return DPParam, dp_info_dict['task_output_path']
             
