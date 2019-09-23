@@ -6,6 +6,7 @@ Created on Tue Apr 30 21:49:55 2019
 @author: crystal
 """
 import os
+import warnings
 
 def createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize,rep=1, sf=0.1):
     
@@ -28,15 +29,21 @@ def createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, 
     
     folderName = 'Kmax' + Kmax + dataset + 'epoch' + epoch + 'batch_iter' + batch_iter + 'scale' + scale + 'bs' + batchsize + 'rep'+ rep + 'sf' + sf    
     wholeFolderName = os.path.join(outputPath, folderName)
-    
-    if os.path.exists(wholeFolderName):
-        ## check if this folder exisits in outputPath,
-        raise ValueError("The folder has already exisits")
-    else:
-        ## if not, create a folder with folderName in outputPath
+
+    if not os.path.exists(wholeFolderName):
         os.makedirs(wholeFolderName)
-        
+    else:
+        warnings.warn("The folder has already existed")
     return wholeFolderName
+
+    # if os.path.exists(wholeFolderName):
+        ## check if this folder exisits in outputPath,
+    #    raise ValueError("The folder has already exisits")
+    # else:
+        ## if not, create a folder with folderName in outputPath
+    #    os.makedirs(wholeFolderName)
+        
+    # return wholeFolderName
     
 def createFullOutputFileName(wholeFolderName, fileName):
     if not isinstance(fileName, str):
