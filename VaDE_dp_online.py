@@ -36,7 +36,7 @@ sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
 set_session(sess)
 # set_session(tf.Session(config=config))
 # os.chdir("/home/tingting/code/")
-os.chdir("/Users/crystal/Documents/")
+# os.chdir("/Users/crystal/Documents/")
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
