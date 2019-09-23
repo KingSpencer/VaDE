@@ -35,6 +35,7 @@ gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_fraction)
 sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
 set_session(sess)
 # set_session(tf.Session(config=config))
+
 # os.chdir("/home/tingting/code/")
 # os.chdir("/Users/crystal/Documents/")
 
@@ -44,9 +45,7 @@ argv = sys.argv[1:]
 parser = argparse.ArgumentParser()
 parser.add_argument('-bnpyPath', action='store', type = str, dest='bnpyPath', default='./bnpy/', \
                     help='path to bnpy code repo')
-#parser.add_argument('-outputPath', action='store', type = str, dest='outputPath', default='../Documents/VaDE_results/', \
-#                    help='path to output')
-parser.add_argument('-outputPath', action='store', type = str, dest='outputPath', default='/Users/crystal/Documents/VaDE_results/', \
+parser.add_argument('-outputPath', action='store', type = str, dest='outputPath', default='../Documents/VaDE_results/', \
                     help='path to output')
 parser.add_argument('-rootPath', action='store', type = str, dest='rootPath', default='./VaDE', \
                     help='root path to VaDE')
@@ -55,12 +54,12 @@ parser.add_argument('-conv', action='store_true', \
 parser.add_argument('-logFile', action='store_true', dest='logFile', help='if logfile exists, save the log file to txt')
 parser.add_argument('-useLocal', action='store_true', dest='useLocal', help='if use Local, rep environment variable will not be used')
 ## add argument for the maximum number of clusters in DP
-parser.add_argument('-Kmax', action='store', type = int, dest='Kmax', default=50, help='the maximum number of clusters in DPMM')
+parser.add_argument('-Kmax', action='store', type = int, dest='Kmax',  default=50, help='the maximum number of clusters in DPMM')
 ## parse data set option as an argument
-parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'mnist', help='the options can be mnist,reuters10k and har')
-parser.add_argument('-epoch', action='store', type = int, dest='epoch', default=10, help='The number of epochs')
+parser.add_argument('-dataset', action='store', type = str, dest='dataset',  default = 'reuters10k', help='the options can be mnist,reuters10k and har')
+parser.add_argument('-epoch', action='store', type = int, dest='epoch', default = 20, help='The number of epochs')
 parser.add_argument('-batch_iter', action='store', type = int, dest='batch_iter', default = 10, help='The number of updates in SGVB')
-parser.add_argument('-scale', action='store', type = float, dest='scale', default=0.05, help='the scale parameter in the loss function')
+parser.add_argument('-scale', action='store', type = float, dest='scale', default = 1.0, help='the scale parameter in the loss function')
 parser.add_argument('-batchsize', action='store', type = int, dest='batchsize', default = 5000, help='the default batch size when training neural network')
 parser.add_argument('-nBatch', action='store', type = int, dest='nBatch', default = 5, help='number of batches in DP')
 parser.add_argument('-sf', action='store', type = float, dest='sf', default=0.1, help='the prior diagonal covariance matrix for Normal mixture in DP')
@@ -75,7 +74,7 @@ parser.add_argument('-learningRate', action='store', type=float, dest='lr', defa
 
 
 results = parser.parse_args()
-# results.useLocal = True
+results.useLocal = True
 if results.useLocal:
     rep = results.rep
 else:
@@ -150,7 +149,7 @@ def sampling(args):
         epsilon = K.random_normal(shape=(batch, dim))
         return z_mean + K.exp(0.5 * z_log_var) * epsilon
 
-def load_data(dataset, root_path, flatten=True, numbers=range(5)):
+def load_data(dataset, root_path, flatten=True, numbers=range(10)):
     path = os.path.join(os.path.join(root_path, 'dataset'), dataset)
     # path = 'dataset/'+dataset+'/'
     if dataset == 'mnist':
@@ -528,10 +527,6 @@ gamma1 = 1.0
 gamma0 = 5.0
 stopProgram = False
 
-
-dp_model = None
-dp_info_dict = None
-
 for epoch in range(num_of_epoch):    
     id_list = np.arange(num_of_exp)
     np.random.shuffle(id_list)
@@ -564,16 +559,15 @@ for epoch in range(num_of_epoch):
                 DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax, sf=sf, nBatch = nBatch, taskID=taskID)
             else:
                 DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, sf=sf, nBatch = nBatch,taskID=taskID)
-            # DPParam, newinitname = DPObj.fit(z_batch)
-            dp_model, dp_info_dict, DPParam = DPObj.initialFit(z_batch)
-            newinitname = dp_info_dict['task_output_path']
-
+            DPParam, newinitname = DPObj.fit(z_batch)
         else:
             # if iteration == (num_of_iteration-1) and epoch !=0:
             if epoch != 0:
-                # DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
-                dp_model, dp_info_dict, DPParam = DPObj.fitWithPrevModel(z_batch, newinitname, dp_model, dp_info_dict)
-                newinitname = dp_info_dict['task_output_path']
+                if dataset == 'reuters10k':
+                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0, Kmax = Kmax,sf=sf, nBatch = nBatch,taskID=taskID)
+                else:    
+                    DPObj = DP.DP(output_path = fullOutputPath, initname = newinitname, gamma1=gamma1, gamma0=gamma0,sf=sf, nBatch = nBatch, taskID=taskID)
+                DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
         
         # if iteration == (num_of_iteration-1):
         trueY = Y[indices]    
