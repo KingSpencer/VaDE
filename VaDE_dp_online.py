@@ -684,8 +684,11 @@ joblib.dump(fittedY, fittedY_path)
 # W : 'B' (# of cluster, latent_dim, latent_dim)
 m = os.path.join(outputPath, 'm.pkl')
 W = os.path.join(outputPath, 'W.pkl')
+nu = os.path.join(outputPath, 'nu.pkl')
 joblib.dump(DPParam['m'], m)
 joblib.dump(DPParam['B'], W)
+joblib.dump(DPParam['nu'], nu)
+
 ## save neural network model     
 # vade.save(os.path.join(outputPath, "vade_DP.hdf5"))
 # we should save the model structure and weights seperately.
