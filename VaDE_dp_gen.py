@@ -115,7 +115,7 @@ def get_models(model_flag, batch_size, original_dim, latent_dim, intermediate_di
         encoder.summary()
         decoder.summary()
 
-    return vade , encoder, decoder
+    return vade, encoder, decoder
 
 def get_temp_vade(batch_size, original_dim, latent_dim, intermediate_dim):
     x = Input(batch_shape=(batch_size, original_dim))

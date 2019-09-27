@@ -37,7 +37,7 @@ sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
 set_session(sess)
 # set_session(tf.Session(config=config))
 # os.chdir("/home/tingting/code/")
-# os.chdir("/Users/crystal/Documents/")
+os.chdir("/Users/crystal/Documents/")
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
@@ -63,8 +63,8 @@ parser.add_argument('-Kmax', action='store', type=int, dest='Kmax', default=50,
 ## parse data set option as an argument
 parser.add_argument('-dataset', action='store', type=str, dest='dataset', default='mnist',
                     help='the options can be mnist,reuters10k and har')
-parser.add_argument('-epoch', action='store', type=int, dest='epoch', default=10, help='The number of epochs')
-parser.add_argument('-batch_iter', action='store', type=int, dest='batch_iter', default=10,
+parser.add_argument('-epoch', action='store', type=int, dest='epoch', default=15, help='The number of epochs')
+parser.add_argument('-batch_iter', action='store', type=int, dest='batch_iter', default=5,
                     help='The number of updates in SGVB')
 parser.add_argument('-scale', action='store', type=float, dest='scale', default=0.05,
                     help='the scale parameter in the loss function')
@@ -84,11 +84,11 @@ parser.add_argument('-useNewPretrained', action='store_true', dest='useNewPretra
                     help='Indicator about using new pretrained weights')
 parser.add_argument('-taskID', action='store', type=int, dest='taskID', default=1,
                     help='use taskID to random seed for bnpy')
-parser.add_argument('-learningRate', action='store', type=float, dest='lr', default=0.01,
+parser.add_argument('-learningRate', action='store', type=float, dest='lr', default=1e-4,
                     help='the learning rate in adam_nn')
 
 results = parser.parse_args()
-# results.useLocal = True
+results.useLocal = True
 if results.useLocal:
     rep = results.rep
 else:
@@ -474,8 +474,8 @@ latent_dim = 10
 intermediate_dim = [500, 500, 2000]
 # theano.config.floatX='float32'
 accuracy = []
-X, Y = load_data(dataset, root_path, flatten, numbers=np.array([0, 1, 2, 3, 4]))
-number = 4
+X, Y = load_data(dataset, root_path, flatten, numbers=np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
+number = 9
 original_dim, epoches, n_centroid, lr_nn, lr_gmm, decay_n, decay_nn, decay_gmm, alpha, datatype = config_init(dataset)
 global DPParam
 
