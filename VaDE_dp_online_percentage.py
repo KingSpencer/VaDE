@@ -501,9 +501,20 @@ accuracy = []
 X, Y = load_data(dataset, root_path, flatten,  numbers=np.array([0, 1, 2, 3, 4, 5]))
 number = 5
 original_dim, epoches, n_centroid, lr_nn, lr_gmm, decay_n, decay_nn, decay_gmm, alpha, datatype = config_init(dataset)
+vade_ini, encoder, decoder = get_models(model_flag='dense', batch_size=128, original_dim=784, latent_dim=10, intermediate_dim=[500, 500, 2000])
 global DPParam
 
-
+if isOnlineRead:
+    online_full_path = os.path.join(online_path, str(number-1))
+    DPParam_path = os.path.join(online_full_path, 'dp_model.pkl')
+    DPModel_path = os.path.join(online_full_path, 'DPParam.pkl')
+    DPInfo_path = os.path.join(online_full_path, 'dp_info_dict.pkl')
+    with open(DPParam_path, 'rb') as f:
+        DPParam = joblib.load(f)
+    with open(DPModel_path, 'rb') as f:
+        dp_model = joblib.load(f)
+    with open(DPInfo_path, 'rb') as f:
+        dp_info_dict = joblib.load(f)
 
 if flatten:
     x = Input(batch_shape=(batch_size, original_dim))
@@ -525,6 +536,24 @@ if flatten:
         vade = load_pretrain_weights(vade, root_path, dataset)
     if ispretrain == True and isOnlineRead == True:
         vade = load_pretrain_online_weights(vade, online_path, number)
+        # Read DP
+        if True:
+            m, W, nu, beta = extractDPParam(DPParam)
+            N = 2000
+            X_single, Y_single = load_data(dataset, root_path, flatten=flatten, numbers=[number], N=N, percentage=1)
+            # 2000, 784; 2000,
+            # new_load_data
+            _, decoder = load_pretrain_vade_weights(encoder, decoder, vade)
+            Y_generated = -1 * np.ones(N * number - N)
+            X_gen_list = [X_single]
+            for nc in range(len(m)):
+                mean = m[nc]
+                var = W[nc] * 1 / float(nu[nc])
+                z_sample = multivariate_normal(mean, var, N)
+                X_generated = decoder.predict(z_sample)
+                X_gen_list.append(X_generated)
+            X = np.concatenate(X_gen_list, axis=0)
+            Y = np.concatenate([Y_single, Y_generated], axis=0)
 
 else:  # use CNN
     input_img = Input(shape=(28, 28, 1))  # adapt this if using `channels_first` image data format
@@ -598,11 +627,7 @@ stopProgram = False
 dp_model = None
 dp_info_dict = None
 
-if isOnlineRead:
-    online_full_path = os.path.join(online_path, str(number-1))
-    DPParam_path = os.path.join(online_full_path, 'dp_model.pkl')
-    DPModel_path = os.path.join(online_full_path, 'DPParam.pkl')
-    DPInfo_path = os.path.join(online_full_path, 'dp_info_dict.pkl')
+
 
 
 for epoch in range(num_of_epoch):
@@ -642,12 +667,7 @@ for epoch in range(num_of_epoch):
             # DPParam, newinitname = DPObj.fit(z_batch)
             if isOnlineRead:
                 ## load DP model
-                with open(DPParam_path, 'rb') as f:
-                    DPParam = joblib.load(f)
-                with open(DPModel_path, 'rb') as f:
-                    dp_model = joblib.load(f)
-                with open(DPInfo_path, 'rb') as f:
-                    dp_info_dict = joblib.load(f)
+
                 dp_model, dp_info_dict, DPParam = DPObj.fitWithPrevModel(z_batch, newinitname, dp_model, dp_info_dict)
                 newinitname = dp_info_dict['task_output_path']
 
@@ -740,7 +760,7 @@ joblib.dump(DPParam['nu'], nu)
 
 ### create images of the posterior component from the trained DP model
 ### get decoder from VaDE first
-vade_ini, encoder, decoder = get_models(model_flag='dense', batch_size=128, original_dim=784, latent_dim=10, intermediate_dim=[500, 500, 2000])
+
 encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade)
 generateMeanImage(DPParam, decoder, imgPath='./results/mean_mnist.png')
 generateMultipleImgSample(DPParam, decoder, num=10, imgPath='./results/sample_mnist.png')
