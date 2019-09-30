@@ -60,7 +60,7 @@ def getDPParam(pklPath):
         DPParam = joblib.load(f)
     return DPParam
 
-def extractDPParam(DPParam):
+def obtainDPParam(DPParam):
     m = DPParam['m']
     W = DPParam['B']
     nu = DPParam['nu']
@@ -70,7 +70,7 @@ def extractDPParam(DPParam):
 def generateMeanImage(DPParam, decoder, imgPath='./results/mean_mnist.png'):
     # sampling from gaussians
     cluster_sample_list = []
-    m, W, nu, beta = extractDPParam(DPParam)
+    m, W, nu, beta = obtainDPParam(DPParam)
     z_sample = m
     generated = decoder.predict(z_sample)
     generated = generated.reshape(-1, 28, 28)
@@ -87,7 +87,7 @@ def generateMeanImage(DPParam, decoder, imgPath='./results/mean_mnist.png'):
 def generateMultipleImgSample(DPParam, decoder, num=10, imgPath='./results/sample_mnist.png'):
     # sampling from gaussians
     cluster_sample_list = []
-    m, W, nu, beta = extractDPParam(DPParam)
+    m, W, nu, beta = obtainDPParam(DPParam)
     for nc in tqdm(range(len(m))):
         mean = m[nc]
         var = W[nc] * 1 / float(nu[nc])

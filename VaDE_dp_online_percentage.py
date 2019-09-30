@@ -506,8 +506,8 @@ global DPParam
 
 if isOnlineRead:
     online_full_path = os.path.join(online_path, str(number-1))
-    DPParam_path = os.path.join(online_full_path, 'dp_model.pkl')
-    DPModel_path = os.path.join(online_full_path, 'DPParam.pkl')
+    DPParam_path = os.path.join(online_full_path, 'DPParam.pkl')
+    DPModel_path = os.path.join(online_full_path, 'dp_model.pkl')
     DPInfo_path = os.path.join(online_full_path, 'dp_info_dict.pkl')
     with open(DPParam_path, 'rb') as f:
         DPParam = joblib.load(f)
@@ -538,7 +538,7 @@ if flatten:
         vade = load_pretrain_online_weights(vade, online_path, number)
         # Read DP
         if True:
-            m, W, nu, beta = extractDPParam(DPParam)
+            m, W, nu, beta = obtainDPParam(DPParam)
             N = 2000
             X_single, Y_single = load_data(dataset, root_path, flatten=flatten, numbers=[number], N=N, percentage=1)
             # 2000, 784; 2000,
@@ -777,8 +777,8 @@ vade.save_weights(os.path.join(fullOutputPath, "vade_DP_weights.h5"))
 
 if isOnlineWrite:
     online_curr_path = os.path.join(online_path, str(number))
-    DPParam_curr_path = os.path.join(online_curr_path, 'dp_model.pkl')
-    DPModel_curr_path = os.path.join(online_curr_path, 'DPParam.pkl')
+    DPParam_curr_path = os.path.join(online_curr_path, 'DPParam.pkl')
+    DPModel_curr_path = os.path.join(online_curr_path, 'dp_model.pkl')
     DPInfo_curr_path = os.path.join(online_curr_path, 'dp_info_dict.pkl')
     joblib.dump(DPParam['model'], DPModel_curr_path)
     joblib.dump(DPParam, DPParam_curr_path)
