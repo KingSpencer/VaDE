@@ -226,14 +226,7 @@ def load_pretrain_online_weights(vade, online_path, number, delta=1):
     return vade
 
 
-def GenerateMeanImageInOrder(input_path, number, order_file_name='order.txt', delta=0, model_flag='dense', \
-                             batch_size=128, original_dim = 784, dim_2d =28, \
-                             latent_dim=10, \
-                             intermediate_dim=[500, 500, 2000], imgName=None):
-
-    vade_ini, encoder, decoder = get_models(model_flag, batch_size, original_dim, latent_dim,
-                                            intermediate_dim)
-
+def get_vade(batch_size=128, original_dim=784, intermediate_dim=[500, 500, 2000], latent_dim=10):
     x = Input(batch_shape=(batch_size, original_dim))
     h = Dense(intermediate_dim[0], activation='relu')(x)
     h = Dense(intermediate_dim[1], activation='relu')(h)
@@ -246,9 +239,25 @@ def GenerateMeanImageInOrder(input_path, number, order_file_name='order.txt', de
     h_decoded = Dense(intermediate_dim[-3], activation='relu')(h_decoded)
     x_decoded_mean = Dense(original_dim, activation='sigmoid')(h_decoded)
 
-    sample_output = Model(x, z_mean)
+    # sample_output = Model(x, z_mean)
 
     vade = Model(x, x_decoded_mean)
+    return vade
+
+
+
+
+
+
+def GenerateMeanImageInOrder(input_path, number, order_file_name='order.txt', delta=0, model_flag='dense', \
+                             batch_size=128, original_dim = 784, dim_2d =28, \
+                             latent_dim=10, \
+                             intermediate_dim=[500, 500, 2000], imgName=None):
+
+    vade_ini, encoder, decoder = get_models(model_flag, batch_size, original_dim, latent_dim,
+                                            intermediate_dim)
+    
+    vade = get_vade(batch_size, original_dim, intermediate_dim, latent_dim)
     vade = load_pretrain_online_weights(vade, input_path, number, delta)
 
     encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade)
