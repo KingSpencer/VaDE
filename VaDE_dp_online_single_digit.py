@@ -14,6 +14,7 @@ from six.moves import cPickle
 import os
 import sys
 import argparse
+import numpy as np
 
 import math
 from sklearn import mixture
@@ -63,14 +64,14 @@ parser.add_argument('-Kmax', action='store', type=int, dest='Kmax', default=50,
 ## parse data set option as an argument
 parser.add_argument('-dataset', action='store', type=str, dest='dataset', default='mnist',
                     help='the options can be mnist,reuters10k and har')
-parser.add_argument('-epoch', action='store', type=int, dest='epoch', default=15, help='The number of epochs')
+parser.add_argument('-epoch', action='store', type=int, dest='epoch', default=1, help='The number of epochs')
 parser.add_argument('-batch_iter', action='store', type=int, dest='batch_iter', default=5,
                     help='The number of updates in SGVB')
-parser.add_argument('-scale', action='store', type=float, dest='scale', default=0.05,
+parser.add_argument('-scale', action='store', type=float, dest='scale', default=0.005,
                     help='the scale parameter in the loss function')
-parser.add_argument('-batchsize', action='store', type=int, dest='batchsize', default=5000,
+parser.add_argument('-batchsize', action='store', type=int, dest='batchsize', default=1000,
                     help='the default batch size when training neural network')
-parser.add_argument('-nBatch', action='store', type=int, dest='nBatch', default=5, help='number of batches in DP')
+parser.add_argument('-nBatch', action='store', type=int, dest='nBatch', default=1, help='number of batches in DP')
 parser.add_argument('-sf', action='store', type=float, dest='sf', default=0.1,
                     help='the prior diagonal covariance matrix for Normal mixture in DP')
 parser.add_argument('-gamma0', action='store', type=float, dest='gamma0', default=5.0,
@@ -84,11 +85,12 @@ parser.add_argument('-useNewPretrained', action='store_true', dest='useNewPretra
                     help='Indicator about using new pretrained weights')
 parser.add_argument('-taskID', action='store', type=int, dest='taskID', default=1,
                     help='use taskID to random seed for bnpy')
-parser.add_argument('-learningRate', action='store', type=float, dest='lr', default=1e-4,
+parser.add_argument('-learningRate', action='store', type=float, dest='lr', default=1e-5,
                     help='the learning rate in adam_nn')
 
 results = parser.parse_args()
 results.useLocal = True
+results.logFile = False
 if results.useLocal:
     rep = results.rep
 else:
@@ -108,9 +110,10 @@ if not os.path.exists(outputPath):
 root_path = results.rootPath
 sys.path.append(root_path)
 
-online_path = os.path.join(outputPath, 'multiple')
+online_path = os.path.join(outputPath, 'singledigit2')
 isOnlineRead = True
 isOnlineWrite = True
+subset=True
 
 Kmax = results.Kmax
 dataset = results.dataset
@@ -135,10 +138,15 @@ flatten = True
 if results.conv:
     flatten = False
 
+
+number = 9
 ## specify full output path
-fullOutputPath = createOutputFolderName(outputPath, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep, sf)
+outputPathNew = os.path.join(outputPath, 'singledigit2')
+fullOutputPath = createOutputFolderName(outputPathNew, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep, sf)
 ## name log file and write console output to log.txt
-logFileName = os.path.join(fullOutputPath, 'log.txt')
+logFilePath = os.path.join(outputPathNew, str(number))
+logFileName = os.path.join(logFilePath, 'log.txt')
+
 if results.logFile:
     sys.stdout = open(logFileName, 'w')
 
@@ -166,7 +174,7 @@ def sampling(args):
     return z_mean + K.exp(0.5 * z_log_var) * epsilon
 
 
-def load_data(dataset, root_path, flatten=True, numbers=range(10)):
+def load_data(dataset, root_path, flatten=True, numbers=range(10), N=10000, percentage=0.2, subset=True):
     path = os.path.join(os.path.join(root_path, 'dataset'), dataset)
     # path = 'dataset/'+dataset+'/'
     if dataset == 'mnist':
@@ -197,11 +205,41 @@ def load_data(dataset, root_path, flatten=True, numbers=range(10)):
             pass
         else:
             indices = []
-            for number in numbers:
-                indices += list(np.where(Y == number)[0])
-            # indices = np.vstack(indices)
-            X = X[indices]
-            Y = Y[indices]
+            if subset is True:
+                ## take a subset of the samples out of all the numbers
+                ## take a percentage of the new cluster based on "number"
+                numberNew = numbers[-1]
+                for numberDigit in numbers:
+                    ## number as the last element of numbers
+                    if not numberDigit == numberNew:
+                        indices += list(np.where(Y == numberDigit)[0])
+
+                np.random.RandomState(seed=1)
+                if percentage <1.0:
+                    ## take a subset of the old samples
+
+                    old_ind = np.random.choice(indices, int(N*(1-percentage)), replace=False)
+                    indicesNew = []
+                    indicesNew += list(np.where(Y == numberNew)[0])
+                    new_ind = np.random.choice(indicesNew, int(N * percentage), replace=True)
+                    total_ind = list(old_ind) + list(new_ind)
+                else:
+                    indicesNew = []
+                    indicesNew += list(np.where(Y == numberNew)[0])
+                    ## sample N samples
+                    total_ind = np.random.choice(indicesNew, int(N), replace=True)
+
+                X = X[total_ind]
+                Y = Y[total_ind]
+                # print(round(len(new_ind)/len(total_ind)))
+
+            else:
+                for numberDigit in numbers:
+                    indices += list(np.where(Y == numberDigit)[0])
+                # indices = np.vstack(indices)
+                X = X[indices]
+                Y = Y[indices]
+
 
     if dataset == 'reuters10k':
         data = scio.loadmat(os.path.join(path, 'reuters10k.mat'))
@@ -247,7 +285,8 @@ def penalized_loss(noise):
     return loss
 
 def load_pretrain_online_weights(vade, online_path, number):
-    OnlineModelFolder = os.path.join(online_path, str(number-1))
+    # OnlineModelFolder = os.path.join(online_path, str(number-1))
+    OnlineModelFolder = os.path.join(online_path, str(number - 2))
     OnlineModelName = os.path.join(OnlineModelFolder, 'vade_DP_model.json')
     ae = model_from_json(open(OnlineModelName).read())
 
@@ -474,12 +513,23 @@ latent_dim = 10
 intermediate_dim = [500, 500, 2000]
 # theano.config.floatX='float32'
 accuracy = []
-X, Y = load_data(dataset, root_path, flatten, numbers=np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
-number = 9
+X, Y = load_data(dataset, root_path, flatten,  numbers=np.array([0, 1]), percentage = 0.5)
+
 original_dim, epoches, n_centroid, lr_nn, lr_gmm, decay_n, decay_nn, decay_gmm, alpha, datatype = config_init(dataset)
+vade_ini, encoder, decoder = get_models(model_flag='dense', batch_size=128, original_dim=784, latent_dim=10, intermediate_dim=[500, 500, 2000])
 global DPParam
 
-
+if isOnlineRead:
+    online_full_path = os.path.join(online_path, str(number-2))
+    DPParam_path = os.path.join(online_full_path, 'DPParam.pkl')
+    DPModel_path = os.path.join(online_full_path, 'dp_model.pkl')
+    DPInfo_path = os.path.join(online_full_path, 'dp_info_dict.pkl')
+    with open(DPParam_path, 'rb') as f:
+        DPParam = joblib.load(f)
+    with open(DPModel_path, 'rb') as f:
+        dp_model = joblib.load(f)
+    with open(DPInfo_path, 'rb') as f:
+        dp_info_dict = joblib.load(f)
 
 if flatten:
     x = Input(batch_shape=(batch_size, original_dim))
@@ -501,6 +551,24 @@ if flatten:
         vade = load_pretrain_weights(vade, root_path, dataset)
     if ispretrain == True and isOnlineRead == True:
         vade = load_pretrain_online_weights(vade, online_path, number)
+        # Read DP
+        if True:
+            m, W, nu, beta = obtainDPParam(DPParam)
+            N = 10000
+            X_single, Y_single = load_data(dataset, root_path, flatten=flatten, numbers=[(number-1), number], N=N, percentage=0.5)
+            # 2000, 784; 2000,
+            # new_load_data
+            _, decoder = load_pretrain_vade_weights(encoder, decoder, vade)
+            X_gen_list = [X_single]
+            for nc in range(len(m)):
+                mean = m[nc]
+                var = W[nc] * 1 / float(nu[nc])
+                z_sample = multivariate_normal(mean, var, int(N/3))
+                X_generated = decoder.predict(z_sample)
+                X_gen_list.append(X_generated)
+            X = np.concatenate(X_gen_list, axis=0)
+            Y_generated = -1 * np.ones((X_gen_list[1].shape[0] * (len(X_gen_list)-1)))
+            Y = np.concatenate([Y_single, Y_generated], axis=0)
 
 else:  # use CNN
     input_img = Input(shape=(28, 28, 1))  # adapt this if using `channels_first` image data format
@@ -553,7 +621,8 @@ else:  # use CNN
 num_of_exp = X.shape[0]
 
 num_of_epoch = epoch
-num_of_iteration = int(num_of_exp / batch_size)
+num_of_data_stream = int(num_of_exp / batch_size)
+
 if 'reuters10k' in dataset or 'stl10' in dataset or results.conv:
     adam_nn = Adam(lr=lr_nn, epsilon=1e-5, decay=0.1)
 if 'mnist' in dataset and not results.conv:
@@ -569,45 +638,21 @@ if not flatten:
 
 gamma1 = 1.0
 gamma0 = 5.0
-stopProgram = False
 
 dp_model = None
 dp_info_dict = None
 
-if isOnlineRead:
-    online_full_path = os.path.join(online_path, str(number-1))
-    DPParam_path = os.path.join(online_full_path, 'dp_model.pkl')
-    DPModel_path = os.path.join(online_full_path, 'DPParam.pkl')
-    DPInfo_path = os.path.join(online_full_path, 'dp_info_dict.pkl')
+id_list = np.arange(num_of_exp)
+np.random.shuffle(id_list)
 
+for data_stream_iter in range(num_of_data_stream):
+    print("The current data stream is stream: {}".format(data_stream_iter))
+    indices = id_list[data_stream_iter * batch_size:(data_stream_iter + 1) * batch_size]
+    x_batch = X[indices, :]
+    z_batch = sample_output.predict_on_batch(x_batch)
 
-for epoch in range(num_of_epoch):
-    id_list = np.arange(num_of_exp)
-    np.random.shuffle(id_list)
-    # print(id_list)
-    # exit(0)
-    print("The current epoch is epoch: {}".format(epoch))
-    for iteration in range(num_of_iteration):
-        indices = id_list[iteration * batch_size:(iteration + 1) * batch_size]
-        x_batch = X[indices, :]
-
-        # print(x_batch)
-        # forward pass
-        z_batch = sample_output.predict_on_batch(x_batch)
-        # print(z_batch)
-
-        # to DP
-        # DPParam = DP_fit(z_batch)
-        # DPParam = np.ones((batch_size))
-        # gamma: 'LPMtx' (batch_size, # of cluster)
-        # N : 'Nvec' (# of cluster, )
-        # m : 'm' (# of cluster, latent_dim)
-        # W : 'B' (# of cluster, latent_dim, latent_dim)
-        # v: 'nu' (# of cluster)
-
-        # DPParam = DPObj.fit(z_batch)
-
-        if epoch == 0 and iteration == 0:
+    for iteration in range(num_of_epoch):
+        if iteration ==0 and data_stream_iter==0:
             newinitname = 'randexamples'
             if dataset == 'reuters10k':
                 DPObj = DP.DP(output_path=fullOutputPath, initname=newinitname, gamma1=gamma1, gamma0=gamma0, Kmax=Kmax,
@@ -618,27 +663,19 @@ for epoch in range(num_of_epoch):
             # DPParam, newinitname = DPObj.fit(z_batch)
             if isOnlineRead:
                 ## load DP model
-                with open(DPParam_path, 'rb') as f:
-                    DPParam = joblib.load(f)
-                with open(DPModel_path, 'rb') as f:
-                    dp_model = joblib.load(f)
-                with open(DPInfo_path, 'rb') as f:
-                    dp_info_dict = joblib.load(f)
+
                 dp_model, dp_info_dict, DPParam = DPObj.fitWithPrevModel(z_batch, newinitname, dp_model, dp_info_dict)
                 newinitname = dp_info_dict['task_output_path']
-
             else:
                 dp_model, dp_info_dict, DPParam = DPObj.initialFit(z_batch)
                 newinitname = dp_info_dict['task_output_path']
-
         else:
             # if iteration == (num_of_iteration-1) and epoch !=0:
-            if epoch != 0:
+            if iteration != 0 or data_stream_iter != 0:
                 # DPParam, newinitname = DPObj.fitWithWarmStart(z_batch, newinitname)
                 dp_model, dp_info_dict, DPParam = DPObj.fitWithPrevModel(z_batch, newinitname, dp_model, dp_info_dict)
                 newinitname = dp_info_dict['task_output_path']
 
-        # if iteration == (num_of_iteration-1):
         trueY = Y[indices]
         fittedY = DPParam['Y']
         ## get the true number of clusters
@@ -666,34 +703,17 @@ for epoch in range(num_of_epoch):
         # this is the overall accuracy
         acc = accResult['overallRecall']
         print("The current ACC is :{}".format(acc))
-        if acc > threshold and epoch > 0:
-            stopProgram = True
-            # break
 
-        # k = 5
-        # DPParam = \
-        # {
-        #    'LPMtx': np.ones((batch_size, k)),
-        #    'Nvec' : np.ones(k),
-        #    'm'    : np.ones((k, latent_dim)),
-        #    'B'    : np.ones((k, latent_dim, latent_dim)),
-        #    'nu'   : np.ones(k)
-        # }
-
-        if epoch == 0 and iteration == 0:
+        if data_stream_iter == 0 and iteration == 0:
             if flatten:
                 vade.compile(optimizer=adam_nn, loss=loss)
             else:
                 vade.compile(optimizer=adam_nn, loss=cnn_loss)
 
-        if stopProgram:
-            break
         for j in range(batch_iter):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
 
-        # if iteration == 5:
-        #    exit(0)
 
 # %%
 ###############################################
@@ -716,7 +736,7 @@ joblib.dump(DPParam['nu'], nu)
 
 ### create images of the posterior component from the trained DP model
 ### get decoder from VaDE first
-vade_ini, encoder, decoder = get_models(model_flag='dense', batch_size=128, original_dim=784, latent_dim=10, intermediate_dim=[500, 500, 2000])
+
 encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade)
 generateMeanImage(DPParam, decoder, imgPath='./results/mean_mnist.png')
 generateMultipleImgSample(DPParam, decoder, num=10, imgPath='./results/sample_mnist.png')
@@ -733,8 +753,8 @@ vade.save_weights(os.path.join(fullOutputPath, "vade_DP_weights.h5"))
 
 if isOnlineWrite:
     online_curr_path = os.path.join(online_path, str(number))
-    DPParam_curr_path = os.path.join(online_curr_path, 'dp_model.pkl')
-    DPModel_curr_path = os.path.join(online_curr_path, 'DPParam.pkl')
+    DPParam_curr_path = os.path.join(online_curr_path, 'DPParam.pkl')
+    DPModel_curr_path = os.path.join(online_curr_path, 'dp_model.pkl')
     DPInfo_curr_path = os.path.join(online_curr_path, 'dp_info_dict.pkl')
     joblib.dump(DPParam['model'], DPModel_curr_path)
     joblib.dump(DPParam, DPParam_curr_path)

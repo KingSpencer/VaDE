@@ -34,6 +34,10 @@ sys.path.append("../bnpy")
 sys.path.append("../bnpy/bnpy")
 import numpy as np
 
+import pandas as pd
+
+
+
 
 def sampling(args):
     """Reparameterization trick by sampling fr an isotropic unit Gaussian.
@@ -199,4 +203,68 @@ def load_pretrain_vade_weights(encoder, decoder, vade_temp):
     decoder.layers[-3].set_weights(vade_temp.layers[-3].get_weights())
     decoder.layers[-4].set_weights(vade_temp.layers[-4].get_weights())
     return encoder, decoder
+
+def load_pretrain_online_weights(vade, online_path, number, delta=1):
+    # OnlineModelFolder = os.path.join(online_path, str(number-1))
+    OnlineModelFolder = os.path.join(online_path, str(number-delta))
+    OnlineModelName = os.path.join(OnlineModelFolder, 'vade_DP_model.json')
+    ae = model_from_json(open(OnlineModelName).read())
+
+    OnlineWeightsName = os.path.join(OnlineModelFolder, 'vade_DP_weights.h5')
+    vade.load_weights(OnlineWeightsName)
+
+    #vade.layers[1].set_weights(ae.layers[0].get_weights())
+    #vade.layers[2].set_weights(ae.layers[1].get_weights())
+    #vade.layers[3].set_weights(ae.layers[2].get_weights())
+    #vade.layers[4].set_weights(ae.layers[3].get_weights())
+
+    #vade.layers[-1].set_weights(ae.layers[-1].get_weights())
+    #vade.layers[-2].set_weights(ae.layers[-2].get_weights())
+    #vade.layers[-3].set_weights(ae.layers[-3].get_weights())
+    #vade.layers[-4].set_weights(ae.layers[-4].get_weights())
+
+    return vade
+
+
+def GenerateMeanImageInOrder(input_path, number, order_file_name='order.txt', delta=0, model_flag='dense', \
+                             batch_size=128, original_dim = 784, dim_2d =28, \
+                             latent_dim=10, \
+                             intermediate_dim=[500, 500, 2000], imgName=None):
+    vade_ini, encoder, decoder = get_models(model_flag, batch_size, original_dim, latent_dim,
+                                            intermediate_dim)
+
+    vade = load_pretrain_online_weights(vade_ini, input_path, number, delta)
+    encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade)
+    ##### read order.txt file and get the image order #######
+    order_file_path = os.path.join(input_path, order_file_name)
+    ### read txt file in python #######
+    order = pd.read_csv(order_file_path, sep=" ", header=True)
+
+    ##########  read DPParam  ########
+    DPParam_path = os.path.join(input_path, 'DPParam.pkl')
+    DPParam = joblib.load(DPParam_path)
+
+    cluster_sample_list = []
+    m, W, nu, beta = obtainDPParam(DPParam)
+    z_sample = m
+    generated = decoder.predict(z_sample)
+    generated = generated.reshape(-1, dim_2d, dim_2d)
+    generated *= 255
+    generated = generated.astype(np.uint8)
+    generated_list = [generated[x] for x in range(generated.shape[0])]
+    flattened_generated = np.hstack(generated_list)
+    cluster_sample_list.append(flattened_generated)
+    merged_sample = np.vstack(cluster_sample_list)
+
+    ###### change the order of images using order ###########
+
+
+
+    if not imgName is None:
+        img_full_name = os.path.join(input_path, imgName)
+    else:
+        img_full_name = 'ordered_mean.png'
+
+    imageio.imwrite(img_full_name, merged_sample)
+    return merged_sample
 

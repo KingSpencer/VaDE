@@ -138,7 +138,7 @@ if results.conv:
     flatten = False
 
 ## specify full output path
-outputPathNew = os.path.join(outputPath, 'percentage')
+outputPathNew = os.path.join(outputPath, 'percentagef')
 fullOutputPath = createOutputFolderName(outputPathNew, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep, sf)
 ## name log file and write console output to log.txt
 logFileName = os.path.join(fullOutputPath, 'log.txt')
@@ -208,13 +208,22 @@ def load_data(dataset, root_path, flatten=True, numbers=range(10), N=10000, perc
                     ## number as the last element of numbers
                     if not numberDigit == numberNew:
                         indices += list(np.where(Y == numberDigit)[0])
-                ## take a subset of the old samples
+
                 np.random.RandomState(seed=1)
-                old_ind = np.random.choice(indices, int(N*(1-percentage)), replace=False)
-                indicesNew = []
-                indicesNew += list(np.where(Y == numberNew)[0])
-                new_ind = np.random.choice(indicesNew, int(N * percentage), replace=True)
-                total_ind = list(old_ind) + list(new_ind)
+                if percentage <1.0:
+                    ## take a subset of the old samples
+
+                    old_ind = np.random.choice(indices, int(N*(1-percentage)), replace=False)
+                    indicesNew = []
+                    indicesNew += list(np.where(Y == numberNew)[0])
+                    new_ind = np.random.choice(indicesNew, int(N * percentage), replace=True)
+                    total_ind = list(old_ind) + list(new_ind)
+                else:
+                    indicesNew = []
+                    indicesNew += list(np.where(Y == numberNew)[0])
+                    ## sample N samples
+                    total_ind = np.random.choice(indicesNew, int(N), replace=True)
+
                 X = X[total_ind]
                 Y = Y[total_ind]
                 # print(round(len(new_ind)/len(total_ind)))
@@ -499,7 +508,7 @@ intermediate_dim = [500, 500, 2000]
 # theano.config.floatX='float32'
 accuracy = []
 X, Y = load_data(dataset, root_path, flatten,  numbers=np.array([0, 1, 2, 3, 4, 5]))
-number = 5
+number = 1
 original_dim, epoches, n_centroid, lr_nn, lr_gmm, decay_n, decay_nn, decay_gmm, alpha, datatype = config_init(dataset)
 vade_ini, encoder, decoder = get_models(model_flag='dense', batch_size=128, original_dim=784, latent_dim=10, intermediate_dim=[500, 500, 2000])
 global DPParam
@@ -544,7 +553,8 @@ if flatten:
             # 2000, 784; 2000,
             # new_load_data
             _, decoder = load_pretrain_vade_weights(encoder, decoder, vade)
-            Y_generated = -1 * np.ones(N * number - N)
+            # Y_generated = -1 * np.ones(N * number - N)
+            Y_generated = -1 * np.ones((N * number))
             X_gen_list = [X_single]
             for nc in range(len(m)):
                 mean = m[nc]
@@ -710,8 +720,6 @@ for epoch in range(num_of_epoch):
         # this is the overall accuracy
         acc = accResult['overallRecall']
         print("The current ACC is :{}".format(acc))
-        if acc > threshold and epoch > 0:
-            stopProgram = True
             # break
 
         # k = 5
@@ -730,8 +738,6 @@ for epoch in range(num_of_epoch):
             else:
                 vade.compile(optimizer=adam_nn, loss=cnn_loss)
 
-        if stopProgram:
-            break
         for j in range(batch_iter):
             neg_elbo = vade.train_on_batch(x_batch, x_batch)
             print("Iteration: {}-{}, ELBO: {}".format(iteration, j, -neg_elbo))
