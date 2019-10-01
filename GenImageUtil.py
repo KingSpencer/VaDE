@@ -230,10 +230,27 @@ def GenerateMeanImageInOrder(input_path, number, order_file_name='order.txt', de
                              batch_size=128, original_dim = 784, dim_2d =28, \
                              latent_dim=10, \
                              intermediate_dim=[500, 500, 2000], imgName=None):
+
     vade_ini, encoder, decoder = get_models(model_flag, batch_size, original_dim, latent_dim,
                                             intermediate_dim)
 
-    vade = load_pretrain_online_weights(vade_ini, input_path, number, delta)
+    x = Input(batch_shape=(batch_size, original_dim))
+    h = Dense(intermediate_dim[0], activation='relu')(x)
+    h = Dense(intermediate_dim[1], activation='relu')(h)
+    h = Dense(intermediate_dim[2], activation='relu')(h)
+    z_mean = Dense(latent_dim)(h)
+    z_log_var = Dense(latent_dim)(h)
+    z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
+    h_decoded = Dense(intermediate_dim[-1], activation='relu')(z)
+    h_decoded = Dense(intermediate_dim[-2], activation='relu')(h_decoded)
+    h_decoded = Dense(intermediate_dim[-3], activation='relu')(h_decoded)
+    x_decoded_mean = Dense(original_dim, activation='sigmoid')(h_decoded)
+
+    sample_output = Model(x, z_mean)
+
+    vade = Model(x, x_decoded_mean)
+    vade = load_pretrain_online_weights(vade, input_path, number, delta)
+    
     encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade)
     ##### read order.txt file and get the image order #######
     order_file_path = os.path.join(input_path, order_file_name)
@@ -254,12 +271,13 @@ def GenerateMeanImageInOrder(input_path, number, order_file_name='order.txt', de
     generated_list = [generated[x] for x in range(generated.shape[0])]
     flattened_generated = np.hstack(generated_list)
     cluster_sample_list.append(flattened_generated)
-    merged_sample = np.vstack(cluster_sample_list)
 
     ###### change the order of images using order ###########
+    cluster_sample_list_ordered = []
+    for i in range(len(cluster_sample_list)):
+        cluster_sample_list_ordered.append(cluster_sample_list[order[i]])
 
-
-
+    merged_sample = np.vstack(cluster_sample_list_ordered)
     if not imgName is None:
         img_full_name = os.path.join(input_path, imgName)
     else:
@@ -268,3 +286,9 @@ def GenerateMeanImageInOrder(input_path, number, order_file_name='order.txt', de
     imageio.imwrite(img_full_name, merged_sample)
     return merged_sample
 
+
+
+GenerateMeanImageInOrder('/Users/crystal/Documents/VaDE_results/singledigit2', 1, order_file_name='order.txt', delta=0, model_flag='dense', \
+                             batch_size=128, original_dim = 784, dim_2d =28, \
+                             latent_dim=10, \
+                             intermediate_dim=[500, 500, 2000], imgName=None)
