@@ -6,6 +6,10 @@ import gzip
 import numpy as np
 from GenImageUtil import get_models
 
+from keras.layers import Input, Dense, Lambda, Conv2D, Reshape, UpSampling2D, MaxPooling2D, Flatten
+from keras.models import Model, load_model
+from keras import backend as K
+
 
 def load_pretrain_online_weights(vade, online_path):
     OnlineModelFolder = online_path
@@ -50,14 +54,55 @@ def load_data(root_path='./VaDE', flatten=True):
         #X_reordered[i*1000:(i+1)*1000, :] = X[indices, :]
     return X_dict
 
+def sampling(args):
+    """Reparameterization trick by sampling fr an isotropic unit Gaussian.
+
+    # Arguments
+        args (tensor): mean and log of variance of Q(z|X)
+
+    # Returns
+        z (tensor): sampled latent vector
+    """
+
+    z_mean, z_log_var = args
+    batch = K.shape(z_mean)[0]
+    dim = K.int_shape(z_mean)[1]
+    # by default, random_normal has mean=0 and std=1.0
+    epsilon = K.random_normal(shape=(batch, dim))
+    return z_mean + K.exp(0.5 * z_log_var) * epsilon
+
 def reconstruction_error(X, X_recon):
     return np.mean(np.sum(((X - X_recon) ** 2), axis=1))
 
 if __name__ == "__main__":
     digits = range(10)
     online_path = ''
-    vade_ini, encoder, decoder = get_models(model_flag='dense', batch_size=128, original_dim=784, latent_dim=10, intermediate_dim=[500, 500, 2000])
-    vade = load_pretrain_online_weights(vade_ini, online_path)
+    # online_path = '/Users/crystal/Documents/VaDE_results/singledigit2/9'
+    # vade_ini, encoder, decoder = get_models(model_flag='dense', batch_size=128, original_dim=784, latent_dim=10, intermediate_dim=[500, 500, 2000])
+
+    batch_size = 128
+    original_dim = 784
+    intermediate_dim = [500, 500, 2000]
+    latent_dim =10
+
+    x = Input(shape=(original_dim, ))
+    h = Dense(intermediate_dim[0], activation='relu')(x)
+    h = Dense(intermediate_dim[1], activation='relu')(h)
+    h = Dense(intermediate_dim[2], activation='relu')(h)
+    z_mean = Dense(latent_dim)(h)
+    z_log_var = Dense(latent_dim)(h)
+    z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
+    h_decoded = Dense(intermediate_dim[-1], activation='relu')(z)
+    h_decoded = Dense(intermediate_dim[-2], activation='relu')(h_decoded)
+    h_decoded = Dense(intermediate_dim[-3], activation='relu')(h_decoded)
+    x_decoded_mean = Dense(original_dim, activation='sigmoid')(h_decoded)
+
+    sample_output = Model(x, z_mean)
+
+    vade = Model(x, x_decoded_mean)
+
+
+    vade = load_pretrain_online_weights(vade, online_path)
     X_dict = load_data(root_path='.')
     recon_dict = {}  
     for digit in digits:
