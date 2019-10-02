@@ -68,7 +68,7 @@ def load_data(root_path='.', flatten=True):
         (x_train, y_train), (x_test, y_test) = cPickle.load(f, encoding="bytes")
 
     f.close()
-    #x_train = x_train.astype('float32') / 255.
+    x_train = x_train.astype('float32') / 255.
     x_test = x_test.astype('float32') / 255.
     if flatten:
         x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
@@ -90,7 +90,7 @@ def load_data(root_path='.', flatten=True):
 original_dim = 784
 datatype = 'sigmoid'
 batch_size = 128
-epochs = 30
+epochs = 10
 intermediate_dim = [500,500,2000]
 latent_dim = 10
 lr_input = 1e-3
@@ -115,8 +115,8 @@ if __name__ == "__main__":
     vae.compile(optimizer=adam_nn, loss='mse')
 
     X, Y, X_dict = load_data()
-    # vae.fit(X, X, epochs=epochs, batch_size=batch_size, validation_data=(X, X), shuffle=True)
     load_pretrain_weights(vae, '.')
+    vae.fit(X, X, epochs=epochs, batch_size=batch_size, validation_data=(X, X), shuffle=True)
     recon_dict = {}  
     digits = range(10)
     for digit in digits:
