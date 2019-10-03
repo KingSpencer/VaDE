@@ -244,6 +244,55 @@ def get_vade(batch_size=128, original_dim=784, intermediate_dim=[500, 500, 2000]
     vade = Model(x, x_decoded_mean)
     return vade
 
+def GenerateMultipleImageInOrder(input_path, number, order_file_name='order.txt', delta=0, model_flag='dense', \
+                             batch_size=128, original_dim = 784, dim_2d =28, \
+                             latent_dim=10, intermediate_dim=[500, 500, 2000], \
+                             imgName=None, numOfSamples=6):
+    vade_ini, encoder, decoder = get_models(model_flag, batch_size, original_dim, latent_dim,
+                                            intermediate_dim)
+
+    vade = get_vade(batch_size, original_dim, intermediate_dim, latent_dim)
+    vade = load_pretrain_online_weights(vade, input_path, number, delta)
+
+    encoder, decoder = load_pretrain_vade_weights(encoder, decoder, vade)
+    ##### read order.txt file and get the image order #######
+    order_file_path = os.path.join(os.path.join(input_path, str(number)), order_file_name)
+    ### read txt file in python #######
+    order = pd.read_csv(order_file_path, sep=" ", header=0).values
+
+    ##########  read DPParam  ########
+    DPParam_path = os.path.join(os.path.join(input_path,str(number)), 'DPParam.pkl')
+    DPParam = joblib.load(DPParam_path)
+
+    cluster_sample_list = []
+    m, W, nu, beta = obtainDPParam(DPParam)
+
+    for nc in tqdm(range(len(m))):
+        mean = m[nc]
+        var = W[nc] * 1 / float(nu[nc])
+        z_sample = multivariate_normal(mean, var, numOfSamples)
+        generated = decoder.predict(z_sample)
+        generated = generated.reshape(-1, 28, 28)
+        # generated = np.minimum(generated * 255 * 1.2, 255)
+        generated *= 255
+        generated = generated.astype(np.uint8)
+        generated_list = [generated[x] for x in range(generated.shape[0])]
+        flattened_generated = np.hstack(generated_list)
+        cluster_sample_list.append(flattened_generated)
+    ## reorder the images in the list according to order.txt
+    nClusters = len(cluster_sample_list)
+    ordered_cluster_sample_list = []
+    for i in range(nClusters):
+        ordered_cluster_sample_list.append(cluster_sample_list[int(order[i, 0])])
+
+    merged_sample = np.vstack(ordered_cluster_sample_list)
+    if not imgName is None:
+        img_full_name = os.path.join(input_path, imgName)
+    else:
+        img_full_name = os.path.join(os.path.join(input_path, str(number)), 'ordered_mutiple_img.png')
+
+    imageio.imwrite(img_full_name, merged_sample)
+    return merged_sample
 
 
 
@@ -256,7 +305,7 @@ def GenerateMeanImageInOrder(input_path, number, order_file_name='order.txt', de
 
     vade_ini, encoder, decoder = get_models(model_flag, batch_size, original_dim, latent_dim,
                                             intermediate_dim)
-    
+
     vade = get_vade(batch_size, original_dim, intermediate_dim, latent_dim)
     vade = load_pretrain_online_weights(vade, input_path, number, delta)
 
@@ -304,3 +353,9 @@ if __name__ == "__main__":
                              batch_size=128, original_dim = 784, dim_2d =28, \
                              latent_dim=10, \
                              intermediate_dim=[500, 500, 2000], imgName=None)
+
+        GenerateMultipleImageInOrder(input_path, number, order_file_name='order.txt', delta=0, model_flag='dense', \
+                             batch_size=128, original_dim = 784, dim_2d =28, \
+                             latent_dim=10, \
+                             intermediate_dim=[500, 500, 2000], imgName=None)
+
