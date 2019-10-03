@@ -65,7 +65,7 @@ parser.add_argument('-Kmax', action='store', type=int, dest='Kmax', default=50,
 parser.add_argument('-dataset', action='store', type=str, dest='dataset', default='mnist',
                     help='the options can be mnist,reuters10k and har')
 parser.add_argument('-epoch', action='store', type=int, dest='epoch', default=1, help='The number of epochs')
-parser.add_argument('-batch_iter', action='store', type=int, dest='batch_iter', default=5,
+parser.add_argument('-batch_iter', action='store', type=int, dest='batch_iter', default=2,
                     help='The number of updates in SGVB')
 parser.add_argument('-scale', action='store', type=float, dest='scale', default=0.005,
                     help='the scale parameter in the loss function')
@@ -90,7 +90,7 @@ parser.add_argument('-learningRate', action='store', type=float, dest='lr', defa
 
 results = parser.parse_args()
 results.useLocal = True
-results.logFile = False
+results.logFile = True
 if results.useLocal:
     rep = results.rep
 else:
@@ -110,7 +110,7 @@ if not os.path.exists(outputPath):
 root_path = results.rootPath
 sys.path.append(root_path)
 
-online_path = os.path.join(outputPath, 'singledigit2')
+online_path = os.path.join(outputPath, 'singledigit2taskid4rep4')
 isOnlineRead = True
 isOnlineWrite = True
 subset=True
@@ -141,7 +141,7 @@ if results.conv:
 
 number = 9
 ## specify full output path
-outputPathNew = os.path.join(outputPath, 'singledigit2')
+outputPathNew = os.path.join(outputPath, 'singledigit2taskid4rep4')
 fullOutputPath = createOutputFolderName(outputPathNew, Kmax, dataset, epoch, batch_iter, scale, batchsize, rep, sf)
 ## name log file and write console output to log.txt
 logFilePath = os.path.join(outputPathNew, str(number))
